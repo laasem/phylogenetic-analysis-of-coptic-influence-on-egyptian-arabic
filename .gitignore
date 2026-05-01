@@ -1,2 +1,8 @@
+# macOS
 .DS_Store
+
+# R
+.Rhistory
+
+# BayesTraits
 BayesTraitsV4.0.0-OSX/
