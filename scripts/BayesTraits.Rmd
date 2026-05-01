@@ -31,7 +31,7 @@ here::i_am('scripts/BayesTraits.Rmd')
 # load in Afro-Asiatic Newick tree
 afro_asiatic_tree <- read.tree(here('data/afro-asiatic.tree'))
 
-# keep only Arabic node and its descendents
+# keep only Arabic node and its descendants
 arabic_tree <- extract.clade(afro_asiatic_tree, "'Arabic [arab1395]'")
 arabic_tree_plot <- plot(arabic_tree, show.node.label = TRUE, root.edge = TRUE)
 
