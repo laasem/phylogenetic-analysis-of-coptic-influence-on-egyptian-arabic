@@ -1,3 +1,5 @@
+## Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/
+
 # install packages
 install.packages("here")
 install.packages("posterior")
@@ -26,12 +28,11 @@ library(janitor)
 # set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
 
-# load in tree
+# load in Afro-Asiatic Newick tree
 afro_asiatic_tree <- read.tree(here('data/afro-asiatic.tree'))
-afro_asiatic_tree
 
+# keep only Arabic node and its descendents
 arabic_tree <- extract.clade(afro_asiatic_tree, "'Arabic [arab1395]'")
-
 arabic_tree_plot <- plot(arabic_tree, show.node.label = TRUE, root.edge = TRUE)
 
 <!-- # read in trait data -->
