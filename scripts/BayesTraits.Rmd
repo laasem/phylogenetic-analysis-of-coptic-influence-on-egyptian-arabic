@@ -1,5 +1,7 @@
 ## Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/
 
+## Phylogenetic tree downloaded in Newick format from Glottolog https://glottolog.org/resource/languoid/id/arab1395
+
 # install packages
 install.packages("here")
 install.packages("posterior")
