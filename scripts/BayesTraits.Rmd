@@ -1,0 +1,200 @@
+# install packages
+install.packages("here")
+install.packages("posterior")
+install.packages("tidybayes")
+install.packages("coda")
+install.packages("remotes")
+remotes::install_github("rgriff23/btw")
+install.packages("tidytree")
+install.packages("ape")
+install.packages("tidyverse")
+install.packages("patchwork")
+install.packages("janitor")
+
+# load packages
+library(here)
+library(posterior)
+library(tidybayes)
+library(coda)
+library(btw) # remotes::install_github('rgriff23/btw')
+library(tidytree)
+library(ape)
+library(tidyverse)
+library(patchwork)
+library(janitor)
+
+# set where I am in the project
+here::i_am('scripts/BayesTraits.Rmd')
+
+# load in tree
+afro_asiatic_tree <- read.tree(here('data/afro-asiatic.tree'))
+afro_asiatic_tree
+
+arabic_tree <- extract.clade(afro_asiatic_tree, "'Arabic [arab1395]'")
+
+arabic_tree_plot <- plot(arabic_tree, show.node.label = TRUE, root.edge = TRUE)
+
+<!-- # read in trait data -->
+<!-- trait <- read.table(here('data/anthrotree36_data.txt')) -->
+
+<!-- # is the tree tip order the same as the V1 order -->
+<!-- sum(tree$tip.label == trait$V1) == nrow(trait) -->
+
+<!-- # for each internal node, get the labels of the offsping nodes -->
+
+<!-- # convert tree to a dataframe -->
+<!-- tree_data <- as_tibble(tree) -->
+<!-- # internal nodes do not have a label in this example -->
+
+<!-- # create a dataframe which has each internal node -->
+<!-- # create an empty column for tip labels -->
+<!-- d_nodes <- tibble(nodes = dplyr::filter(tree_data, is.na(label)) %>% pull(node), -->
+<!--                   label = NA) -->
+
+<!-- # run for loop to calculate tip labels for each node -->
+<!-- for(i in 1:nrow(d_nodes)){ -->
+<!--   temp_node = d_nodes$nodes[i] -->
+<!--   temp_offspring <- offspring(tree_data, temp_node, tiponly = TRUE) -->
+<!--   d_nodes$label[i] <- temp_offspring$label %>% paste0(collapse = ' ') -->
+<!--   } -->
+
+<!-- # add in the correct commands needed to reconstruct the ancestral states -->
+<!-- d_nodes <- mutate(d_nodes, first_command = paste('AddTag', paste('T', nodes, sep = ''), label, sep = ' '), -->
+<!--                   second_command = paste('AddNode', nodes, paste('T', nodes, sep = ''), sep = ' ')) -->
+
+<!-- # output this as a vector -->
+<!-- to_save <- select(d_nodes, first_command, second_command) %>% -->
+<!--   pivot_longer(everything(), names_to = 'blah', values_to = 'command') %>% -->
+<!--   pull(command) -->
+
+<!-- # we can then save this out -->
+<!-- write.table(to_save, here('data/anthrotree_tag_nodes.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE) -->
+
+<!-- head(to_save) -->
+
+<!-- # read in output from BayesTraits -->
+<!-- output <- parse_log(here('data/ML.Log.txt')) -->
+
+<!-- # grab just the nodes and transform -->
+<!-- d_output <- select(output$results, starts_with('X')) %>% -->
+<!--   pivot_longer(everything(), names_to = 'var', values_to = 'prob') %>% -->
+<!--   filter(!is.na(prob)) %>% -->
+<!--   separate(col = var, c('node', 'p', 'state'), sep = '\\.') %>% -->
+<!--   select(-p) %>% -->
+<!--   mutate(node = gsub('X', '', node)) -->
+
+<!-- head(d_output) -->
+
+<!-- # with ape -->
+<!-- ancestral_states_ape <- ace(trait$V2, tree, model="ARD", type="discrete") -->
+
+<!-- # get marginal likelihood of each ancestral state at each node -->
+<!-- # turn ancestral state likelihoods into a data.frame -->
+<!-- d_acr_ape <- ancestral_states_ape$lik.anc %>% -->
+<!--   data.frame() -->
+
+<!-- # add nodes in as row names -->
+<!-- row.names(d_acr_ape) <- row.names(ancestral_states_ape$lik.anc) -->
+
+<!-- # do some data processing -->
+<!-- d_acr_ape <- rownames_to_column(d_acr_ape, var = 'node') %>% -->
+<!--   pivot_longer(cols = c(X0, X1), values_to = 'probability_ape', names_to = 'state') %>% -->
+<!--   mutate(state = gsub('X', '', state)) -->
+
+<!-- # bind datasets together -->
+<!-- d_compare <- left_join(d_output, d_acr_ape) -->
+
+<!-- # plot -->
+<!-- ggplot(d_compare, aes(prob, probability_ape)) + -->
+<!--   geom_abline(aes(intercept = 0, slope = 1), col = 'red') + -->
+<!--   geom_smooth(method = 'lm', se = FALSE, col = 'dark grey') + -->
+<!--   geom_point() + -->
+<!--   theme_bw() + -->
+<!--   labs(x = 'probability from BayesTraits', -->
+<!--        y = 'probability from ape::ace') -->
+
+<!-- # read in output -->
+<!-- # following information from here: https://github.com/simjoly/CourseComparativeMethods/blob/master/lecture4/BayesTraits.Rmd -->
+<!-- d_mcmc1 <- parse_log(here('data/mcmc1.Log.txt')) -->
+<!-- d_mcmc2 <- parse_log(here('data/mcmc2.Log.txt')) -->
+<!-- d_mcmc3 <- parse_log(here('data/mcmc3.Log.txt')) -->
+
+<!-- # grab sampling period - thin argument in coda::mcmc() from the files -->
+<!-- mcmc1_sampling <- parse_number(d_mcmc1$options[which(str_detect(d_mcmc1$options, 'Sample Period'), TRUE)]) -->
+<!-- mcmc2_sampling <- parse_number(d_mcmc2$options[which(str_detect(d_mcmc2$options, 'Sample Period'), TRUE)]) -->
+<!-- mcmc3_sampling <- parse_number(d_mcmc3$options[which(str_detect(d_mcmc3$options, 'Sample Period'), TRUE)]) -->
+
+<!-- # create mcmc objects for compatibility with coda -->
+<!-- mcmc1 <- as_draws_matrix(d_mcmc1$results) -->
+
+<!-- mcmc1 <- d_mcmc1$results %>% -->
+<!--   janitor::clean_names() %>% -->
+<!--   select(., -tree_no, -iteration) %>% -->
+<!--   mcmc(start = min(d_mcmc1$results$Iteration), end = max(d_mcmc1$results$Iteration), thin = mcmc1_sampling) -->
+<!-- mcmc2 <- d_mcmc2$results %>% -->
+<!--   janitor::clean_names() %>% -->
+<!--   select(., -tree_no, -iteration) %>% -->
+<!--   mcmc(start = min(d_mcmc2$results$Iteration), end = max(d_mcmc2$results$Iteration), thin = mcmc2_sampling) -->
+<!-- mcmc3 <- d_mcmc3$results %>% -->
+<!--   janitor::clean_names() %>% -->
+<!--   select(., -tree_no, -iteration) %>% -->
+<!--   mcmc(start = min(d_mcmc3$results$Iteration), end = max(d_mcmc3$results$Iteration), thin = mcmc3_sampling) -->
+
+<!-- # combine chains -->
+<!-- res_mcmc <- mcmc.list(mcmc1, mcmc2, mcmc3) -->
+
+<!-- par(mfrow = c(1,3)) -->
+<!-- traceplot(res_mcmc[,c('lh', 'q01', 'q10')]) -->
+
+<!-- # calculate effective sample sizes - should all be > 200 -->
+<!-- d_ess <- effectiveSize(res_mcmc) -->
+<!-- summary(d_ess) -->
+
+<!-- # calculate gelman diagnostic - should all be really close to 1 -->
+<!-- d_gelman <- gelman.diag(res_mcmc, autoburnin = FALSE, multivariate = FALSE) -->
+<!-- summary(d_gelman$psrf) -->
+
+<!-- # grab draws -->
+<!-- d_mcmc <- tidy_draws(res_mcmc) %>% -->
+<!--   select(., -lh, -q01, -q10, -root_p_0, -root_p_1) %>% -->
+<!--   pivot_longer(starts_with('x'), names_to = 'var', values_to = 'prob') %>% -->
+<!--   filter(!is.na(prob)) %>% -->
+<!--   separate(col = var, c('node', 'p', 'state'), sep = '_') %>% -->
+<!--   select(-p) %>% -->
+<!--   mutate(node = gsub('x', '', node)) -->
+
+<!-- # plot the distributions for each chain -->
+<!-- ggplot(d_mcmc, aes(prob)) + -->
+<!--   geom_line(aes(col = state, group = interaction(.chain, state)), stat = 'density') + -->
+<!--   facet_wrap(~node, scales = 'free') + -->
+<!--   theme_bw() + -->
+<!--   scale_color_manual(values = c('black', 'blue')) -->
+
+<!-- # calculate median credible intervals for the MCMC approach -->
+<!-- d_mcmc_summary <- group_by(d_mcmc, node, state) %>% -->
+<!--   median_qi() -->
+
+<!-- # combine these to our comparison dataset -->
+<!-- d_compare <- left_join(rename(d_compare, prob_ml = prob), d_mcmc_summary) -->
+
+<!-- # make first plot ape::ace vs MCMC -->
+<!-- p1 <- ggplot(d_compare, aes(prob, probability_ape)) + -->
+<!--   geom_abline(aes(intercept = 0, slope = 1), col = 'red') + -->
+<!--   geom_point() + -->
+<!--   geom_linerange(aes(y = probability_ape, xmin = .lower, xmax = .upper)) + -->
+<!--   geom_smooth(method = 'lm', se = FALSE, col = 'dark grey') + -->
+<!--   theme_bw() + -->
+<!--   labs(x = 'probability from BayesTraits MCMC', -->
+<!--        y = 'probability from ape::ace') -->
+
+<!-- # make second plot ML vs MCMC -->
+<!-- p2 <- ggplot(d_compare, aes(prob, prob_ml)) + -->
+<!--   geom_abline(aes(intercept = 0, slope = 1), col = 'red') + -->
+<!--   geom_point() + -->
+<!--   geom_linerange(aes(y = prob_ml, xmin = .lower, xmax = .upper)) + -->
+<!--   geom_smooth(method = 'lm', se = FALSE, col = 'dark grey') + -->
+<!--   theme_bw() + -->
+<!--   labs(x = 'probability from BayesTraits MCMC', -->
+<!--        y = 'probability from BayesTraits ML') -->
+
+<!-- p1 + p2 -->
