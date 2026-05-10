@@ -1,6 +1,6 @@
 ## Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/
 
-## Phylogenetic tree downloaded in Newick format from Glottolog https://glottolog.org/resource/languoid/id/arab1395
+## Afro-asiatic phylogenetic tree downloaded in Newick format from Glottolog https://glottolog.org/resource/languoid/id/arab1395
 
 # install packages
 install.packages("here")
@@ -36,6 +36,7 @@ afro_asiatic_tree <- read.tree(here('data/afro-asiatic.tree'))
 # keep only Arabic node and its descendants
 arabic_tree <- extract.clade(afro_asiatic_tree, "'Arabic [arab1395]'")
 arabic_tree_plot <- plot(arabic_tree, show.node.label = TRUE, root.edge = TRUE)
+write.tree(arabic_tree, here('data/arabic.tree'))
 
 <!-- # read in trait data -->
 <!-- trait <- read.table(here('data/anthrotree36_data.txt')) -->
