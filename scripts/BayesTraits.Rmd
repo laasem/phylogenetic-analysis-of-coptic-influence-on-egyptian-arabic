@@ -1,8 +1,10 @@
-## Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/
+<!-- Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/ -->
 
-## Afro-asiatic phylogenetic tree downloaded in Newick format from Glottolog https://glottolog.org/resource/languoid/id/arab1395
+<!-- Arabic phylogenetic tree downloaded in PhyloXML format from Glottolog https://glottolog.org/resource/languoid/id/arab1395 -->
 
-# install packages
+## 1. Setup
+
+# Install and load packages
 install.packages("here")
 install.packages("posterior")
 install.packages("tidybayes")
@@ -14,8 +16,10 @@ install.packages("ape")
 install.packages("tidyverse")
 install.packages("patchwork")
 install.packages("janitor")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("treeio")
 
-# load packages
 library(here)
 library(posterior)
 library(tidybayes)
@@ -26,17 +30,18 @@ library(ape)
 library(tidyverse)
 library(patchwork)
 library(janitor)
+library(treeio)
 
-# set where I am in the project
+# Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
 
-# load in Afro-Asiatic Newick tree
-afro_asiatic_tree <- read.tree(here('data/afro-asiatic.tree'))
+## 2. Phylogenetic tree loading
 
-# keep only Arabic node and its descendants
-arabic_tree <- extract.clade(afro_asiatic_tree, "'Arabic [arab1395]'")
-arabic_tree_plot <- plot(arabic_tree, show.node.label = TRUE, root.edge = TRUE)
-write.tree(arabic_tree, here('data/arabic.tree'))
+# Load in Arabic tree from PhyloXML file
+tree = as.phylo(read.phyloxml(here("data/arab1395.phylo.xml")))
+
+# Plot tree
+tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
 <!-- # read in trait data -->
 <!-- trait <- read.table(here('data/anthrotree36_data.txt')) -->
