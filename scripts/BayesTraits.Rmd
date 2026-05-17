@@ -93,6 +93,20 @@ to_save <- select(d_nodes, first_command, second_command) %>%
 # Save to file that will be input to BayesTraits
 write.table(to_save, here('data/trait_tag_nodes.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE)
 
+# Save tree as nexus file as required by BayesTraits
+write.nexus(tree, "tree.nex")
+
+
+## 4. Run maximum likelihood analysis in BayesTraits
+
+# Create ML control file manually and save it under scripts/
+
+# In terminal, run:
+# ../BayesTraitsV4.0.0-OSX/BayesTraitsV4 ../data/tree.nex ../data/trait.txt < max_likelihood_control.txt
+
+
+## 5. BayesTraits output reading
+
 <!-- # read in output from BayesTraits -->
 <!-- output <- parse_log(here('data/ML.Log.txt')) -->
 
