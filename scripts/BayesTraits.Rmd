@@ -4,6 +4,9 @@
 
 ## 1. Setup
 
+# Set working directory
+setwd("~/masters/tfm/phylogenetic-analysis-of-coptic-influence-on-egyptian-arabic/scripts")
+
 # Install and load packages
 install.packages("here")
 install.packages("posterior")
