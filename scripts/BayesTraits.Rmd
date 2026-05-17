@@ -1,6 +1,6 @@
 <!-- Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/ -->
 
-<!-- Arabic phylogenetic tree downloaded in PhyloXML format from Glottolog https://glottolog.org/resource/languoid/id/arab1395 -->
+<!-- PhyloXML Arabic tree adapted from Glottolog https://glottolog.org/resource/languoid/id/arab1395 -->
 
 ## 1. Setup
 
@@ -42,7 +42,12 @@ here::i_am('scripts/BayesTraits.Rmd')
 ## 2. Phylogenetic tree loading
 
 # Load in Arabic tree from PhyloXML file
-tree = as.phylo(read.phyloxml(here("data/arab1395.phylo.xml")))
+xml = read.phyloxml(here("data/arab1395.phylo.xml"))
+tree = xml@phylo
+
+# Add branch lengths
+branch_lengths = rep(0.2, 54)
+tree$edge.length <- branch_lengths
 
 # Plot tree
 tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
@@ -61,9 +66,6 @@ sum(trait$language == tree$tip.label) == nrow(trait)
 
 # Convert tree to a dataframe
 tree_data <- as_tibble(tree)
-
-# Remove spaces in tip labels
-tree_data$label <- sub(" ", "_", tree_data$label)
 
 # For each internal node, we want to get the labels of its offspring nodes
 # Internal nodes themselves do not have labels in this tree
@@ -94,12 +96,12 @@ to_save <- select(d_nodes, first_command, second_command) %>%
 write.table(to_save, here('data/trait_tag_nodes.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE)
 
 # Save tree as nexus file as required by BayesTraits
-write.nexus(tree, "tree.nex")
+write.nexus(tree, file = here('data/tree.nex'))
 
 
 ## 4. Run maximum likelihood analysis in BayesTraits
 
-# Create ML control file manually and save it under scripts/
+# Create ML control file manually and save it as scripts/max_likelihood_control.txt
 
 # In terminal, run:
 # ../BayesTraitsV4.0.0-OSX/BayesTraitsV4 ../data/tree.nex ../data/trait.txt < max_likelihood_control.txt
@@ -107,8 +109,8 @@ write.nexus(tree, "tree.nex")
 
 ## 5. BayesTraits output reading
 
-<!-- # read in output from BayesTraits -->
-<!-- output <- parse_log(here('data/ML.Log.txt')) -->
+# Read in output from BayesTraits 
+output <- parse_log(here('data/ML.Log.txt'))
 
 <!-- # grab just the nodes and transform -->
 <!-- d_output <- select(output$results, starts_with('X')) %>% -->

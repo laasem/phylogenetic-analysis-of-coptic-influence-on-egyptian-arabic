@@ -1,37 +1,37 @@
-"Hadrami Arabic" 0
-"Hijazi Arabic" 0
-"Judeo-Yemeni Arabic" 0
-"Sanaani Arabic" 1
-"Baharna Arabic" 1
-"Dhofari Arabic" 0
-"Ru'us al-Jibal" 0
-"Gulf Arabic" 1
-"Najdi Arabic" 0
-"Omani Arabic" 0
-"Ta'izzi-Adeni Arabic" 0
-"Tajiki Arabic" 0
-"Khorasan Arabic" 0
-"Qashqa-Darya Arabic" 0
-"Gilit Mesopotamian Arabic" 0
-"Judeo-Iraqi Arabic" 0
-"North Mesopotamian Arabic" 0
-"Eastern Egyptian Bedawi Arabic" 1
-"Egyptian Arabic" 1
-"Saidi Arabic" 0
-"Chadian Arabic" 1
+Hadrami_Arabic 0
+Hijazi_Arabic 0
+Judeo-Yemeni_Arabic 0
+Sanaani_Arabic 1
+Baharna_Arabic 1
+Dhofari_Arabic 0
+Ru'us_al-Jibal 0
+Gulf_Arabic 1
+Najdi_Arabic 0
+Omani_Arabic 0
+Ta'izzi-Adeni_Arabic 0
+Tajiki_Arabic 0
+Khorasan_Arabic 0
+Qashqa-Darya_Arabic 0
+Gilit_Mesopotamian_Arabic 0
+Judeo-Iraqi_Arabic 0
+North_Mesopotamian_Arabic 0
+Eastern_Egyptian_Bedawi_Arabic 1
+Egyptian_Arabic 1
+Saidi_Arabic 0
+Chadian_Arabic 1
 Nubi 1
-"South Sudanese Creole Arabic" 1
-"Sudanese Arabic" 0
-"Cypriot Arabic" 1
-"Levantine Arabic" 0
-"Judeo-Tripolitanian Arabic" 0
-"Libyan Arabic" 1
+South_Sudanese_Creole_Arabic 1
+Sudanese_Arabic 0
+Cypriot_Arabic 1
+Levantine_Arabic 0
+Judeo-Tripolitanian_Arabic 0
+Libyan_Arabic 1
 Hassaniyya 1
-"Algerian Arabic" 0
-"Algerian Saharan Arabic" 0
-"Andalusian Arabic" 0
-"Judeo-Moroccan Arabic" 0
+Algerian_Arabic 0
+Algerian_Saharan_Arabic 0
+Andalusian_Arabic 0
+Judeo-Moroccan_Arabic 0
 Maltese 1
-"Tunisian Arabic" 0
-"Moroccan Arabic" 0
-"Standard Arabic" 1
+Tunisian_Arabic 0
+Moroccan_Arabic 0
+Standard_Arabic 1

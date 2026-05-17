@@ -11,6 +11,7 @@
 
 # e.g. python3 scripts/generate_trait_file.py ../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GB138
 
+import re
 import csv
 from pycldf.dataset import Dataset
 
@@ -99,7 +100,8 @@ def format_data(filtered_values_by_language_id, language_id_by_name):
 
     for language in LANGUAGES:
         value = get_value(filtered_values_by_language_id, language_id_by_name, language)
-        formatted_data.append([language, value])
+        formatted_language_name = re.sub(r"\s+", "_", language)
+        formatted_data.append([formatted_language_name, value])
 
     return formatted_data
 
