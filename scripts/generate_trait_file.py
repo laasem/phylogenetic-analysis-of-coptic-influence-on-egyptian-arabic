@@ -11,6 +11,7 @@
 
 # e.g. python3 scripts/generate_trait_file.py ../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GB138
 
+import csv
 from pycldf.dataset import Dataset
 
 LANGUAGES = [
@@ -94,11 +95,11 @@ def filter_values(grambank_values, feature_id, language_ids):
 def format_data(filtered_values_by_language_id, language_id_by_name):
     print("Formatting data...")
 
-    formatted_data = ""
+    formatted_data = []
 
     for language in LANGUAGES:
         value = get_value(filtered_values_by_language_id, language_id_by_name, language)
-        formatted_data += f"{language}\t{value}\n"
+        formatted_data.append([language, value])
 
     return formatted_data
 
@@ -118,8 +119,10 @@ def get_value(filtered_values_by_language_id, language_id_by_name, language):
 def write_to_file(data):
     print("Writing to file...")
 
-    with open("data/trait.txt", "w", encoding="utf-8") as textfile:
-        textfile.write(data)
+    with open("data/trait.txt", "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file, delimiter=" ")
+        for row in data:
+            writer.writerow(row)
 
 
 if __name__ == "__main__":
