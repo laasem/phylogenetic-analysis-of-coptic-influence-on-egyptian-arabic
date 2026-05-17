@@ -46,11 +46,11 @@ tree = as.phylo(read.phyloxml(here("data/arab1395.phylo.xml")))
 # Plot tree
 tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
-<!-- # read in trait data -->
-<!-- trait <- read.table(here('data/anthrotree36_data.txt')) -->
+# Read in trait data
+trait <- read.table(here('data/trait.txt'), col.names=c("Language", "Value"))
 
-<!-- # is the tree tip order the same as the V1 order -->
-<!-- sum(tree$tip.label == trait$V1) == nrow(trait) -->
+# Check that the trait table Language column order is the same as the tree tip order
+sum(trait$Language == tree$tip.label) == nrow(trait)
 
 <!-- # for each internal node, get the labels of the offsping nodes -->
 
