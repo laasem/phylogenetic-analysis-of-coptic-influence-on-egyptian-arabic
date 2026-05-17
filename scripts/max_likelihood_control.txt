@@ -1,0 +1,40 @@
+1
+1
+AddTag T38 Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian Arabic Judeo-Iraqi_Arabic North_Mesopotamian Arabic Eastern_Egyptian Bedawi Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese Creole Arabic Sudanese_Arabic Cypriot_Arabic Levantine_Arabic Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic Standard_Arabic
+AddNode 38 T38
+AddTag T39 Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic
+AddNode 39 T39
+AddTag T40 Judeo-Yemeni_Arabic Sanaani_Arabic
+AddNode 40 T40
+AddTag T41 Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic
+AddNode 41 T41
+AddTag T42 Dhofari_Arabic Ru'us_al-Jibal
+AddNode 42 T42
+AddTag T43 Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian Arabic Judeo-Iraqi_Arabic North_Mesopotamian Arabic
+AddNode 43 T43
+AddTag T44 Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic
+AddNode 44 T44
+AddTag T45 Khorasan_Arabic Qashqa-Darya_Arabic
+AddNode 45 T45
+AddTag T46 Judeo-Iraqi_Arabic North_Mesopotamian Arabic
+AddNode 46 T46
+AddTag T47 Eastern_Egyptian Bedawi Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese Creole Arabic Sudanese_Arabic
+AddNode 47 T47
+AddTag T48 Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese Creole Arabic Sudanese_Arabic
+AddNode 48 T48
+AddTag T49 Chadian_Arabic Nubi South_Sudanese Creole Arabic Sudanese_Arabic
+AddNode 49 T49
+AddTag T50 Nubi South_Sudanese Creole Arabic Sudanese_Arabic
+AddNode 50 T50
+AddTag T51 Cypriot_Arabic Levantine_Arabic
+AddNode 51 T51
+AddTag T52 Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic
+AddNode 52 T52
+AddTag T53 Hassaniyya Algerian_Arabic Algerian_Saharan Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic
+AddNode 53 T53
+AddTag T54 Algerian_Arabic Algerian_Saharan Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic
+AddNode 54 T54
+AddTag T55 Maltese Tunisian_Arabic
+AddNode 55 T55
+LogFile ../data/ML
+Run

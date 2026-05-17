@@ -38,6 +38,7 @@ library(treeio)
 # Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
 
+
 ## 2. Phylogenetic tree loading
 
 # Load in Arabic tree from PhyloXML file
@@ -46,43 +47,51 @@ tree = as.phylo(read.phyloxml(here("data/arab1395.phylo.xml")))
 # Plot tree
 tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
+
+## 3. Trait data loading
+
 # Read in trait data
-trait <- read.table(here('data/trait.txt'), col.names=c("Language", "Value"))
+trait <- read.table(here('data/trait.txt'), col.names=c("language", "value"))
 
 # Check that the trait table Language column order is the same as the tree tip order
-sum(trait$Language == tree$tip.label) == nrow(trait)
+sum(trait$language == tree$tip.label) == nrow(trait)
 
-<!-- # for each internal node, get the labels of the offsping nodes -->
 
-<!-- # convert tree to a dataframe -->
-<!-- tree_data <- as_tibble(tree) -->
-<!-- # internal nodes do not have a label in this example -->
+## 4. BayesTraits input formatting
 
-<!-- # create a dataframe which has each internal node -->
-<!-- # create an empty column for tip labels -->
-<!-- d_nodes <- tibble(nodes = dplyr::filter(tree_data, is.na(label)) %>% pull(node), -->
-<!--                   label = NA) -->
+# Convert tree to a dataframe
+tree_data <- as_tibble(tree)
 
-<!-- # run for loop to calculate tip labels for each node -->
-<!-- for(i in 1:nrow(d_nodes)){ -->
-<!--   temp_node = d_nodes$nodes[i] -->
-<!--   temp_offspring <- offspring(tree_data, temp_node, tiponly = TRUE) -->
-<!--   d_nodes$label[i] <- temp_offspring$label %>% paste0(collapse = ' ') -->
-<!--   } -->
+# Remove spaces in tip labels
+tree_data$label <- sub(" ", "_", tree_data$label)
 
-<!-- # add in the correct commands needed to reconstruct the ancestral states -->
-<!-- d_nodes <- mutate(d_nodes, first_command = paste('AddTag', paste('T', nodes, sep = ''), label, sep = ' '), -->
-<!--                   second_command = paste('AddNode', nodes, paste('T', nodes, sep = ''), sep = ' ')) -->
+# For each internal node, we want to get the labels of its offspring nodes
+# Internal nodes themselves do not have labels in this tree
 
-<!-- # output this as a vector -->
-<!-- to_save <- select(d_nodes, first_command, second_command) %>% -->
-<!--   pivot_longer(everything(), names_to = 'blah', values_to = 'command') %>% -->
-<!--   pull(command) -->
+# Create a dataframe of internal nodes with a new empty column for offspring tip labels
+d_nodes <- tibble(nodes = dplyr::filter(tree_data, is.na(label)) %>% pull(node), label = NA)
 
-<!-- # we can then save this out -->
-<!-- write.table(to_save, here('data/anthrotree_tag_nodes.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE) -->
+# Calculate offspring tip labels for each node and fill in label column
+for (i in 1:nrow(d_nodes)) {
+  temp_node = d_nodes$nodes[i]
+  temp_offspring <- offspring(tree_data, temp_node, tiponly = TRUE)
+  d_nodes$label[i] <- temp_offspring$label %>% paste0(collapse = ' ')
+  }
 
-<!-- head(to_save) -->
+# Add in the correct commands needed to reconstruct the ancestral states 
+d_nodes <- mutate(
+  d_nodes, 
+  first_command = paste('AddTag', paste('T', nodes, sep = ''), label, sep = ' '), 
+  second_command = paste('AddNode', nodes, paste('T', nodes, sep = ''), sep = ' ')
+  )
+
+# Output this as a vector
+to_save <- select(d_nodes, first_command, second_command) %>%
+  pivot_longer(everything(), values_to = 'command') %>%
+  pull(command)
+
+# Save to file that will be input to BayesTraits
+write.table(to_save, here('data/trait_tag_nodes.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE)
 
 <!-- # read in output from BayesTraits -->
 <!-- output <- parse_log(here('data/ML.Log.txt')) -->
