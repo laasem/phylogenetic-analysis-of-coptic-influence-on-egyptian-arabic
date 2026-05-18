@@ -22,6 +22,7 @@ install.packages("janitor")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("treeio")
+BiocManager::install("ggtree")
 
 library(here)
 library(posterior)
@@ -34,6 +35,7 @@ library(tidyverse)
 library(patchwork)
 library(janitor)
 library(treeio)
+library(ggtree)
 
 # Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
@@ -46,7 +48,8 @@ xml = read.phyloxml(here("data/arab1395.phylo.xml"))
 tree = xml@phylo
 
 # Add branch lengths
-branch_lengths = rep(0.2, 54)
+# Root has 0.0 branch length
+branch_lengths <- rep(0.2, 55)
 tree$edge.length <- branch_lengths
 
 # Plot tree
@@ -119,11 +122,27 @@ d_output <- select(output$results, starts_with('X')) %>%
    separate(col = var, c('node', 'p', 'state'), sep = '\\.') %>% 
    select(-p) %>% 
    mutate(node = gsub('X', '', node))
+   
+# Plot
+# Prepare your data: convert node numbers to match tree structure
+# (BayesTraits node numbers might differ from ape node numbers)
+d_output_prep <- d_output %>%
+  filter(state == "1") %>%  # Keep only state 1 probabilities
+  mutate(node = as.numeric(node)) %>%
+  select(node, prob)
 
- head(d_output)
+# Create the plot
+ggtree(tree) +
+  geom_tiplab(size = 3) +
+  geom_nodepoint(size = 2, color = "red") +
+  geom_text(aes(label = round(prob, 3)), 
+            data = d_output, 
+            vjust = -0.5, 
+            size = 3) +
+  theme_tree()
 
-# With ape
-ancestral_states_ape <- ace(trait$V2, tree, model="ARD", type="discrete")
+<!--# With ape
+ancestral_states_ape <- ace(trait$value, tree, model="ARD", type="discrete")-->
 
 <!-- # get marginal likelihood of each ancestral state at each node -->
 <!-- # turn ancestral state likelihoods into a data.frame -->
