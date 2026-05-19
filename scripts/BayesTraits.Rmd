@@ -49,7 +49,7 @@ tree = xml@phylo
 
 # Add branch lengths
 # Root has 0.0 branch length
-branch_lengths <- rep(0.2, 55)
+branch_lengths <- rep(0.2, 54)
 tree$edge.length <- branch_lengths
 
 # Plot tree
@@ -134,37 +134,11 @@ d_output_prep <- d_output %>%
 # Create the plot
 ggtree(tree) +
   geom_tiplab(size = 3) +
-  geom_nodepoint(size = 2, color = "red") +
+  geom_nodepoint(size = 2, color = "red")
+  
+  <!--
   geom_text(aes(label = round(prob, 3)), 
             data = d_output, 
             vjust = -0.5, 
-            size = 3) +
-  theme_tree()
-
-<!--# With ape
-ancestral_states_ape <- ace(trait$value, tree, model="ARD", type="discrete")-->
-
-<!-- # get marginal likelihood of each ancestral state at each node -->
-<!-- # turn ancestral state likelihoods into a data.frame -->
-<!-- d_acr_ape <- ancestral_states_ape$lik.anc %>% -->
-<!--   data.frame() -->
-
-<!-- # add nodes in as row names -->
-<!-- row.names(d_acr_ape) <- row.names(ancestral_states_ape$lik.anc) -->
-
-<!-- # do some data processing -->
-<!-- d_acr_ape <- rownames_to_column(d_acr_ape, var = 'node') %>% -->
-<!--   pivot_longer(cols = c(X0, X1), values_to = 'probability_ape', names_to = 'state') %>% -->
-<!--   mutate(state = gsub('X', '', state)) -->
-
-<!-- # bind datasets together -->
-<!-- d_compare <- left_join(d_output, d_acr_ape) -->
-
-<!-- # plot -->
-<!-- ggplot(d_compare, aes(prob, probability_ape)) + -->
-<!--   geom_abline(aes(intercept = 0, slope = 1), col = 'red') + -->
-<!--   geom_smooth(method = 'lm', se = FALSE, col = 'dark grey') + -->
-<!--   geom_point() + -->
-<!--   theme_bw() + -->
-<!--   labs(x = 'probability from BayesTraits', -->
-<!--        y = 'probability from ape::ace') -->
+            size = 3)-->
+            
