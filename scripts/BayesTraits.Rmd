@@ -47,9 +47,38 @@ here::i_am('scripts/BayesTraits.Rmd')
 xml = read.phyloxml(here("data/arab1395.phylo.xml"))
 tree = xml@phylo
 
+# Prune tree to keep only ones with Grambank feature values
+# Changes recorded here: https://docs.google.com/spreadsheets/d/1HY9ZQ_Vhrd_n2OKdKs_z37s2da0056ZRCeZTNWtMoaQ/edit?gid=0#gid=0
+tree = drop.tip(tree, "Tunisian_Arabic")
+tree = drop.tip(tree, "Moroccan_Arabic")
+tree = drop.tip(tree, "Judeo-Moroccan_Arabic")
+tree = drop.tip(tree, "Andalusian_Arabic")
+tree = drop.tip(tree, "Algerian_Saharan_Arabic")
+tree = drop.tip(tree, "Algerian_Arabic")
+tree = drop.tip(tree, "Judeo-Tripolitanian_Arabic")
+tree = drop.tip(tree, "Sudanese_Arabic")
+tree = drop.tip(tree, "Saidi_Arabic")
+tree = drop.tip(tree, "North_Mesopotamian_Arabic")
+tree = drop.tip(tree, "Judeo-Iraqi_Arabic")
+tree = drop.tip(tree, "Qashqa-Darya_Arabic")
+tree = drop.tip(tree, "Khorasan_Arabic")
+tree = drop.tip(tree, "Tajiki_Arabic")
+tree = drop.tip(tree, "Gilit_Mesopotamian_Arabic")
+tree = drop.tip(tree, "Ru'us_al-Jibal")
+tree = drop.tip(tree, "Dhofari_Arabic")
+tree = drop.tip(tree, "Omani_Arabic")
+tree = drop.tip(tree, "Najdi_Arabic")
+tree = drop.tip(tree, "Judeo-Yemeni_Arabic")
+tree = drop.tip(tree, "Ta'izzi-Adeni_Arabic")
+tree = drop.tip(tree, "Hijazi_Arabic")
+tree = drop.tip(tree, "Hadrami_Arabic")
+
+# Rename "Levantine_Arabic" to "North_Levantine_Arabic" to match Grambank
+tree$tip.label[10] <- "North_Levantine_Arabic"
+
 # Add branch lengths
 # Root has 0.0 branch length
-branch_lengths <- rep(0.2, 54)
+branch_lengths <- rep(0.2, 23)
 tree$edge.length <- branch_lengths
 
 # Plot tree

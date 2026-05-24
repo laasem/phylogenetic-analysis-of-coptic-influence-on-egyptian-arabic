@@ -1,42 +1,24 @@
 1
 1
-AddTag T38 Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian_Arabic Judeo-Iraqi_Arabic North_Mesopotamian_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic Cypriot_Arabic Levantine_Arabic Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic Standard_Arabic
-AddNode 38 T38
-AddTag T39 Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian_Arabic Judeo-Iraqi_Arabic North_Mesopotamian_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic Cypriot_Arabic Levantine_Arabic Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic Standard_Arabic
-AddNode 39 T39
-AddTag T40 Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic
-AddNode 40 T40
-AddTag T41 Judeo-Yemeni_Arabic Sanaani_Arabic
-AddNode 41 T41
-AddTag T42 Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic
-AddNode 42 T42
-AddTag T43 Dhofari_Arabic Ru'us_al-Jibal
-AddNode 43 T43
-AddTag T44 Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian_Arabic Judeo-Iraqi_Arabic North_Mesopotamian_Arabic
-AddNode 44 T44
-AddTag T45 Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic
-AddNode 45 T45
-AddTag T46 Khorasan_Arabic Qashqa-Darya_Arabic
-AddNode 46 T46
-AddTag T47 Judeo-Iraqi_Arabic North_Mesopotamian_Arabic
-AddNode 47 T47
-AddTag T48 Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic
-AddNode 48 T48
-AddTag T49 Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic
-AddNode 49 T49
-AddTag T50 Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic
-AddNode 50 T50
-AddTag T51 Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic
-AddNode 51 T51
-AddTag T52 Cypriot_Arabic Levantine_Arabic
-AddNode 52 T52
-AddTag T53 Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic
-AddNode 53 T53
-AddTag T54 Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic
-AddNode 54 T54
-AddTag T55 Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic
-AddNode 55 T55
-AddTag T56 Maltese Tunisian_Arabic
-AddNode 56 T56
+AddTag T15 Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Cypriot_Arabic North_Levantine_Arabic Libyan_Arabic Hassaniyya Maltese Standard_Arabic
+AddNode 15 T15
+AddTag T16 Sanaani_Arabic Baharna_Arabic Gulf_Arabic
+AddNode 16 T16
+AddTag T17 Baharna_Arabic Gulf_Arabic
+AddNode 17 T17
+AddTag T18 Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic
+AddNode 18 T18
+AddTag T19 Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic
+AddNode 19 T19
+AddTag T20 Chadian_Arabic Nubi South_Sudanese_Creole_Arabic
+AddNode 20 T20
+AddTag T21 Nubi South_Sudanese_Creole_Arabic
+AddNode 21 T21
+AddTag T22 Cypriot_Arabic North_Levantine_Arabic
+AddNode 22 T22
+AddTag T23 Libyan_Arabic Hassaniyya Maltese
+AddNode 23 T23
+AddTag T24 Hassaniyya Maltese
+AddNode 24 T24
 LogFile ../data/ML
 Run

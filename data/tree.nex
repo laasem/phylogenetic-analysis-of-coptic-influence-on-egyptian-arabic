@@ -1,87 +1,41 @@
 #NEXUS
-[R-package APE, Sun May 24 17:36:53 2026]
+[R-package APE, Sun May 24 19:12:31 2026]
 
 BEGIN TAXA;
-	DIMENSIONS NTAX = 37;
+	DIMENSIONS NTAX = 14;
 	TAXLABELS
-		Hadrami_Arabic
-		Hijazi_Arabic
-		Judeo-Yemeni_Arabic
 		Sanaani_Arabic
 		Baharna_Arabic
-		Dhofari_Arabic
-		Ru'us_al-Jibal
 		Gulf_Arabic
-		Najdi_Arabic
-		Omani_Arabic
-		Ta'izzi-Adeni_Arabic
-		Tajiki_Arabic
-		Khorasan_Arabic
-		Qashqa-Darya_Arabic
-		Gilit_Mesopotamian_Arabic
-		Judeo-Iraqi_Arabic
-		North_Mesopotamian_Arabic
 		Eastern_Egyptian_Bedawi_Arabic
 		Egyptian_Arabic
-		Saidi_Arabic
 		Chadian_Arabic
 		Nubi
 		South_Sudanese_Creole_Arabic
-		Sudanese_Arabic
 		Cypriot_Arabic
-		Levantine_Arabic
-		Judeo-Tripolitanian_Arabic
+		North_Levantine_Arabic
 		Libyan_Arabic
 		Hassaniyya
-		Algerian_Arabic
-		Algerian_Saharan_Arabic
-		Andalusian_Arabic
-		Judeo-Moroccan_Arabic
 		Maltese
-		Tunisian_Arabic
-		Moroccan_Arabic
 		Standard_Arabic
 	;
 END;
 BEGIN TREES;
 	TRANSLATE
-		1	Hadrami_Arabic,
-		2	Hijazi_Arabic,
-		3	Judeo-Yemeni_Arabic,
-		4	Sanaani_Arabic,
-		5	Baharna_Arabic,
-		6	Dhofari_Arabic,
-		7	Ru'us_al-Jibal,
-		8	Gulf_Arabic,
-		9	Najdi_Arabic,
-		10	Omani_Arabic,
-		11	Ta'izzi-Adeni_Arabic,
-		12	Tajiki_Arabic,
-		13	Khorasan_Arabic,
-		14	Qashqa-Darya_Arabic,
-		15	Gilit_Mesopotamian_Arabic,
-		16	Judeo-Iraqi_Arabic,
-		17	North_Mesopotamian_Arabic,
-		18	Eastern_Egyptian_Bedawi_Arabic,
-		19	Egyptian_Arabic,
-		20	Saidi_Arabic,
-		21	Chadian_Arabic,
-		22	Nubi,
-		23	South_Sudanese_Creole_Arabic,
-		24	Sudanese_Arabic,
-		25	Cypriot_Arabic,
-		26	Levantine_Arabic,
-		27	Judeo-Tripolitanian_Arabic,
-		28	Libyan_Arabic,
-		29	Hassaniyya,
-		30	Algerian_Arabic,
-		31	Algerian_Saharan_Arabic,
-		32	Andalusian_Arabic,
-		33	Judeo-Moroccan_Arabic,
-		34	Maltese,
-		35	Tunisian_Arabic,
-		36	Moroccan_Arabic,
-		37	Standard_Arabic
+		1	Sanaani_Arabic,
+		2	Baharna_Arabic,
+		3	Gulf_Arabic,
+		4	Eastern_Egyptian_Bedawi_Arabic,
+		5	Egyptian_Arabic,
+		6	Chadian_Arabic,
+		7	Nubi,
+		8	South_Sudanese_Creole_Arabic,
+		9	Cypriot_Arabic,
+		10	North_Levantine_Arabic,
+		11	Libyan_Arabic,
+		12	Hassaniyya,
+		13	Maltese,
+		14	Standard_Arabic
 	;
-	TREE * UNTITLED = [&U] (37:0.2,(1:0.2,2:0.2,11:0.2,(3:0.2,4:0.2):0.2,(5:0.2,8:0.2,9:0.2,10:0.2,(6:0.2,7:0.2):0.2):0.2):0.2,(15:0.2,(12:0.2,(13:0.2,14:0.2):0.2):0.2,(16:0.2,17:0.2):0.2):0.2,(18:0.2,(19:0.2,20:0.2,(21:0.2,(22:0.2,23:0.2,24:0.2):0.2):0.2):0.2):0.2,(25:0.2,26:0.2):0.2,(27:0.2,28:0.2,(29:0.2,(30:0.2,31:0.2,32:0.2,33:0.2,36:0.2,(34:0.2,35:0.2):0.2):0.2):0.2):0.2);
+	TREE * UNTITLED = [&U] (14:0.2,(1:0.2,(2:0.2,3:0.2):0.2):0.2,(4:0.2,(5:0.2,(6:0.2,(7:0.2,8:0.2):0.2):0.2):0.2):0.2,(9:0.2,10:0.2):0.2,(11:0.2,(12:0.2,13:0.2):0.2):0.2);
 END;
