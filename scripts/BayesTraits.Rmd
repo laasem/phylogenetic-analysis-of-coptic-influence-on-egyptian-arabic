@@ -87,6 +87,8 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
 ## 3. Trait data loading
 
+# Run python3 scripts/generate_trait_file.py ../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GBXXX (replace XXX with Grambank parameter number) to generate trait file
+
 # Read in trait data
 trait <- read.table(here('data/trait.txt'), col.names=c("language", "value"))
 
