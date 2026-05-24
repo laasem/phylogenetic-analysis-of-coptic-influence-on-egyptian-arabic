@@ -115,30 +115,34 @@ write.nexus(tree, file = here('data/tree.nex'))
 # Read in output from BayesTraits
 output <- parse_log(here('data/ML.Log.txt'))
 
-# Grab just the nodes and transform
+# Grab just the nodes and transform into a table with the probability of
+# each state for each node
 d_output <- select(output$results, starts_with('X')) %>% 
    pivot_longer(everything(), names_to = 'var', values_to = 'prob') %>% 
    filter(!is.na(prob)) %>% 
    separate(col = var, c('node', 'p', 'state'), sep = '\\.') %>% 
    select(-p) %>% 
    mutate(node = gsub('X', '', node))
-   
-# Plot
-# Prepare your data: convert node numbers to match tree structure
-# (BayesTraits node numbers might differ from ape node numbers)
-d_output_prep <- d_output %>%
-  filter(state == "1") %>%  # Keep only state 1 probabilities
-  mutate(node = as.numeric(node)) %>%
-  select(node, prob)
 
-# Create the plot
-ggtree(tree) +
-  geom_tiplab(size = 3) +
-  geom_nodepoint(size = 2, color = "red")
-  
-  <!--
-  geom_text(aes(label = round(prob, 3)), 
-            data = d_output, 
-            vjust = -0.5, 
-            size = 3)-->
+# Transform into table with two columns for each state probability per node
+d_wide <- d_output %>%
+  mutate(node = as.numeric(node)) %>%
+  pivot_wider(
+  names_from = state,
+  values_from = prob,
+  names_prefix = "prob_"
+  )
+
+# Plot tree with trait values and state probabilities
+ggtree(tree) %<+% d_wide %<+% rename(trait, label = language) +
+  geom_tiplab(size = 3.5) +
+  geom_tippoint(aes(fill = factor(value)), shape = 21, size = 2.5) +
+  scale_fill_manual(values = c("0" = "white", "1" = "black"), name = "Trait") +
+  geom_nodepoint(aes(color = prob_1)) +
+  scale_color_gradient(low = "lightblue", high = "darkblue") +
+  labs(color = "P(1)") +
+  geom_nodelab(aes(label = paste0("P(0)=", round(prob_0, 2),
+                                  "\n",
+                                  "P(1)=", round(prob_1, 2))),
+              size = 3.5)
             
