@@ -6,7 +6,7 @@ Log File Name:                   ../data/ML.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            1978866456
+Seed:                            110834051
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000
@@ -21,53 +21,35 @@ Pis used in ancestral state estimation:      Yes
 Character Symbols:               0,1
 Using a covarion model:          False
 Normalise Q Matrix:              False
-Tags:	19
-	T38	37	Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian_Arabic Judeo-Iraqi_Arabic North_Mesopotamian_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic Cypriot_Arabic Levantine_Arabic Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic Standard_Arabic 
-	T39	37	Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian_Arabic Judeo-Iraqi_Arabic North_Mesopotamian_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic Cypriot_Arabic Levantine_Arabic Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic Standard_Arabic 
-	T40	11	Hadrami_Arabic Hijazi_Arabic Judeo-Yemeni_Arabic Sanaani_Arabic Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic Ta'izzi-Adeni_Arabic 
-	T41	2	Judeo-Yemeni_Arabic Sanaani_Arabic 
-	T42	6	Baharna_Arabic Dhofari_Arabic Ru'us_al-Jibal Gulf_Arabic Najdi_Arabic Omani_Arabic 
-	T43	2	Dhofari_Arabic Ru'us_al-Jibal 
-	T44	6	Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic Gilit_Mesopotamian_Arabic Judeo-Iraqi_Arabic North_Mesopotamian_Arabic 
-	T45	3	Tajiki_Arabic Khorasan_Arabic Qashqa-Darya_Arabic 
-	T46	2	Khorasan_Arabic Qashqa-Darya_Arabic 
-	T47	2	Judeo-Iraqi_Arabic North_Mesopotamian_Arabic 
-	T48	7	Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic 
-	T49	6	Egyptian_Arabic Saidi_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic 
-	T50	4	Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic 
-	T51	3	Nubi South_Sudanese_Creole_Arabic Sudanese_Arabic 
-	T52	2	Cypriot_Arabic Levantine_Arabic 
-	T53	10	Judeo-Tripolitanian_Arabic Libyan_Arabic Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic 
-	T54	8	Hassaniyya Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic 
-	T55	7	Algerian_Arabic Algerian_Saharan_Arabic Andalusian_Arabic Judeo-Moroccan_Arabic Maltese Tunisian_Arabic Moroccan_Arabic 
-	T56	2	Maltese Tunisian_Arabic 
+Tags:	10
+	T15	14	Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Cypriot_Arabic North_Levantine_Arabic Libyan_Arabic Hassaniyya Maltese Standard_Arabic 
+	T16	3	Sanaani_Arabic Baharna_Arabic Gulf_Arabic 
+	T17	2	Baharna_Arabic Gulf_Arabic 
+	T18	5	Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic 
+	T19	4	Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic 
+	T20	3	Chadian_Arabic Nubi South_Sudanese_Creole_Arabic 
+	T21	2	Nubi South_Sudanese_Creole_Arabic 
+	T22	2	Cypriot_Arabic North_Levantine_Arabic 
+	T23	3	Libyan_Arabic Hassaniyya Maltese 
+	T24	2	Hassaniyya Maltese 
 Restrictions:
     q01                          None
     q10                          None
 Node reconstruction / fossilisation:
-	Node 38 T38
-	Node 39 T39
-	Node 40 T40
-	Node 41 T41
-	Node 42 T42
-	Node 43 T43
-	Node 44 T44
-	Node 45 T45
-	Node 46 T46
-	Node 47 T47
-	Node 48 T48
-	Node 49 T49
-	Node 50 T50
-	Node 51 T51
-	Node 52 T52
-	Node 53 T53
-	Node 54 T54
-	Node 55 T55
-	Node 56 T56
+	Node 15 T15
+	Node 16 T16
+	Node 17 T17
+	Node 18 T18
+	Node 19 T19
+	Node 20 T20
+	Node 21 T21
+	Node 22 T22
+	Node 23 T23
+	Node 24 T24
 Tree Information
      Trees:                      1
-     Taxa:                       37
+     Taxa:                       14
      Sites:                      1
      States:                     2
-Tree No	Lh	q01	q10	Root P(0)	Root P(1)	38 P(0)	38 P(1)	39 P(0)	39 P(1)	40 P(0)	40 P(1)	41 P(0)	41 P(1)	42 P(0)	42 P(1)	43 P(0)	43 P(1)	44 P(0)	44 P(1)	45 P(0)	45 P(1)	46 P(0)	46 P(1)	47 P(0)	47 P(1)	48 P(0)	48 P(1)	49 P(0)	49 P(1)	50 P(0)	50 P(1)	51 P(0)	51 P(1)	52 P(0)	52 P(1)	53 P(0)	53 P(1)	54 P(0)	54 P(1)	55 P(0)	55 P(1)	56 P(0)	56 P(1)	
-1	-23.209350	2.667603	4.962369	0.362252	0.637748	0.362252	0.637748	0.362252	0.637748	0.719951	0.280049	0.442975	0.557025	0.420535	0.579465	0.670697	0.329303	0.644014	0.355986	0.620880	0.379120	0.670697	0.329303	0.670697	0.329303	0.337201	0.662799	0.400306	0.599694	0.316516	0.683484	0.307068	0.692932	0.442975	0.557025	0.425222	0.574778	0.420053	0.579947	0.849077	0.150923	0.442975	0.557025	
+Tree No	Lh	q01	q10	Root P(0)	Root P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	21 P(0)	21 P(1)	22 P(0)	22 P(1)	23 P(0)	23 P(1)	24 P(0)	24 P(1)	
+1	-2.904151	7.443262	0.463653	0.520682	0.479318	0.520682	0.479318	0.832760	0.167240	0.380830	0.619170	0.425810	0.574190	0.424847	0.575153	0.418953	0.581047	0.380830	0.619170	0.380830	0.619170	0.418953	0.581047	0.380830	0.619170	

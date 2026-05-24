@@ -124,8 +124,13 @@ to_save <- select(d_nodes, first_command, second_command) %>%
   pivot_longer(everything(), values_to = 'command') %>%
   pull(command)
 
-# Save to file that will be input to BayesTraits
-write.table(to_save, here('data/trait_tag_nodes.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE)
+# Format and save to control file that will be input to BayesTraits
+# Choose 1, 1 -> MultiState evolution model and Maximum Likelihood analysis method
+to_save <- append("1", to_save)
+to_save <- append("1", to_save)
+to_save <- append(to_save, "LogFile ../data/ML")
+to_save <- append(to_save, "Run")
+write.table(to_save, here('scripts/max_likelihood_control.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE)
 
 # Save tree as nexus file as required by BayesTraits
 write.nexus(tree, file = here('data/tree.nex'))
