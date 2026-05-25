@@ -90,7 +90,7 @@ def get_value(filtered_values_by_language_id, language_id_by_name, language):
 
     grambank_value = filtered_values_by_language_id.get(language_id)
     if not grambank_value:
-        return 0
+        return "-"
 
     return grambank_value
 
