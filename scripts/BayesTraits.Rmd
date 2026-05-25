@@ -4,9 +4,6 @@
 
 ## 1. Setup
 
-# Set working directory
-setwd("~/masters/tfm/phylogenetic-analysis-of-coptic-influence-on-egyptian-arabic/scripts")
-
 # Install and load packages
 install.packages("here")
 install.packages("posterior")
@@ -28,7 +25,7 @@ library(here)
 library(posterior)
 library(tidybayes)
 library(coda)
-library(btw) # remotes::install_github('rgriff23/btw')
+library(btw)
 library(tidytree)
 library(ape)
 library(tidyverse)
@@ -36,6 +33,9 @@ library(patchwork)
 library(janitor)
 library(treeio)
 library(ggtree)
+
+# Set working directory
+setwd("~/masters/tfm/phylogenetic-analysis-of-coptic-influence-on-egyptian-arabic/scripts")
 
 # Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
