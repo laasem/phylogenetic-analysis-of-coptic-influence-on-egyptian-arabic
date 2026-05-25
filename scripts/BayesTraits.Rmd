@@ -82,7 +82,7 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
 # Run script to generate trait file
 # Replace 107 with Grambank parameter number in question
-system("python3 generate_trait_file.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GB107")
+system("python3 generate_trait_file.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GB111")
 
 # Read in trait data
 trait <- read.table(here('data/trait.txt'), col.names=c("language", "value"))
