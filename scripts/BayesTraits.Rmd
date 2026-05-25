@@ -71,7 +71,6 @@ tree = drop.tip(tree, "Hadrami_Arabic")
 tree$tip.label[10] <- "North_Levantine_Arabic"
 
 # Add branch lengths
-# Root has 0.0 branch length
 branch_lengths <- rep(0.2, 23)
 tree$edge.length <- branch_lengths
 
