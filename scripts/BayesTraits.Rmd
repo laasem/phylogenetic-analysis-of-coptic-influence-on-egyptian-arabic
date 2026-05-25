@@ -6,31 +6,19 @@
 
 # Install and load packages
 install.packages("here")
-install.packages("posterior")
-install.packages("tidybayes")
-install.packages("coda")
+install.packages("tidyverse")
+install.packages("ape")
 install.packages("remotes")
 remotes::install_github("rgriff23/btw")
-install.packages("tidytree")
-install.packages("ape")
-install.packages("tidyverse")
-install.packages("patchwork")
-install.packages("janitor")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("treeio")
 BiocManager::install("ggtree")
 
 library(here)
-library(posterior)
-library(tidybayes)
-library(coda)
-library(btw)
-library(tidytree)
-library(ape)
 library(tidyverse)
-library(patchwork)
-library(janitor)
+library(ape)
+library(btw)
 library(treeio)
 library(ggtree)
 
@@ -139,6 +127,8 @@ write.nexus(tree, file = here('data/tree.nex'))
 
 
 ## 4. Run maximum likelihood analysis in BayesTraits
+
+# This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support V5. It is used below to parse the output log file however
 
 # Create ML control file manually and save it as scripts/max_likelihood_control.txt
 
