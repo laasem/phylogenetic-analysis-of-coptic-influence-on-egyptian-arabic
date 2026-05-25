@@ -98,7 +98,7 @@ def get_value(filtered_values_by_language_id, language_id_by_name, language):
 def write_to_file(data):
     print("Writing to file...")
 
-    with open("data/trait.txt", "w", newline="", encoding="utf-8") as file:
+    with open("../data/trait.txt", "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file, delimiter=" ")
         for row in data:
             writer.writerow(row)

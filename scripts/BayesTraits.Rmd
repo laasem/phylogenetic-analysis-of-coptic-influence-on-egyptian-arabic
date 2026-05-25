@@ -2,6 +2,12 @@
 
 <!-- PhyloXML Arabic tree adapted from Glottolog https://glottolog.org/resource/languoid/id/arab1395 -->
 
+<!-- Assumes:
+  1. python3 is installed
+  2. BayesTraitsV4.0.0-OSX is installed in the parent directory
+  3. Grambank metadata file exists at ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
+-->
+
 ## 1. Setup
 
 # Install and load packages
@@ -75,7 +81,9 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
 ## 3. Trait data loading
 
-# Run python3 scripts/generate_trait_file.py ../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GBXXX (replace XXX with Grambank parameter number) to generate trait file
+# Run script to generate trait file
+# Replace 107 with Grambank parameter number in question
+system("python3 generate_trait_file.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GB107")
 
 # Read in trait data
 trait <- read.table(here('data/trait.txt'), col.names=c("language", "value"))
@@ -128,12 +136,9 @@ write.nexus(tree, file = here('data/tree.nex'))
 
 ## 4. Run maximum likelihood analysis in BayesTraits
 
-# This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support V5. It is used below to parse the output log file however
+# This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support versions beyond V3. It is used further below to parse the output log file however
 
-# Create ML control file manually and save it as scripts/max_likelihood_control.txt
-
-# In terminal, run:
-# ../BayesTraitsV4.0.0-OSX/BayesTraitsV4 ../data/tree.nex ../data/trait.txt < max_likelihood_control.txt
+system("../BayesTraitsV4.0.0-OSX/BayesTraitsV4 ../data/tree.nex ../data/trait.txt < max_likelihood_control.txt")
 
 
 ## 5. BayesTraits output reading
