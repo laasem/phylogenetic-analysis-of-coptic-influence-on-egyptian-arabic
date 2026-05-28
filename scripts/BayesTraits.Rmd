@@ -1,11 +1,12 @@
 <!-- Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/ -->
 
-<!-- PhyloXML Arabic tree adapted from Glottolog https://glottolog.org/resource/languoid/id/arab1395 -->
+<!-- Arabic tree sourced from lgfam-newick (Dediu) using Glottolog topology with Grafen (1989) branch lengths. lgfam-newick repo: https://github.com/ddediu/lgfam-newick -->
 
 <!-- Assumes:
   1. python3 is installed
-  2. BayesTraitsV4.0.0-OSX is installed in the parent directory
-  3. Grambank metadata file exists at ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
+  2. BayesTraits binary exists at path specified by BAYESTRAITS_PATH
+  3. Grambank metadata file exists at path specified by GRAMBANK_PATH
+  4. lgfam-newick repo exists at path specified by LGFAMNEWICK_PATH
 -->
 
 ## 1. Setup
@@ -14,32 +15,68 @@
 install.packages("here")
 install.packages("tidyverse")
 install.packages("ape")
+install.packages("phytools")
+install.packages("phangorn")
+install.packages("GA")
+install.packages("stringr")
 install.packages("remotes")
 remotes::install_github("rgriff23/btw")
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("treeio")
-BiocManager::install("ggtree")
 
 library(here)
 library(tidyverse)
 library(ape)
+library(phytools)
+library(phangorn)
+library(GA)
+library(stringr)
 library(btw)
-library(treeio)
-library(ggtree)
-
-# Set working directory
-setwd("~/masters/tfm/phylogenetic-analysis-of-coptic-influence-on-egyptian-arabic/scripts")
 
 # Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
 
+# Set dependency path variables
+BAYESTRAITS_PATH <- "../BayesTraitsV4.0.0-OSX/BayesTraitsV4"
+GRAMBANK_PATH <- "../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json"
+LGFAMNEWICK_PATH <- "../../lgfam-newick"
+
 
 ## 2. Phylogenetic tree loading
 
-# Load in Arabic tree from PhyloXML file
-xml = read.phyloxml(here("data/arab1395.phylo.xml"))
-tree = xml@phylo
+# Load Afro-Asiatic tree from lgfam-newick (Grafen branch lengths, Glottolog topology)
+lgfamnewick_code_path <- paste(
+  LGFAMNEWICK_PATH,
+  "/code/FamilyTrees.R",
+  sep = ""
+  )
+source(lgfamnewick_code_path)
+
+lgfamnewick_tree_path <- paste(
+  LGFAMNEWICK_PATH, 
+  "/output/glottolog/glottolog-newick-grafen.csv",
+  sep = ""
+  )
+classif <- languageclassification(
+  csv.file = lgfamnewick_tree_path,
+  csv.tree.column = "Tree"
+  )
+
+afroasiatic <- classif[[which(sapply(classif, function(x) attr(x, "tree.name")) == "Afro-Asiatic")]]
+
+# Clean labels: phytools keeps surrounding quotes; lgfam-newick uses `` for apostrophes
+clean_labels <- function(x) {
+  x <- gsub("^'|'$", "", x) # strip surrounding single quotes
+  x <- gsub(" \\[.*", "", x) # strip glottolog metadata [i-...][w-...] etc.
+  x <- gsub("``", "'", x, fixed=TRUE) # unescape backtick-pairs to apostrophe
+  x <- gsub(" ", "_", x)
+  x
+}
+afroasiatic$tip.label  <- clean_labels(afroasiatic$tip.label)
+afroasiatic$node.label <- clean_labels(afroasiatic$node.label)
+
+# Extract the Arabic sub-clade
+tree <- extract.clade(afroasiatic, "Arabic")
+
+## STOPPED HERE
 
 # Prune tree to keep only ones with Grambank feature values
 # Changes recorded here: https://docs.google.com/spreadsheets/d/1HY9ZQ_Vhrd_n2OKdKs_z37s2da0056ZRCeZTNWtMoaQ/edit?gid=0#gid=0
