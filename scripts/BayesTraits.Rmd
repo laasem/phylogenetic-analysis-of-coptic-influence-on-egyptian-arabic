@@ -12,6 +12,7 @@
 ## 1. Setup
 
 # Install and load packages
+install.packages("rmarkdown")
 install.packages("here")
 install.packages("tidyverse")
 install.packages("ape")
