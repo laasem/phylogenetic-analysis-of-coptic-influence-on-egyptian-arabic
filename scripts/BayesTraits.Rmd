@@ -1,4 +1,4 @@
-<!-- Code adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/ -->
+<!-- Code authored by Lara Ahmed and Thomas Brochhagen and adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/ -->
 
 <!-- Arabic tree sourced from lgfam-newick (Dediu) using Glottolog topology with Grafen (1989) branch lengths. lgfam-newick repo: https://github.com/ddediu/lgfam-newick -->
 
@@ -35,10 +35,13 @@ library(btw)
 # Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
 
-# Set dependency path variables
+# Set customization constants
 BAYESTRAITS_PATH <- "../BayesTraitsV4.0.0-OSX/BayesTraitsV4"
 GRAMBANK_PATH <- "../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json"
 LGFAMNEWICK_PATH <- "../../lgfam-newick"
+
+# Replace GB111 with the Grambank parameter number of interest (e.g. GB107, GB326)
+GRAMBANK_PARAMETER_ID <- "GB111"
 
 
 ## 2. Phylogenetic tree loading
@@ -77,40 +80,53 @@ afroasiatic$node.label <- clean_labels(afroasiatic$node.label)
 # Extract the Arabic sub-clade
 tree <- extract.clade(afroasiatic, "Arabic")
 
-## STOPPED HERE
+# In the full Glottolog tree many Grambank language-level units (e.g. "Egyptian_Arabic",
+# "Gulf_Arabic") are internal nodes, not leaves. This helper collapses each such clade
+# to a single tip, preserving the edge length leading *to* that ancestral node.
+collapse_clade_to_tip <- function(tree, lang_name) {
+  if (lang_name %in% tree$tip.label) return(tree)
+  nd <- which(tree$node.label == lang_name)
+  if (!length(nd)) { warning(paste("Node not found:", lang_name)); return(tree) }
+  nd_idx    <- nd + Ntip(tree)
+  edge_len  <- tree$edge.length[tree$edge[, 2] == nd_idx]
+  desc_tips <- extract.clade(tree, nd_idx)$tip.label
+  if (length(desc_tips) > 1) tree <- drop.tip(tree, desc_tips[-1])
+  tip_pos   <- which(tree$tip.label == desc_tips[1])
+  tree$edge.length[which(tree$edge[, 2] == tip_pos)] <- edge_len
+  tree$tip.label[tip_pos] <- lang_name
+  tree
+}
 
-# Prune tree to keep only ones with Grambank feature values
+# Collapse language groups that are internal nodes in the Glottolog tree
 # Changes recorded here: https://docs.google.com/spreadsheets/d/1HY9ZQ_Vhrd_n2OKdKs_z37s2da0056ZRCeZTNWtMoaQ/edit?gid=0#gid=0
-tree = drop.tip(tree, "Tunisian_Arabic")
-tree = drop.tip(tree, "Moroccan_Arabic")
-tree = drop.tip(tree, "Judeo-Moroccan_Arabic")
-tree = drop.tip(tree, "Andalusian_Arabic")
-tree = drop.tip(tree, "Algerian_Saharan_Arabic")
-tree = drop.tip(tree, "Algerian_Arabic")
-tree = drop.tip(tree, "Judeo-Tripolitanian_Arabic")
-tree = drop.tip(tree, "Sudanese_Arabic")
-tree = drop.tip(tree, "Saidi_Arabic")
-tree = drop.tip(tree, "North_Mesopotamian_Arabic")
-tree = drop.tip(tree, "Judeo-Iraqi_Arabic")
-tree = drop.tip(tree, "Qashqa-Darya_Arabic")
-tree = drop.tip(tree, "Khorasan_Arabic")
-tree = drop.tip(tree, "Tajiki_Arabic")
-tree = drop.tip(tree, "Gilit_Mesopotamian_Arabic")
-tree = drop.tip(tree, "Ru'us_al-Jibal")
-tree = drop.tip(tree, "Dhofari_Arabic")
-tree = drop.tip(tree, "Omani_Arabic")
-tree = drop.tip(tree, "Najdi_Arabic")
-tree = drop.tip(tree, "Judeo-Yemeni_Arabic")
-tree = drop.tip(tree, "Ta'izzi-Adeni_Arabic")
-tree = drop.tip(tree, "Hijazi_Arabic")
-tree = drop.tip(tree, "Hadrami_Arabic")
+for (lang in c("Gulf_Arabic",
+               "Eastern_Egyptian_Bedawi_Arabic",
+               "Egyptian_Arabic",
+               "Chadian_Arabic",
+               "Levantine_Arabic",
+               "Libyan_Arabic",
+               "Maltese",
+               "Standard_Arabic"
+               )) {
+  tree <- collapse_clade_to_tip(tree, lang)
+}
+
+# Keep only the 14 languages with Grambank codings
+tree <- keep.tip(tree, c("Sanaani_Arabic", "Baharna_Arabic", "Gulf_Arabic",
+                          "Eastern_Egyptian_Bedawi_Arabic", "Egyptian_Arabic",
+                          "Chadian_Arabic", "Nubi", "South_Sudanese_Creole_Arabic",
+                          "Cypriot_Arabic", "Levantine_Arabic",
+                          "Libyan_Arabic", "Hassaniyya", "Maltese", "Standard_Arabic"))
 
 # Rename "Levantine_Arabic" to "North_Levantine_Arabic" to match Grambank
-tree$tip.label[10] <- "North_Levantine_Arabic"
+tree$tip.label[tree$tip.label == "Levantine_Arabic"] <- "North_Levantine_Arabic"
 
-# Add branch lengths
-branch_lengths <- rep(0.2, 23)
-tree$edge.length <- branch_lengths
+# Cast to plain phylo (FamilyTrees.R returns a familytree subclass; downstream ape code expects phylo)
+class(tree) <- "phylo"
+
+# Recompute Grafen branch lengths on the pruned 14-tip tree
+# (lgfam-newick values 1-140 are scaled for the full Glottolog tree; pruned-tree values are needed)
+tree <- ape::compute.brlen(tree, method = "Grafen")
 
 # Plot tree
 tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
@@ -119,33 +135,26 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 ## 3. Trait data loading
 
 # Run script to generate trait file
-# Replace 107 with Grambank parameter number in question
-system("python3 generate_trait_file.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json GB111")
+system(paste("python3 generate_trait_file.py", GRAMBANK_PATH, GRAMBANK_PARAMETER_ID))
 
 # Read in trait data
 trait <- read.table(here('data/trait.txt'), col.names=c("language", "value"))
 
-# Check that the trait table Language column order is the same as the tree tip order
-sum(trait$language == tree$tip.label) == nrow(trait)
+# Check that the trait table contains exactly the same taxa as the tree (BayesTraits matches by name)
+setequal(trait$language, tree$tip.label)
 
 
 ## 4. BayesTraits input formatting
 
-# Convert tree to a dataframe
-tree_data <- as_tibble(tree)
-
-# For each internal node, we want to get the labels of its offspring nodes
-# Internal nodes themselves do not have labels in this tree
-
-# Create a dataframe of internal nodes with a new empty column for offspring tip labels
-d_nodes <- tibble(nodes = dplyr::filter(tree_data, is.na(label)) %>% pull(node), label = NA)
-
-# Calculate offspring tip labels for each node and fill in label column
-for (i in 1:nrow(d_nodes)) {
-  temp_node = d_nodes$nodes[i]
-  temp_offspring <- offspring(tree_data, temp_node, tiponly = TRUE)
-  d_nodes$label[i] <- temp_offspring$label %>% paste0(collapse = ' ')
-  }
+# For each internal node, get its descendant tip labels (uses phangorn, no ggtree needed)
+internal_nodes <- seq(Ntip(tree) + 1, Ntip(tree) + Nnode(tree))
+d_nodes <- tibble(
+  nodes = internal_nodes,
+  label = sapply(internal_nodes, function(n) {
+    tip_idx <- phangorn::Descendants(tree, n, type = "tips")[[1]]
+    paste(tree$tip.label[tip_idx], collapse = " ")
+  })
+)
 
 # Add in the correct commands needed to reconstruct the ancestral states 
 d_nodes <- mutate(
@@ -168,14 +177,26 @@ to_save <- append(to_save, "Run")
 write.table(to_save, here('scripts/max_likelihood_control.txt'), quote=FALSE, col.names = FALSE, row.names = FALSE)
 
 # Save tree as nexus file as required by BayesTraits
-write.nexus(tree, file = here('data/tree.nex'))
+# write.nexus() adds a BEGIN TAXA block and embeds node labels that BayesTraits 4.1.1 rejects;
+# write the minimal TREES-only format manually instead.
+tree$node.label <- NULL
+newick_str <- write.tree(tree)
+newick_num  <- newick_str
+for (i in seq_along(tree$tip.label)) {
+  newick_num <- gsub(paste0("\\b", tree$tip.label[i], "\\b"), as.character(i), newick_num)
+}
+translate_block <- paste0(seq_along(tree$tip.label), "\t", tree$tip.label, collapse = ",\n\t\t")
+writeLines(paste0(
+  "#NEXUS\n\nBEGIN TREES;\n\tTRANSLATE\n\t\t", translate_block,
+  "\n\t;\n\tTREE * UNTITLED = [&U] ", newick_num, "\nEND;\n"
+), here("data/tree.nex"))
 
 
 ## 4. Run maximum likelihood analysis in BayesTraits
 
 # This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support versions beyond V3. It is used further below to parse the output log file however
 
-system("../BayesTraitsV4.0.0-OSX/BayesTraitsV4 ../data/tree.nex ../data/trait.txt < max_likelihood_control.txt")
+system(paste(BAYESTRAITS_PATH, "../data/tree.nex ../data/trait.txt < max_likelihood_control.txt"))
 
 
 ## 5. BayesTraits output reading
@@ -202,15 +223,27 @@ d_wide <- d_output %>%
   )
 
 # Plot tree with trait values and state probabilities
-ggtree(tree) %<+% d_wide %<+% rename(trait, label = language) +
-  geom_tiplab(size = 3.5) +
-  geom_tippoint(aes(fill = factor(value)), shape = 21, size = 2.5) +
-  scale_fill_manual(values = c("0" = "white", "1" = "black"), name = "Trait") +
-  geom_nodepoint(aes(color = prob_1)) +
-  scale_color_gradient(low = "lightblue", high = "darkblue") +
-  labs(color = "P(1)") +
-  geom_nodelab(aes(label = paste0("P(0)=", round(prob_0, 2),
-                                  "\n",
-                                  "P(1)=", round(prob_1, 2))),
-              size = 3.5)
+tip_order   <- match(tree$tip.label, trait$language)
+tip_vals    <- as.character(trait$value[tip_order])
+tip_colors  <- ifelse(tip_vals == "1", "black", ifelse(tip_vals == "0", "white", "grey80"))
+
+col_ramp  <- colorRampPalette(c("lightblue", "darkblue"))
+node_cols <- col_ramp(100)[as.integer(cut(d_wide$prob_1,
+                                          breaks = seq(0, 1, length.out = 101),
+                                          include.lowest = TRUE))]
+
+par(mar = c(1, 1, 2, 1))
+plot(tree, show.tip.label = TRUE, label.offset = 0.03,
+     x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5))
+tiplabels(pch = 21, bg = tip_colors, col = "black", cex = 1.8, offset = 0.01)
+nodelabels(pch = 21, bg = node_cols, col = "black",
+           node = d_wide$node, cex = 1.8)
+nodelabels(text = round(d_wide$prob_1, 2), node = d_wide$node,
+           frame = "none", adj = c(-0.3, 0.5), cex = 0.75)
+legend("bottomleft", legend = c("state 0", "state 1", "missing"),
+       pt.bg = c("white", "black", "grey80"), pch = 21, pt.cex = 1.5, bty = "n")
+legend("bottomright",
+       legend = c("P(1) = 0", "P(1) = 0.5", "P(1) = 1"),
+       pt.bg = col_ramp(3), pch = 21, pt.cex = 1.5, bty = "n",
+       title = "Ancestral P(1)")
             
