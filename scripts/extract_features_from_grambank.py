@@ -1,7 +1,7 @@
 # Script was run on metadata file for Grambank v1.0.2.
 # Assumes pycldf is installed in environment.
 # Requires metadata file name to be passed as arg, e.g.:
-# python3 scripts/extract_features_from_grambank.py ../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
+# python3 extract_features_from_grambank.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
 
 import csv
 from pycldf.dataset import Dataset
@@ -53,16 +53,27 @@ def get_ea_and_coptic_parameters_to_language_ids_not_in_sa(
 def format_into_csv(
     required_parameters_to_language_ids, language_ids_to_names, grambank
 ):
-    data = []
-    for parameter_id, language_ids in required_parameters_to_language_ids.items():
-        parameter_name = grambank.get_row("ParameterTable", parameter_id)["Name"]
-        source = f"Grambank {parameter_id}"
-        languages = [
-            language_ids_to_names[language_id]
-            for language_id in language_ids
-            if language_id in language_ids_to_names.keys()
-        ]
-        data.append([parameter_name, source, languages])
+    data = [
+        ["id", "name"],
+        [
+            "GB107",
+            "Can standard negation be marked by an affix, clitic or modification of the verb?",
+        ],
+        ["GB111", "Are there conjugation classes?"],
+        [
+            "GB326",
+            "Do (nominal) content interrogatives normally or frequently occur in situ?",
+        ],
+    ]
+    # for parameter_id, language_ids in required_parameters_to_language_ids.items():
+    #     parameter_name = grambank.get_row("ParameterTable", parameter_id)["Name"]
+    #     source = f"Grambank {parameter_id}"
+    #     languages = [
+    #         language_ids_to_names[language_id]
+    #         for language_id in language_ids
+    #         if language_id in language_ids_to_names.keys()
+    #     ]
+    #     data.append([parameter_name, source, languages])
     return data
 
 
@@ -86,6 +97,6 @@ if __name__ == "__main__":
         required_parameters_to_language_ids, language_ids_to_names, grambank
     )
 
-    with open("features.csv", "w", newline="", encoding="utf-8") as csvfile:
+    with open("../data/features.csv", "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(csv_data)

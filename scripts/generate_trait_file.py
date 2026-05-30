@@ -95,10 +95,12 @@ def get_value(filtered_values_by_language_id, language_id_by_name, language):
     return grambank_value
 
 
-def write_to_file(data):
+def write_to_file(data, feature_id):
     print("Writing to file...")
 
-    with open("../data/trait.txt", "w", newline="", encoding="utf-8") as file:
+    with open(
+        f"../data/trait_{feature_id}.txt", "w", newline="", encoding="utf-8"
+    ) as file:
         writer = csv.writer(file, delimiter=" ")
         for row in data:
             writer.writerow(row)
@@ -110,6 +112,8 @@ if __name__ == "__main__":
     metadata_path = sys.argv[1]
     feature_id = sys.argv[2]
 
+    print(f"Generating trait file for Grambank parameter with ID {feature_id}...")
+
     grambank = Dataset.from_metadata(metadata_path)
     language_id_by_name = map_language_name_to_id(grambank["LanguageTable"])
     language_ids = list(language_id_by_name.values())
@@ -117,6 +121,7 @@ if __name__ == "__main__":
         grambank["ValueTable"], feature_id, language_ids
     )
     data = format_data(filtered_values_by_language_id, language_id_by_name)
-    write_to_file(data)
+    write_to_file(data, feature_id)
 
-    print("All done!")
+    print(f"All done for feature {feature_id}!")
+    print()
