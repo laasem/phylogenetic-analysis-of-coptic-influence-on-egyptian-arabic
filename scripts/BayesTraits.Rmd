@@ -40,6 +40,7 @@ BAYESTRAITS_PATH <- "../BayesTraitsV4.0.0-OSX/BayesTraitsV4"
 GRAMBANK_PATH <- "../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json"
 LGFAMNEWICK_PATH <- "../../lgfam-newick"
 
+# TODO: Run Python script that gets features here, and pull into dataframe whose IDs we can then loop over when necessary
 # Replace GB111 with the Grambank parameter number of interest (e.g. GB107, GB326)
 GRAMBANK_PARAMETER_ID <- "GB111"
 

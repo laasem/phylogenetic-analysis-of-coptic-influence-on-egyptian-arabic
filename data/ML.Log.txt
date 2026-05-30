@@ -6,7 +6,7 @@ Log File Name:                   ../data/ML.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            2164824079
+Seed:                            2302341602
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000
@@ -21,8 +21,8 @@ Pis used in ancestral state estimation:      Yes
 Character Symbols:               0,1
 Using a covarion model:          False
 Normalise Q Matrix:              False
-Tags:	10
-	T15	14	Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Cypriot_Arabic North_Levantine_Arabic Libyan_Arabic Hassaniyya Maltese Standard_Arabic 
+Tags:	9
+	T15	14	Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic Cypriot_Arabic North_Levantine_Arabic Hassaniyya Libyan_Arabic Maltese Standard_Arabic 
 	T16	3	Sanaani_Arabic Baharna_Arabic Gulf_Arabic 
 	T17	2	Baharna_Arabic Gulf_Arabic 
 	T18	5	Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi South_Sudanese_Creole_Arabic 
@@ -30,8 +30,7 @@ Tags:	10
 	T20	3	Chadian_Arabic Nubi South_Sudanese_Creole_Arabic 
 	T21	2	Nubi South_Sudanese_Creole_Arabic 
 	T22	2	Cypriot_Arabic North_Levantine_Arabic 
-	T23	3	Libyan_Arabic Hassaniyya Maltese 
-	T24	2	Hassaniyya Maltese 
+	T23	3	Hassaniyya Libyan_Arabic Maltese 
 Restrictions:
     q01                          None
     q10                          None
@@ -45,11 +44,10 @@ Node reconstruction / fossilisation:
 	Node 21 T21
 	Node 22 T22
 	Node 23 T23
-	Node 24 T24
 Tree Information
      Trees:                      1
      Taxa:                       14
      Sites:                      1
      States:                     2
-Tree No	Lh	q01	q10	Root P(0)	Root P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	21 P(0)	21 P(1)	22 P(0)	22 P(1)	23 P(0)	23 P(1)	24 P(0)	24 P(1)	
-1	-8.205677	1.662475	3.470900	0.326302	0.673698	0.326302	0.673698	0.720929	0.279071	0.769170	0.230830	0.293154	0.706846	0.588247	0.411753	0.341956	0.658044	0.769170	0.230830	0.769170	0.230830	0.479078	0.520922	0.118815	0.881185	
+Tree No	Lh	q01	q10	Root P(0)	Root P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	21 P(0)	21 P(1)	22 P(0)	22 P(1)	23 P(0)	23 P(1)	
+1	-8.031745	2.444610	3.650949	0.499891	0.500109	0.499891	0.500109	0.865138	0.134862	0.934943	0.065057	0.488433	0.511567	0.631719	0.368281	0.542878	0.457122	0.934943	0.065057	0.934943	0.065057	0.234205	0.765795	
