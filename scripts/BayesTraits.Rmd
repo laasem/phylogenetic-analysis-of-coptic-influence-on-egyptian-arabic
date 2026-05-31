@@ -36,7 +36,7 @@ library(btw)
 here::i_am('scripts/BayesTraits.Rmd')
 
 # Set customization constants
-BAYESTRAITS_PATH <- "../BayesTraitsV4.0.0-OSX/BayesTraitsV4"
+BAYESTRAITS_PATH <- "../BayesTraitsV5.0.0-OSX-ARM/BayesTraitsV5"
 GRAMBANK_PATH <- "../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json"
 LGFAMNEWICK_PATH <- "../../lgfam-newick"
 
