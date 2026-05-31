@@ -191,49 +191,58 @@ d_nodes <- mutate(
   )
 
 # Output this as a vector
-to_save <- select(d_nodes, first_command, second_command) %>%
+general_control_file_data <- select(d_nodes, first_command, second_command) %>%
   pivot_longer(everything(), values_to = 'command') %>%
   pull(command)
 
 # Choose 1, 1 -> MultiState evolution model and Maximum Likelihood analysis method
-to_save <- append("1", to_save)
-to_save <- append("1", to_save)
+general_control_file_data <- append("1", general_control_file_data)
+general_control_file_data <- append("1", general_control_file_data)
 
 # The rest of the logic is all feature specific so we loop over features
 
 # Generate control file for each
 for (id in features$id) {
+  feature_control_file_data <- general_control_file_data
   log_file_name <- paste("../data/log", id, sep = "_")
   log_file_command <- paste("LogFile", log_file_name)
-  to_save <- append(to_save, log_file_command)
-  to_save <- append(to_save, "Run")
+  feature_control_file_data <- append(feature_control_file_data, log_file_command)
+  feature_control_file_data <- append(feature_control_file_data, "Run")
   control_file_name <- paste(
-    paste("scripts/max_likelihood_control", id, sep = "_"),
+    paste("max_likelihood_control", id, sep = "_"),
     ".txt", 
     sep = ""
   )
-  write.table(to_save, here(control_file_name), quote=FALSE, col.names = FALSE, row.names = FALSE)
+  write.table(
+  feature_control_file_data,
+  here(paste("scripts/", control_file_name, sep = "")),
+  quote=FALSE,
+  col.names = FALSE,
+  row.names = FALSE
+  )
 
   ## 4. Run maximum likelihood analysis for each feature in BayesTraits
   
   # This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support versions beyond V3. It is used further below to parse the output log file however
+  
+  trait_file_name <- paste("../data/trait_", id, ".txt", sep = "")
     
   system(
     paste(
       BAYESTRAITS_PATH, 
-      "../data/tree.nex ../data/trait.txt <",
+      "../data/tree.nex",
+      trait_file_name,
+      "<",
       control_file_name
     )
   )
   
-  
   ## 5. BayesTraits output reading for each feature
   
   # Read in output from BayesTraits
-  output <- parse_log(here(log_file_name)
+  output <- parse_log(paste(log_file_name, ".Log.txt", sep = ""))
   
-  # Grab just the nodes and transform into a table with the probability of
-  # each state for each node
+  # Grab just the nodes and transform into a table with the probability of each state for each node
   d_output <- select(output$results, starts_with('X')) %>% 
      pivot_longer(everything(), names_to = 'var', values_to = 'prob') %>% 
      filter(!is.na(prob)) %>% 

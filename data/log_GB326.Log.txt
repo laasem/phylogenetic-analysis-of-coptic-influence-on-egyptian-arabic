@@ -1,12 +1,12 @@
 Options:
 Model:                           MultiState
 Tree File Name:                  ../data/tree.nex
-Data File Name:                  ../data/trait.txt
-Log File Name:                   ../data/ML.Log.txt
+Data File Name:                  ../data/trait_GB326.txt
+Log File Name:                   ../data/log_GB326.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            2302341602
+Seed:                            1228706817
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000
@@ -50,4 +50,4 @@ Tree Information
      Sites:                      1
      States:                     2
 Tree No	Lh	q01	q10	Root P(0)	Root P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	21 P(0)	21 P(1)	22 P(0)	22 P(1)	23 P(0)	23 P(1)	
-1	-8.031745	2.444610	3.650949	0.499891	0.500109	0.499891	0.500109	0.865138	0.134862	0.934943	0.065057	0.488433	0.511567	0.631719	0.368281	0.542878	0.457122	0.934943	0.065057	0.934943	0.065057	0.234205	0.765795	
+1	-8.378748	1.136049	1.944514	0.471005	0.528995	0.471005	0.528995	0.111327	0.888673	0.383307	0.616693	0.073667	0.926333	0.109111	0.890889	0.261899	0.738101	0.007992	0.992008	0.979571	0.020429	0.979237	0.020763	

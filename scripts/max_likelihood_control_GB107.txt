@@ -20,9 +20,3 @@ AddTag T23 Hassaniyya Libyan_Arabic Maltese
 AddNode 23 T23
 LogFile ../data/log_GB107
 Run
-LogFile ../data/log_GB111
-Run
-LogFile ../data/log_GB326
-Run
-LogFile ../data/log_GB107
-Run
