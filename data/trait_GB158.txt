@@ -1,0 +1,14 @@
+Sanaani_Arabic 1
+Baharna_Arabic 1
+Gulf_Arabic 1
+Eastern_Egyptian_Bedawi_Arabic 1
+Egyptian_Arabic 1
+Chadian_Arabic -
+Nubi 1
+South_Sudanese_Creole_Arabic 1
+Cypriot_Arabic -
+North_Levantine_Arabic 1
+Libyan_Arabic -
+Hassaniyya -
+Maltese 1
+Standard_Arabic 1
