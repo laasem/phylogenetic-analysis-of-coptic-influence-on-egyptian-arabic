@@ -1,79 +1,33 @@
 # Script was run on metadata file for Grambank v1.0.2.
-# Assumes pycldf is installed in environment.
+# Assumes pandas and pycldf are installed in environment.
 # Requires metadata file name to be passed as arg, e.g.:
 # python3 extract_features_from_grambank.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
 
 import csv
+import pandas as pd
 from pycldf.dataset import Dataset
 
 
-def filter_for_present_parameters(parameter_values):
-    values_to_include = ["1"]
-    return [value for value in parameter_values if value["Value"] in values_to_include]
-
-
-def group_languages_by_parameter(parameter_values):
-    grouping = {}
-    for parameter_value in parameter_values:
-        parameter_id = parameter_value["Parameter_ID"]
-        if not grouping.get(parameter_id):
-            grouping[parameter_id] = []
-        grouping[parameter_id].append(parameter_value["Language_ID"])
-    return grouping
-
-
-def map_language_ids_to_names(languages):
-    language_ids_to_names = {}
-    for language in languages:
-        if "Arabic" not in language["Name"] and "Coptic" not in language["Name"]:
-            continue
-
-        language_ids_to_names[language["ID"]] = language["Name"]
-    return language_ids_to_names
-
-
-def get_ea_and_coptic_parameters_to_language_ids_not_in_sa(
-    parameter_ids_to_language_ids, language_ids_to_names
-):
-    egyptian_arabic = "egyp1253"
-    coptic = "copt1239"
-    standard_arabic = "stan1318"
-    required_parameters = {}
-    for parameter_id, language_ids in parameter_ids_to_language_ids.items():
-        parameter_is_required = (
-            egyptian_arabic in language_ids and coptic in language_ids
-        ) and not (standard_arabic in language_ids)
-        if not parameter_is_required:
-            continue
-
-        required_parameters[parameter_id] = language_ids
-    return required_parameters
-
-
-def format_into_csv(
-    required_parameters_to_language_ids, language_ids_to_names, grambank
-):
-    data = [
-        ["id", "name"],
-        [
-            "GB107",
-            "Can standard negation be marked by an affix, clitic or modification of the verb?",
-        ],
-        ["GB111", "Are there conjugation classes?"],
-        [
-            "GB326",
-            "Do (nominal) content interrogatives normally or frequently occur in situ?",
-        ],
+# Get only parameters that have binary values for Egyptian Arabic and Coptic
+def filter_parameters(languages, values):
+    print("Filtering parameters...")
+    language_ids = get_language_ids(languages)
+    return values[
+        values["Value"].isin(["0", "1"]) & values["Language_ID"].isin(language_ids)
     ]
-    # for parameter_id, language_ids in required_parameters_to_language_ids.items():
-    #     parameter_name = grambank.get_row("ParameterTable", parameter_id)["Name"]
-    #     source = f"Grambank {parameter_id}"
-    #     languages = [
-    #         language_ids_to_names[language_id]
-    #         for language_id in language_ids
-    #         if language_id in language_ids_to_names.keys()
-    #     ]
-    #     data.append([parameter_name, source, languages])
+
+
+def get_language_ids(languages):
+    return list(languages[languages["Name"].isin(["Egyptian Arabic", "Coptic"])]["ID"])
+
+
+def format_into_csv(parameters, parameter_values):
+    print("Formatting into CSV...")
+    data = [["id", "name"]]
+    for _, parameter_value in parameter_values.iterrows():
+        parameter_id = parameter_value["Parameter_ID"]
+        parameter_name = parameters[parameters["ID"] == parameter_id]["Name"].values[0]
+        data.append([parameter_id, parameter_name])
     return data
 
 
@@ -82,21 +36,14 @@ if __name__ == "__main__":
 
     metadata_path = sys.argv[1]
     grambank = Dataset.from_metadata(metadata_path)
-
-    present_parameter_values = filter_for_present_parameters(grambank["ValueTable"])
-    parameter_ids_to_language_ids = group_languages_by_parameter(
-        present_parameter_values
-    )
-    language_ids_to_names = map_language_ids_to_names(grambank["LanguageTable"])
-    required_parameters_to_language_ids = (
-        get_ea_and_coptic_parameters_to_language_ids_not_in_sa(
-            parameter_ids_to_language_ids, language_ids_to_names
-        )
-    )
-    csv_data = format_into_csv(
-        required_parameters_to_language_ids, language_ids_to_names, grambank
-    )
+    languages = pd.DataFrame(grambank["LanguageTable"])
+    parameters = pd.DataFrame(grambank["ParameterTable"])
+    values = pd.DataFrame(grambank["ValueTable"])
+    parameter_values = filter_parameters(languages, values)
+    csv_data = format_into_csv(parameters, parameter_values)
 
     with open("../data/features.csv", "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(csv_data)
+
+    print("All done!")
