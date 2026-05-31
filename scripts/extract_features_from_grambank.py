@@ -1,4 +1,4 @@
-# Script was run on metadata file for Grambank v1.0.2.
+# Script was run on metadata file for Grambank v1.0.3.
 # Assumes pandas and pycldf are installed in environment.
 # Requires metadata file name to be passed as arg, e.g.:
 # python3 extract_features_from_grambank.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
