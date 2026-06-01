@@ -135,19 +135,9 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 system(paste("python3 extract_features_from_grambank.py", GRAMBANK_PATH))
 features <- read.csv("../data/features.csv")
 
-for (id in features$id) {
-  # For each feature, run Python script to generate trait file
-  system(paste("python3 generate_trait_file.py", GRAMBANK_PATH, id))
-  
-  # Read in trait file as table
-  trait_file_name <- paste(paste("data/trait", id, sep = "_"), ".txt", sep = "")
-  trait <- read.table(here(trait_file_name), col.names = c("language", "value"))
-  
-  # Check that the trait table contains exactly the same taxa as the tree (BayesTraits matches by name)
-  if (!setequal(trait$language, tree$tip.label)) {
-    stop("Trait does not have same taxa as tree")
-  }
-}
+# Run Python script that generates trait files
+feature_ids <- paste(features$id, collapse = ",")
+system(paste("python3 generate_trait_files.py", GRAMBANK_PATH, feature_ids))
 
 
 ## 4. BayesTraits input formatting
