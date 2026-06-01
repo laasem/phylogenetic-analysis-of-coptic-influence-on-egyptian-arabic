@@ -1,5 +1,5 @@
 # Script was run on metadata file for Grambank v1.0.3.
-# Assumes pandas and pycldf are installed in environment.
+# Assumes python3, pandas, and pycldf are installed in environment.
 # Requires metadata file name to be passed as arg, e.g.:
 # python3 extract_features_from_grambank.py ../../datasets/grambank-grambank-7ae000c/cldf/StructureDataset-metadata.json
 
@@ -8,25 +8,31 @@ import pandas as pd
 from pycldf.dataset import Dataset
 
 
-# Get only parameters that have binary values for Egyptian Arabic and Coptic
-def filter_parameters(languages, values):
+# Filter for parameters that have binary values for Egyptian Arabic and Coptic
+# and return their IDs
+def get_selected_parameter_ids(all_languages, all_values):
     print("Filtering parameters...")
-    language_ids = get_language_ids(languages)
-    return values[
-        values["Value"].isin(["0", "1"]) & values["Language_ID"].isin(language_ids)
+    language_ids = get_language_ids(all_languages)
+    selected_parameter_values = all_values[
+        all_values["Value"].isin(["0", "1"])
+        & all_values["Language_ID"].isin(language_ids)
     ]
+    return list(selected_parameter_values["Parameter_ID"].unique())
 
 
-def get_language_ids(languages):
-    return list(languages[languages["Name"].isin(["Egyptian Arabic", "Coptic"])]["ID"])
+def get_language_ids(all_languages):
+    return list(
+        all_languages[all_languages["Name"].isin(["Egyptian Arabic", "Coptic"])]["ID"]
+    )
 
 
-def format_into_csv(parameters, parameter_values):
+def format_into_csv(all_parameters, selected_parameter_ids):
     print("Formatting into CSV...")
     data = [["id", "name"]]
-    for _, parameter_value in parameter_values.iterrows():
-        parameter_id = parameter_value["Parameter_ID"]
-        parameter_name = parameters[parameters["ID"] == parameter_id]["Name"].values[0]
+    for parameter_id in selected_parameter_ids:
+        parameter_name = all_parameters[all_parameters["ID"] == parameter_id][
+            "Name"
+        ].values[0]
         data.append([parameter_id, parameter_name])
     return data
 
@@ -36,11 +42,11 @@ if __name__ == "__main__":
 
     metadata_path = sys.argv[1]
     grambank = Dataset.from_metadata(metadata_path)
-    languages = pd.DataFrame(grambank["LanguageTable"])
-    parameters = pd.DataFrame(grambank["ParameterTable"])
-    values = pd.DataFrame(grambank["ValueTable"])
-    parameter_values = filter_parameters(languages, values)
-    csv_data = format_into_csv(parameters, parameter_values)
+    all_languages = pd.DataFrame(grambank["LanguageTable"])
+    all_parameters = pd.DataFrame(grambank["ParameterTable"])
+    all_values = pd.DataFrame(grambank["ValueTable"])
+    selected_parameter_ids = get_selected_parameter_ids(all_languages, all_values)
+    csv_data = format_into_csv(all_parameters, selected_parameter_ids)
 
     with open("../data/features.csv", "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
