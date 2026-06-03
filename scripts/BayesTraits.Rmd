@@ -133,7 +133,8 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 
 # Run Python script that pulls Grambank features
 system(paste("python3 extract_features_from_grambank.py", GRAMBANK_PATH))
-features <- read.csv("../data/features.csv")
+features_csv_path <- "../data/features.csv"
+features <- read.csv(features_csv_path)
 
 # Run Python script that generates trait files
 feature_ids <- paste(features$id, collapse = ",")
@@ -191,15 +192,31 @@ general_control_file_data <- append("1", general_control_file_data)
 
 # The rest of the logic is all feature specific so we loop over features
 
-# Generate control file for each
-for (id in features$id) {
+final_features <- features
+
+for (feature_id in features$id) {
+  # Run trait file checks
+  trait_file_name <- paste("../data/trait_", feature_id, ".txt", sep = "")
+  trait <- read.table(trait_file_name, col.names = c("language", "value"))
+  # Check that the trait table contains exactly the same taxa as the tree (BayesTraits matches by name)
+  if (!setequal(trait$language, tree$tip.label)) {
+    stop("Trait does not have same taxa as tree")
+  }
+  # While BayesTraits allows missing values (coded as -), it expects existing trait values to be a mix of 0s and 1s and doesn't run if all languages have the same state, so we skip those features and remove them from the final features to be rewritten to the CSV
+  mixed_states <- "0" %in% trait$value & "1" %in% trait$value
+  if (!mixed_states) {
+    final_features <- filter_out(final_features, id == feature_id)
+    next
+  }
+  
+  # Generate control file for each feature
   feature_control_file_data <- general_control_file_data
-  log_file_name <- paste("../data/log", id, sep = "_")
+  log_file_name <- paste("../data/log", feature_id, sep = "_")
   log_file_command <- paste("LogFile", log_file_name)
   feature_control_file_data <- append(feature_control_file_data, log_file_command)
   feature_control_file_data <- append(feature_control_file_data, "Run")
   control_file_name <- paste(
-    paste("max_likelihood_control", id, sep = "_"),
+    paste("max_likelihood_control", feature_id, sep = "_"),
     ".txt", 
     sep = ""
   )
@@ -214,9 +231,6 @@ for (id in features$id) {
   ## 4. Run maximum likelihood analysis for each feature in BayesTraits
   
   # This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support versions beyond V3. It is used further below to parse the output log file however
-  
-  trait_file_name <- paste("../data/trait_", id, ".txt", sep = "")
-    
   system(
     paste(
       BAYESTRAITS_PATH, 
@@ -252,7 +266,7 @@ for (id in features$id) {
   # Plot tree with trait values and state probabilities
   
   # Open PNG device to save plot
-  plot_file_name <- paste("../plots/", id, ".png", sep = "")
+  plot_file_name <- paste("../plots/", feature_id, ".png", sep = "")
   png(plot_file_name)
 
   tip_order   <- match(tree$tip.label, trait$language)
@@ -282,4 +296,7 @@ for (id in features$id) {
   # Close PNG device
   dev.off()
 }
+
+# Override ../data/features.csv with the features actually used in the analysis
+write.csv(final_features, features_csv_path)
             

@@ -18,5 +18,5 @@ AddTag T22 Cypriot_Arabic North_Levantine_Arabic
 AddNode 22 T22
 AddTag T23 Hassaniyya Libyan_Arabic Maltese
 AddNode 23 T23
-LogFile ../data/log_GB025
+LogFile ../data/log_GB079
 Run
