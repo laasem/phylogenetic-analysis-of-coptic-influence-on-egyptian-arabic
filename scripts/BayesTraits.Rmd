@@ -265,9 +265,9 @@ for (feature_id in features$id) {
   
   # Plot tree with trait values and state probabilities
   
-  # Open PNG device to save plot
-  plot_file_name <- paste("../plots/", feature_id, ".png", sep = "")
-  png(plot_file_name)
+  # Open PDF device to save plot
+  plot_file_name <- paste("../plots/", feature_id, ".pdf", sep = "")
+  pdf(plot_file_name, width = 10, height = 7)
 
   tip_order   <- match(tree$tip.label, trait$language)
   tip_vals    <- as.character(trait$value[tip_order])
@@ -281,19 +281,21 @@ for (feature_id in features$id) {
   par(mar = c(1, 1, 2, 1))
   plot(tree, show.tip.label = TRUE, label.offset = 0.03,
        x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5))
-  tiplabels(pch = 21, bg = tip_colors, col = "black", cex = 1.8, offset = 0.01)
+  tiplabels(pch = 21, bg = tip_colors, col = "black", cex = 2, offset = 0.01)
   nodelabels(pch = 21, bg = node_cols, col = "black",
-             node = d_wide$node, cex = 1.8)
+             node = d_wide$node, cex = 2)
   nodelabels(text = round(d_wide$prob_1, 2), node = d_wide$node,
-             frame = "none", adj = c(-0.3, 0.5), cex = 0.75)
-  legend("bottomleft", legend = c("state 0", "state 1", "missing"),
-         pt.bg = c("white", "black", "grey80"), pch = 21, pt.cex = 1.5, bty = "n")
+             frame = "none", adj = c(-0.3, 0.5), cex = 1)
+  legend("bottomleft",
+        legend = c("0", "1", "missing"),
+        pt.bg = c("white", "black", "grey80"),
+        pch = 21, pt.cex = 1.5, bty = "n", title = "Feature State")
   legend("bottomright",
          legend = c("P(1) = 0", "P(1) = 0.5", "P(1) = 1"),
          pt.bg = col_ramp(3), pch = 21, pt.cex = 1.5, bty = "n",
          title = "Ancestral P(1)")
   
-  # Close PNG device
+  # Close PDF device
   dev.off()
 }
 
