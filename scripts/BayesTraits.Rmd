@@ -192,7 +192,17 @@ general_control_file_data <- append("1", general_control_file_data)
 
 # The rest of the logic is all feature specific so we loop over features
 
-final_features <- features
+# Dataframe to store variables for analysis
+# This is the source of truth for the final features we end up running the analysis for, as those that have the same state for all tips will be removed on the fly
+analysis <- tibble(
+  feature_id = character(),
+  feature_name = character(),
+  egyptian_arabic_value = integer(),
+  ancestor_probability = numeric(),
+  ancestor_similarity = numeric(),
+  coptic_value = integer(),
+  potential_for_contact = logical()
+)
 
 for (feature_id in features$id) {
   # Run trait file checks
@@ -205,7 +215,6 @@ for (feature_id in features$id) {
   # While BayesTraits allows missing values (coded as -), it expects existing trait values to be a mix of 0s and 1s and doesn't run if all languages have the same state, so we skip those features and remove them from the final features to be rewritten to the CSV
   mixed_states <- "0" %in% trait$value & "1" %in% trait$value
   if (!mixed_states) {
-    final_features <- filter_out(final_features, id == feature_id)
     next
   }
   
@@ -297,8 +306,42 @@ for (feature_id in features$id) {
   
   # Close PDF device
   dev.off()
+  
+  ## 6. Code data for analysis
+  
+  feature <- subset(
+    features,
+    id == feature_id
+  )
+  
+  feature_name <- feature$name
+   
+  egyptian_arabic_value <- feature$egyptian_arabic_value
+  
+  closest_reconstructed_ancestor_node_number <- 19
+  
+  ancestor_probability <- subset(
+    d_wide,
+    node == closest_reconstructed_ancestor_node_number
+  )$prob_1
+  
+  ancestor_similarity <- 1 - abs(egyptian_arabic_value - ancestor_probability)
+  
+  coptic_value <- feature$coptic_value
+  
+  potential_for_contact <- ancestor_similarity < 0.5 & egyptian_arabic_value == coptic_value
+  
+  analysis <- analysis %>% add_row(
+    feature_id = feature_id,
+    feature_name = feature_name,
+    egyptian_arabic_value = egyptian_arabic_value,
+    ancestor_probability = ancestor_probability,
+    ancestor_similarity = ancestor_similarity,
+    coptic_value = coptic_value,
+    potential_for_contact = potential_for_contact
+  )
 }
 
-# Override ../data/features.csv with the features actually used in the analysis
-write.csv(final_features, features_csv_path)
+# Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
+write.csv(analysis, features_csv_path)
             

@@ -49,12 +49,20 @@ def get_parameter_values_where_lang_data_not_missing(values):
     ]
 
 
-def format_into_csv(parameters, selected_parameter_ids):
+def format_into_csv(parameters, selected_parameter_ids, values):
     print("Formatting into CSV...")
-    data = [["id", "name"]]
+    data = [["id", "name", "egyptian_arabic_value", "coptic_value"]]
     for parameter_id in selected_parameter_ids:
         parameter_name = parameters[parameters["ID"] == parameter_id]["Name"].values[0]
-        data.append([parameter_id, parameter_name])
+        egyptian_arabic_value = values[
+            values["Language_ID"].isin([EGYPTIAN_ARABIC_ID])
+            & values["Parameter_ID"].isin([parameter_id])
+        ]["Value"].values[0]
+        coptic_value = values[
+            values["Language_ID"].isin([COPTIC_ID])
+            & values["Parameter_ID"].isin([parameter_id])
+        ]["Value"].values[0]
+        data.append([parameter_id, parameter_name, egyptian_arabic_value, coptic_value])
     return data
 
 
@@ -68,7 +76,7 @@ if __name__ == "__main__":
     selected_parameter_ids = get_selected_parameter_ids(all_values)
 
     all_parameters = pd.DataFrame(grambank["ParameterTable"])
-    csv_data = format_into_csv(all_parameters, selected_parameter_ids)
+    csv_data = format_into_csv(all_parameters, selected_parameter_ids, all_values)
 
     with open("../data/features.csv", "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
