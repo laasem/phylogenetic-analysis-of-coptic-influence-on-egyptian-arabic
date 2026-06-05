@@ -3,7 +3,7 @@
 <!-- Arabic tree sourced from lgfam-newick (Dediu) using Glottolog topology with Grafen (1989) branch lengths. lgfam-newick repo: https://github.com/ddediu/lgfam-newick -->
 
 <!-- Assumes:
-  1. python3 is installed
+  1. python3 is installed in a virtual environment under .venv/bin/python3, as are pandas, numpy, and pycldf
   2. BayesTraits binary exists at path specified by BAYESTRAITS_PATH
   3. Grambank metadata file exists at path specified by GRAMBANK_PATH
   4. lgfam-newick repo exists at path specified by LGFAMNEWICK_PATH
@@ -132,13 +132,13 @@ tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
 ## 3. Trait data loading
 
 # Run Python script that pulls Grambank features
-system(paste("python3 extract_features_from_grambank.py", GRAMBANK_PATH))
+system(paste(".venv/bin/python3 extract_features_from_grambank.py", GRAMBANK_PATH))
 features_csv_path <- "../data/features.csv"
 features <- read.csv(features_csv_path)
 
 # Run Python script that generates trait files
 feature_ids <- paste(features$id, collapse = ",")
-system(paste("python3 generate_trait_files.py", GRAMBANK_PATH, feature_ids))
+system(paste(".venv/bin/python3 generate_trait_files.py", GRAMBANK_PATH, feature_ids))
 
 
 ## 4. BayesTraits input formatting
