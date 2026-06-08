@@ -27,7 +27,6 @@ LANGUAGES = [
     "Egyptian Arabic",
     "Chadian Arabic",
     "Nubi",
-    "South Sudanese Creole Arabic",
     "Cypriot Arabic",
     "North Levantine Arabic",
     "Libyan Arabic",

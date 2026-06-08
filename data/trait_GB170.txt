@@ -5,7 +5,6 @@ Eastern_Egyptian_Bedawi_Arabic -
 Egyptian_Arabic 1
 Chadian_Arabic 1
 Nubi 0
-South_Sudanese_Creole_Arabic 0
 Cypriot_Arabic 1
 North_Levantine_Arabic 1
 Libyan_Arabic 1

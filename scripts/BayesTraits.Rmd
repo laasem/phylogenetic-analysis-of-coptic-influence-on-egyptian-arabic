@@ -111,7 +111,7 @@ for (lang in c("Gulf_Arabic",
 # Keep only the 14 languages with Grambank codings
 tree <- keep.tip(tree, c("Sanaani_Arabic", "Baharna_Arabic", "Gulf_Arabic",
                           "Eastern_Egyptian_Bedawi_Arabic", "Egyptian_Arabic",
-                          "Chadian_Arabic", "Nubi", "South_Sudanese_Creole_Arabic",
+                          "Chadian_Arabic", "Nubi",
                           "Cypriot_Arabic", "Levantine_Arabic",
                           "Libyan_Arabic", "Hassaniyya", "Maltese", "Standard_Arabic"))
 
