@@ -10,4 +10,3 @@ North_Levantine_Arabic 0
 Libyan_Arabic 1
 Hassaniyya 0
 Maltese 0
-Standard_Arabic 0

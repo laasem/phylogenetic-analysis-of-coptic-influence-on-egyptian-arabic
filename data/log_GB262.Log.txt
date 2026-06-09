@@ -6,7 +6,7 @@ Log File Name:                   ../data/log_GB262.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            1754711287
+Seed:                            2540738728
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000
@@ -22,18 +22,19 @@ Character Symbols:               0,1
 Using a covarion model:          False
 Normalise Q Matrix:              False
 Tags:	8
-	T14	13	Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi Cypriot_Arabic North_Levantine_Arabic Hassaniyya Libyan_Arabic Maltese Standard_Arabic 
-	T15	3	Sanaani_Arabic Baharna_Arabic Gulf_Arabic 
-	T16	2	Baharna_Arabic Gulf_Arabic 
-	T17	4	Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi 
-	T18	3	Egyptian_Arabic Chadian_Arabic Nubi 
-	T19	2	Chadian_Arabic Nubi 
-	T20	2	Cypriot_Arabic North_Levantine_Arabic 
-	T21	3	Hassaniyya Libyan_Arabic Maltese 
+	T13	12	Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi Cypriot_Arabic North_Levantine_Arabic Hassaniyya Libyan_Arabic Maltese 
+	T14	3	Sanaani_Arabic Baharna_Arabic Gulf_Arabic 
+	T15	2	Baharna_Arabic Gulf_Arabic 
+	T16	4	Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi 
+	T17	3	Egyptian_Arabic Chadian_Arabic Nubi 
+	T18	2	Chadian_Arabic Nubi 
+	T19	2	Cypriot_Arabic North_Levantine_Arabic 
+	T20	3	Hassaniyya Libyan_Arabic Maltese 
 Restrictions:
     q01                          None
     q10                          None
 Node reconstruction / fossilisation:
+	Node 13 T13
 	Node 14 T14
 	Node 15 T15
 	Node 16 T16
@@ -41,14 +42,13 @@ Node reconstruction / fossilisation:
 	Node 18 T18
 	Node 19 T19
 	Node 20 T20
-	Node 21 T21
 Tree Information
      Trees:                      1
-     Taxa:                       13
+     Taxa:                       12
      Sites:                      1
      States:                     2
 Checkpoint:                      False
 Re Set Itterations:              False
 Re Set Seed:                     False
-Tree No	Lh	q01	q10	Root P(0)	Root P(1)	14 P(0)	14 P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	21 P(0)	21 P(1)	
-1	-3.105037	3.591066	0.704041	0.501116	0.498884	0.501116	0.498884	0.318113	0.681887	0.209240	0.790760	0.801708	0.198292	0.867418	0.132582	0.995677	0.004323	0.209240	0.790760	0.178739	0.821261	
+Tree No	Lh	q01	q10	Root P(0)	Root P(1)	13 P(0)	13 P(1)	14 P(0)	14 P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	
+1	-2.901799	3.253120	0.792885	0.501298	0.498702	0.501298	0.498702	0.318027	0.681973	0.208440	0.791560	0.770852	0.229148	0.841289	0.158711	0.993618	0.006382	0.208440	0.791560	0.178623	0.821377	

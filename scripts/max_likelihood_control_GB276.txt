@@ -1,20 +1,20 @@
 1
 1
-AddTag T14 Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi Cypriot_Arabic North_Levantine_Arabic Hassaniyya Libyan_Arabic Maltese Standard_Arabic
+AddTag T13 Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi Cypriot_Arabic North_Levantine_Arabic Hassaniyya Libyan_Arabic Maltese
+AddNode 13 T13
+AddTag T14 Sanaani_Arabic Baharna_Arabic Gulf_Arabic
 AddNode 14 T14
-AddTag T15 Sanaani_Arabic Baharna_Arabic Gulf_Arabic
+AddTag T15 Baharna_Arabic Gulf_Arabic
 AddNode 15 T15
-AddTag T16 Baharna_Arabic Gulf_Arabic
+AddTag T16 Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi
 AddNode 16 T16
-AddTag T17 Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi
+AddTag T17 Egyptian_Arabic Chadian_Arabic Nubi
 AddNode 17 T17
-AddTag T18 Egyptian_Arabic Chadian_Arabic Nubi
+AddTag T18 Chadian_Arabic Nubi
 AddNode 18 T18
-AddTag T19 Chadian_Arabic Nubi
+AddTag T19 Cypriot_Arabic North_Levantine_Arabic
 AddNode 19 T19
-AddTag T20 Cypriot_Arabic North_Levantine_Arabic
+AddTag T20 Hassaniyya Libyan_Arabic Maltese
 AddNode 20 T20
-AddTag T21 Hassaniyya Libyan_Arabic Maltese
-AddNode 21 T21
 LogFile ../data/log_GB276
 Run

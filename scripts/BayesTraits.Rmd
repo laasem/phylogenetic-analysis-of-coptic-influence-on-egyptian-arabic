@@ -102,8 +102,7 @@ for (lang in c("Gulf_Arabic",
                "Chadian_Arabic",
                "Levantine_Arabic",
                "Libyan_Arabic",
-               "Maltese",
-               "Standard_Arabic"
+               "Maltese"
                )) {
   tree <- collapse_clade_to_tip(tree, lang)
 }
@@ -113,7 +112,7 @@ tree <- keep.tip(tree, c("Sanaani_Arabic", "Baharna_Arabic", "Gulf_Arabic",
                           "Eastern_Egyptian_Bedawi_Arabic", "Egyptian_Arabic",
                           "Chadian_Arabic", "Nubi",
                           "Cypriot_Arabic", "Levantine_Arabic",
-                          "Libyan_Arabic", "Hassaniyya", "Maltese", "Standard_Arabic"))
+                          "Libyan_Arabic", "Hassaniyya", "Maltese"))
 
 # Rename "Levantine_Arabic" to "North_Levantine_Arabic" to match Grambank
 tree$tip.label[tree$tip.label == "Levantine_Arabic"] <- "North_Levantine_Arabic"
@@ -198,10 +197,11 @@ analysis <- tibble(
   feature_id = character(),
   feature_name = character(),
   egyptian_arabic_value = integer(),
+  coptic_value = integer(),
   ancestor_probability = numeric(),
   ancestor_similarity = numeric(),
-  coptic_value = integer(),
-  potential_for_contact = logical()
+  ea_and_coptic_agree = logical(),
+  feature_is_rare = logical()
 )
 
 for (feature_id in features$id) {
@@ -318,7 +318,14 @@ for (feature_id in features$id) {
    
   egyptian_arabic_value <- feature$egyptian_arabic_value
   
-  closest_reconstructed_ancestor_node_number <- 19
+  coptic_value <- feature$coptic_value
+  
+  ea_and_coptic_agree <- egyptian_arabic_value == coptic_value
+  
+  closest_reconstructed_ancestor_node_number <- subset(
+    d_nodes,
+    label == "Egyptian_Arabic Chadian_Arabic Nubi"
+  )$nodes
   
   ancestor_probability <- subset(
     d_wide,
@@ -327,21 +334,31 @@ for (feature_id in features$id) {
   
   ancestor_similarity <- 1 - abs(egyptian_arabic_value - ancestor_probability)
   
-  coptic_value <- feature$coptic_value
+  mode_arabic_family_value <- round(mean(trait$value), 0)
   
-  potential_for_contact <- ancestor_similarity < 0.5 & egyptian_arabic_value == coptic_value
+  feature_is_rare <- egyptian_arabic_value != mode_arabic_family_value
   
   analysis <- analysis %>% add_row(
     feature_id = feature_id,
     feature_name = feature_name,
     egyptian_arabic_value = egyptian_arabic_value,
+    coptic_value = coptic_value,
     ancestor_probability = ancestor_probability,
     ancestor_similarity = ancestor_similarity,
-    coptic_value = coptic_value,
-    potential_for_contact = potential_for_contact
+    ea_and_coptic_agree = ea_and_coptic_agree,
+    feature_is_rare = feature_is_rare
   )
 }
 
 # Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
 write.csv(analysis, features_csv_path)
-            
+
+## 7. Analysis
+
+# Calculate aggregate variables
+
+mean_ancestor_similarity <- mean(analysis$ancestor_similarity)
+
+analysis <- analysis %>% add_column(
+    feature_is_surprising = analysis$ancestor_similarity < mean_ancestor_similarity
+)

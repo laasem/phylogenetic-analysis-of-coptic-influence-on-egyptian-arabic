@@ -32,7 +32,6 @@ LANGUAGES = [
     "Libyan Arabic",
     "Hassaniyya",
     "Maltese",
-    "Standard Arabic",
 ]
 
 
