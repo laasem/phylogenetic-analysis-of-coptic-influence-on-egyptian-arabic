@@ -6,7 +6,7 @@ Log File Name:                   ../data/log_GB152.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            2865797556
+Seed:                            2445391133
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000
@@ -51,4 +51,4 @@ Checkpoint:                      False
 Re Set Itterations:              False
 Re Set Seed:                     False
 Tree No	Lh	q01	q10	Root P(0)	Root P(1)	13 P(0)	13 P(1)	14 P(0)	14 P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	
-1	-2.547201	1.304072	11.386209	0.500000	0.500000	0.500000	0.500000	0.371563	0.628437	0.696157	0.303843	0.523095	0.476905	0.579541	0.420459	0.696157	0.303843	0.602174	0.397826	0.586256	0.413744	
+1	-2.547201	1.304072	11.386206	0.500000	0.500000	0.500000	0.500000	0.371563	0.628437	0.696157	0.303843	0.523095	0.476905	0.579541	0.420459	0.696157	0.303843	0.602174	0.397826	0.586256	0.413744	
