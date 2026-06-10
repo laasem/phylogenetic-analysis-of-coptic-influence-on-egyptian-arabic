@@ -197,7 +197,7 @@ analysis <- tibble(
   egyptian_arabic_value = integer(),
   coptic_value = integer(),
   ancestor_probability = numeric(),
-  ancestor_similarity = numeric(),
+  ancestor_match_probability = numeric(),
   ea_and_coptic_agree = logical(),
   feature_is_rare = logical()
 )
@@ -332,7 +332,7 @@ for (feature_id in features$id) {
     node == closest_reconstructed_ancestor_node_number
   )$prob_1
   
-  ancestor_similarity <- 1 - abs(egyptian_arabic_value - ancestor_probability)
+  ancestor_match_probability <- 1 - abs(egyptian_arabic_value - ancestor_probability)
   
   trait_values <- as.numeric(trait$value)
   mode_arabic_family_value <- round(mean(trait_values, na.rm = TRUE), 0)
@@ -345,7 +345,7 @@ for (feature_id in features$id) {
     egyptian_arabic_value = egyptian_arabic_value,
     coptic_value = coptic_value,
     ancestor_probability = ancestor_probability,
-    ancestor_similarity = ancestor_similarity,
+    ancestor_match_probability = ancestor_match_probability,
     ea_and_coptic_agree = ea_and_coptic_agree,
     feature_is_rare = feature_is_rare
   )
@@ -355,10 +355,10 @@ for (feature_id in features$id) {
 
 # Calculate aggregate variables
 
-mean_ancestor_similarity <- mean(analysis$ancestor_similarity)
+mean_ancestor_match_probability <- mean(analysis$ancestor_match_probability)
 
 analysis <- analysis %>% add_column(
-    feature_is_surprising = analysis$ancestor_similarity < mean_ancestor_similarity
+    feature_is_surprising = analysis$ancestor_match_probability < mean_ancestor_match_probability
 )
 
 # Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
