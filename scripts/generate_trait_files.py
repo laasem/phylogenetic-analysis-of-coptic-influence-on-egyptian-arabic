@@ -72,7 +72,7 @@ def write_to_file(data, feature_id):
     print("Writing to file...")
 
     with open(
-        f"../data/trait_{feature_id}.txt", "w", newline="", encoding="utf-8"
+        f"../data/trait_files/trait_{feature_id}.txt", "w", newline="", encoding="utf-8"
     ) as file:
         writer = csv.writer(file, delimiter=" ")
         for row in data:

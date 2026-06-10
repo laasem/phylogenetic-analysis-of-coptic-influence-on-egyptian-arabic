@@ -1,0 +1,54 @@
+Options:
+Model:                           MultiState
+Tree File Name:                  ../data/tree.nex
+Data File Name:                  ../data/trait_files/trait_GB099.txt
+Log File Name:                   ../data/logs/log_GB099.Log.txt
+Save Initial Trees:              False
+Save Trees:                      False
+Summary:                         False
+Seed:                            2997991496
+Analsis Type:                    Maximum Likelihood
+ML Attempt Per Tree:             10
+ML Max Evaluations:              20000
+ML Tolerance:                    0.000001
+ML Algorithm:                    BOBYQA
+Rate Range:                      0.000000 - 100.000000
+Precision:                       64 bits
+Cores:                           1
+No of Rates:                     2
+Base frequency (PI's):           None
+Pis used in ancestral state estimation:      Yes
+Character Symbols:               0,1
+Using a covarion model:          False
+Normalise Q Matrix:              False
+Tags:	8
+	T13	12	Sanaani_Arabic Baharna_Arabic Gulf_Arabic Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi Cypriot_Arabic North_Levantine_Arabic Hassaniyya Libyan_Arabic Maltese 
+	T14	3	Sanaani_Arabic Baharna_Arabic Gulf_Arabic 
+	T15	2	Baharna_Arabic Gulf_Arabic 
+	T16	4	Eastern_Egyptian_Bedawi_Arabic Egyptian_Arabic Chadian_Arabic Nubi 
+	T17	3	Egyptian_Arabic Chadian_Arabic Nubi 
+	T18	2	Chadian_Arabic Nubi 
+	T19	2	Cypriot_Arabic North_Levantine_Arabic 
+	T20	3	Hassaniyya Libyan_Arabic Maltese 
+Restrictions:
+    q01                          None
+    q10                          None
+Node reconstruction / fossilisation:
+	Node 13 T13
+	Node 14 T14
+	Node 15 T15
+	Node 16 T16
+	Node 17 T17
+	Node 18 T18
+	Node 19 T19
+	Node 20 T20
+Tree Information
+     Trees:                      1
+     Taxa:                       12
+     Sites:                      1
+     States:                     2
+Checkpoint:                      False
+Re Set Itterations:              False
+Re Set Seed:                     False
+Tree No	Lh	q01	q10	Root P(0)	Root P(1)	13 P(0)	13 P(1)	14 P(0)	14 P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	
+1	-2.650990	1.353650	13.296406	0.500000	0.500000	0.500000	0.500000	0.555214	0.444786	0.660625	0.339375	0.518775	0.481225	0.555214	0.444786	0.660625	0.339375	0.582499	0.417501	0.392902	0.607098	
