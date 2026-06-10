@@ -351,9 +351,6 @@ for (feature_id in features$id) {
   )
 }
 
-# Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
-write.csv(analysis, features_csv_path)
-
 ## 7. Analysis
 
 # Calculate aggregate variables
@@ -363,3 +360,6 @@ mean_ancestor_similarity <- mean(analysis$ancestor_similarity)
 analysis <- analysis %>% add_column(
     feature_is_surprising = analysis$ancestor_similarity < mean_ancestor_similarity
 )
+
+# Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
+write.csv(analysis, features_csv_path)
