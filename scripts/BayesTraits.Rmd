@@ -189,8 +189,6 @@ general_control_file_data <- select(d_nodes, first_command, second_command) %>%
 general_control_file_data <- append("1", general_control_file_data)
 general_control_file_data <- append("1", general_control_file_data)
 
-# The rest of the logic is all feature specific so we loop over features
-
 # Dataframe to store variables for analysis
 # This is the source of truth for the final features we end up running the analysis for, as those that have the same state for all tips will be removed on the fly
 analysis <- tibble(
@@ -203,6 +201,8 @@ analysis <- tibble(
   ea_and_coptic_agree = logical(),
   feature_is_rare = logical()
 )
+
+# We loop over each feature to run BayesTraits
 
 for (feature_id in features$id) {
   # Run trait file checks
