@@ -172,7 +172,7 @@ writeLines(paste0(
 
 # Then, generate the feature-agnostic part of the control file
 
-# For each internal node, get its descendant tip labels (uses phangorn, no ggtree needed)
+# For each internal node, get its descendant tip labels using phangorn
 internal_nodes <- seq(Ntip(tree) + 1, Ntip(tree) + Nnode(tree))
 d_nodes <- tibble(
   nodes = internal_nodes,
@@ -362,8 +362,38 @@ for (feature_id in features$id) {
 
 ## 7. Analysis
 
-# Calculate aggregate variables
+# Generate a plot of ancestor_match_probability
 
+# Open PDF device to save plot
+plot_file_name <- "../plots/ancestor_match_probability_distribution.pdf"
+pdf(plot_file_name, width = 10, height = 7)
+
+ggplot(analysis, aes(x = ancestor_match_probability)) +
+  geom_histogram(
+    aes(y = after_stat(density)),  # Normalize histogram to density
+    bins = 30,             # Adjust number of bins for smoothness
+    fill = "skyblue",      # Histogram color
+    color = "black",       # Border color
+    alpha = 0.7            # Transparency
+  ) +
+  geom_density(
+    color = "red",         # Density curve color
+    linewidth = 1.2        # Line thickness
+  ) +
+  labs(
+    title = "Distribution of Ancestor Match Probability",
+    x = "Ancestor Match Probability",
+    y = "Density"
+  ) +
+  theme_minimal() +       # Clean theme
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold")  # Center title
+  )
+
+# Close PDF device
+dev.off()
+
+# Calculate aggregate variables
 mean_ancestor_match_probability <- mean(analysis$ancestor_match_probability)
 
 analysis <- analysis %>% add_column(
@@ -372,3 +402,30 @@ analysis <- analysis %>% add_column(
 
 # Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
 write.csv(analysis, features_csv_path)
+
+# Create separate CSVs for layers of analysis
+
+# For RQ1, we want to run two analyses: a more constrained and a less constrained one
+
+# A. More constrained: rare and surprising features where EA and Coptic agree
+rq1_more_constrained = subset(
+    analysis,
+    ea_and_coptic_agree & feature_is_rare & feature_is_surprising
+    )
+write.csv(rq1_more_constrained, "../data/rq1_more_constrained.csv")
+
+# B. Less constrained: surprising features where EA and Coptic agree, even if they are not rare in the family of Arabic dialects
+rq1_less_constrained = subset(
+    analysis,
+    ea_and_coptic_agree & feature_is_surprising
+    )
+write.csv(rq1_less_constrained, "../data/rq1_less_constrained.csv")
+
+# For RQ2, we want to compare the features returned:
+# - using both the more and less constrained versions of the method
+# - without using the method, i.e. no phylogenetic analysis to tell us if the feature is surprising given the ancestor match probability, just checking rare features where EA and coptic agree
+rq2_no_phylo = subset(
+    analysis,
+    ea_and_coptic_agree & feature_is_rare
+    )
+write.csv(rq2_no_phylo, "../data/rq2_no_phylo.csv")

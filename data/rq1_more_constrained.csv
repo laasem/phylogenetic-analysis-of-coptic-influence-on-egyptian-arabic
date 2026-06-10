@@ -1,0 +1,3 @@
+"","feature_id","feature_name","egyptian_arabic_value","coptic_value","ancestor_probability","ancestor_match_probability","ea_and_coptic_agree","feature_is_rare","feature_is_surprising"
+"1","GB084","Is there overt morphological marking on the verb dedicated to future tense?",1,1,0.5,0.5,TRUE,TRUE,TRUE
+"2","GB326","Do (nominal) content interrogatives normally or frequently occur in situ?",1,1,0.5,0.5,TRUE,TRUE,TRUE
