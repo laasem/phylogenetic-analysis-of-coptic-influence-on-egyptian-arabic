@@ -334,7 +334,8 @@ for (feature_id in features$id) {
   
   ancestor_similarity <- 1 - abs(egyptian_arabic_value - ancestor_probability)
   
-  mode_arabic_family_value <- round(mean(trait$value, na.rm = TRUE), 0)
+  trait_values <- as.numeric(trait$value)
+  mode_arabic_family_value <- round(mean(trait_values, na.rm = TRUE), 0)
   
   feature_is_rare <- egyptian_arabic_value != mode_arabic_family_value
   
