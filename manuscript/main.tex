@@ -1,16 +1,26 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage{fontspec}
+
 \usepackage{polyglossia}
-\setdefaultlanguage{english}
-\setotherlanguages{arabic}
-\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+    \setdefaultlanguage{english}
+    \setotherlanguages{arabic}
+
+\usepackage{fontspec}
+    \newfontfamily\arabicfont[Script=Arabic]{Amiri}
+
+\usepackage{tipa}
+
 \usepackage{hyperref}
+
 \usepackage[style=apa]{biblatex}
+
 \addbibresource{bibliography.bib}
-\usepackage{setspace}
+
 \usepackage[margin=1in]{geometry}
-    
-\doublespacing
+
+\usepackage{setspace}
+    \doublespacing
+
+\newcounter{example}
 
 \begin{document}
 
@@ -37,47 +47,240 @@ Abstract (maximum 150 words), written in the same language as the manuscript.
 
 \section{Introduction}
 
-The Egyptian variety of Arabic is the dominant spoken language in present-day Egypt. Often conflated with one of its dialects, Cairene Arabic, Egyptian Arabic (henceforth EA) also boasts multiple others. These dialects are in contact with and influenced by the other languages that Egypt is home to in its varied sociogeographic landscape \parencite{doss_langues_1996}. One such language is Coptic. The final iteration of Ancient Egyptian, an Afro-Asiatic language, Coptic was transplanted by its Semitic cousin Arabic following the Arab conquest of Egypt, becoming a dormant, mostly liturgical language, although revival efforts are underway \parencite{gabra_z_2009, rubenson_transition_1996, takla_coptic_2013}. This has led to the question of whether the specificities of EA that are not found in other Arabic varieties are products of Coptic influence. While there is a consensus in the traditional historical linguistics literature that this shift left a plethora of Coptic loanwords in its wake, whether this influence extends beyond the lexical and into a structural Coptic substratum remains highly debated, with multiple disputed cases of grammatical influence.
+The Egyptian variety of Arabic is the dominant spoken language in present-day Egypt. Often conflated with one of its dialects, Cairene Arabic, Egyptian Arabic (henceforth EA) also boasts multiple others. These dialects are in contact with and influenced by the other languages that Egypt is, and has been, home to in its varied sociogeographic landscape \parencite{doss_langues_1996, behnstedt_formation_2018}. One such language is Coptic. The final iteration of Afro-Asiatic Ancient Egyptian, Coptic was transplanted by its Semitic cousin Arabic following the Arab conquest of Egypt, becoming a dormant, mostly liturgical language, although revival efforts are underway \parencite{sidarus_coptic_2013, gabra_z_2009, rubenson_transition_1996, takla_coptic_2013}. This has led to the question of whether some characteristics of EA that are not found in other Arabic varieties are products of Coptic influence. While there is a consensus in the traditional historical linguistics literature that this shift left a plethora of Coptic loanwords in its wake, whether this influence extends beyond the lexical and into a structural Coptic substratum remains highly debated, with multiple disputed cases of grammatical influence.
 
-This thesis brings to bear a computational approach to this question, performing an evolutionary phylogenetic analysis of binary grammatical features shared by both EA and Coptic. For each of those features, the method uses an Arabic phylogenetic tree and the feature values of other Arabic dialects to reconstruct state probabilities for EA's most recent ancestor (henceforth MRA); in other words, it determines how likely it is that the feature did or did not exist in MRA. I compare these probabilities against the feature values for EA and Coptic, as well as those for other Arabic dialects, and cross-reference them with the existing comparative method literature in order to ask two research questions:
+This thesis brings to bear a computational approach to this question, performing an evolutionary phylogenetic analysis of binary grammatical features shared by both EA and Coptic. For each of those features, the method uses an Arabic phylogenetic tree and the feature values of other Arabic dialects to reconstruct state probabilities for EA's most recent ancestor (henceforth MRA); in other words, it estimates how likely it is that the feature did or did not exist in MRA. I compare these probabilities against the feature values for EA and Coptic, as well as those for other Arabic dialects, and cross-reference them with the existing comparative method literature in order to ask two research questions:
 
 \begin{enumerate}
-    \item Are there grammatical features in EA whose presence or absence is better predicted by Coptic rather than Arabic?
+    \item Are there grammatical features in EA whose presence or absence is better predicted by Coptic rather than the phylogenetic history of Arabic?
     \item   To what extent does a phylogenetic approach to this question add to our understanding of it?
 \end{enumerate}
 
 While the method makes some assumptions---most notably in terms of the segmentation of Arabic dialects and the level of contact between them---the thesis finds that [INSERT FINDINGS HERE].
 
-The work is thus organized as follows. I begin by chronologizing the shift from Coptic to EA in order to situate the question of linguistic influence in its historical context. I then move on to outlining the challenges involved in definitively asserting a Coptic substratum in EA as well as the resulting debate in the literature on the matter, before reviewing the literature on computational historical linguistics and phylogenetic methods. Data collection, coding, and analysis methods are then explained, and findings are presented and discussed. Finally, I close off by discussing the findings and their implications, as well as limitations and future work.
+This thesis is organized as follows. I begin by chronologizing the shift from Coptic to EA in order to situate the question of linguistic influence in its historical context. I then move on to outlining the challenges involved in definitively asserting a Coptic substratum in EA as well as the resulting debate in the literature on the matter, before reviewing the literature on computational historical linguistics and phylogenetic methods. Data collection, coding, and analysis methods are then explained, and findings are presented and discussed. Finally, I close off by discussing the findings and their implications, as well as limitations and future work.
 
 \subsection{Historical context}
 
-When Alexander the Great conquered Egypt in 332 BCE, Ancient Middle Egyptian was the dominant language \parencite{riad_egypt_1981, rubenson_transition_1996}. Its written form used three different scripts: hieroglyphic for formal and monumental purposes, hieratic for cursive religious and everyday writing, and Demotic, the last to emerge, for administrative and legal use \parencite{rashwan_ancient_2019}. Despite the introduction of Greek as the prestige language with the start of the Hellenistic period, Middle Egyptian continued to be spoken and written, leading to the formation of Coptic between the first century BCE and the first century CE, with a writing system composed of Demotic and Greek characters and a lexicon rife with Greek loanwords \parencite{takla_coptic_2013}. As Egypt Christianized and Coptic monasteries started to take on the cultural and educational role previously filled by Greek gymnasia, in the fourth century CE the Coptic language started to supplant Greek, not only as the spoken vernacular of the population, but also as a literary language \parencite{rubenson_transition_1996}.
+When Alexander the Great conquered Egypt in 332 BCE, Ancient Middle Egyptian was the dominant language \parencite{riad_egypt_1981, rubenson_transition_1996}. Its written form used three different scripts: hieroglyphic for formal and monumental purposes, hieratic for cursive religious and everyday writing, and Demotic, the last to emerge, for administrative and legal use \parencite{rashwan_ancient_2019}. Despite the introduction of Greek as the prestige language with the start of the Hellenistic period, Middle Egyptian continued to be spoken and written, leading to the formation of Coptic between the first century BCE and the first century CE, with a writing system composed of Demotic and Greek characters and a lexicon rife with Greek loanwords \parencite{takla_coptic_2013}. As Egypt christianized and Coptic monasteries started to take on the cultural and educational role previously filled by Greek gymnasia, in the fourth century CE the Coptic language started to supplant Greek, both as a literary language and as the spoken vernacular of the population \parencite{rubenson_transition_1996}.
 
-A millennium after Alexander the Great, the Arab conquest of Egypt (639--642 CE) introduced a new language: Arabic. By that time, Coptic had been the established literary language for around two hundred years, and it remained the popular vernacular and religious language in the early years of the Islamic period, with Arabic being restricted to the Arab ruling and military elites. In fact, according to \textcite{sidarus_coptic_2013, rubenson_transition_1996}, Coptic speakers resisted the Arabic language for much longer than their Christian counterparts in Palestine, Syria, and Mesopotamia. However, once Arabic started to enter the popular vernacular, the decline of Coptic was rapid. Multiple factors contributed to this: Coptic governmental scribes learning Arabic for their work, the continued settlement of Arabic speakers in Egypt, the repression of Coptic resistance, and repressive taxation and conversion. By the ninth century CE, the use of Arabic was widespread among Copts, although still regarded as contrary to their Christian heritage. The next three centuries would see the translation of religious texts from Coptic into Arabic, with the latter becoming the main written language of the Church by the end of the twelfth century---so much so that thirteenth-century scholars of Coptic had to resort to preserved texts in order to generate grammars of the language \parencite{rubenson_transition_1996, gabra_z_2009, takla_coptic_2013}.
+A millennium after Alexander the Great, the Arab conquest of Egypt (639--642 CE) introduced a new language: Arabic. By that time, Coptic had been the established literary language for around two hundred years, and it remained the popular vernacular and religious language in the early years of the Islamic period, with Arabic being restricted to the Arab ruling and military elites. In fact, according to \textcite{sidarus_coptic_2013, rubenson_transition_1996}, Coptic speakers resisted the Arabic language for much longer than their Christian counterparts in Palestine, Syria, and Mesopotamia. However, once Arabic started to enter the popular vernacular, the decline of Coptic was rapid. Multiple factors contributed to this: Coptic governmental scribes learning Arabic for their work, the continued settlement of Arabic speakers in Egypt, the repression of Coptic resistance, and repressive taxation and conversion. By the ninth century CE, the use of Arabic was widespread among Copts, although still regarded as contrary to their Christian heritage \parencite{rubenson_transition_1996, gabra_z_2009, takla_coptic_2013}. \textcite[7]{watson_phonology_2002} notes a tenth-century complaint from Coptic bishop Sawīris ibn al-Muqaffa that ``most Copts no longer understood either Greek or Coptic, only Arabic." The next three centuries would see the translation of Coptic religious texts into Arabic, with the latter becoming the main written language of the Church by the end of the twelfth century---so much so that thirteenth-century scholars of Coptic had to resort to preserved texts in order to generate grammars of the language \parencite{rubenson_transition_1996, gabra_z_2009, takla_coptic_2013}. Most sources mark the sixteenth and seventeenth centuries as the point in time when Coptic became completely dormant \parencite{watson_phonology_2002, birkeland_growth_1952}. According to \textcite[v]{abdelrahman_linguistic_2023}, ``[t]he disappearance of Coptic coincides with the formation of the Egyptian Arabic dialect, the earliest appearance of which is in a manuscript by Yusuf al-Maghribi which dates to the sixteenth century."
 
-Since then, Coptic has remained in use as a liturgical language by the Coptic Church, but has no everyday native speakers and is thus considered a dormant language. Despite this, efforts to preserve and revive it continue, both within and outside the Church \parencite{takla_coptic_2013}. Among these are the villagers of El-Zinneya in Luxor, Upper Egypt passing it down generation after generation \parencite{abdallah_textarabic_2019}; educators and linguists, both online and offline, teaching it (see, for example, \url{https://copticforall.com}); and computer scientists fine-tuning large language models on Coptic data to enable Coptic contextual machine translation \parencite{enis_ancient_2024}.
+Since then, Coptic has remained in use as a liturgical language by the Coptic Church, but it has no everyday native speakers and is thus considered a dormant language. Despite this, efforts to preserve and revive it continue, both within and outside the Church \parencite{takla_coptic_2013}. Among these are the villagers of El-Zinneya in Luxor, Upper Egypt,  passing it down generation after generation \parencite{abdallah_textarabic_2019}; educators and linguists, both online and offline, teaching it (see, for example, \url{https://copticforall.com}); and computer scientists fine-tuning large language models on Coptic data to enable Coptic contextual machine translation \parencite{enis_ancient_2024}.
+
+\subsection{A note on transcription and glossing}
+I use \textcite{lucas_introduction_2020}'s transcription system for Arabic and \textcite{abdelrahman_linguistic_2023}'s for Coptic. Leipzig Glossing Rules are used throughout.
 
 \section{Literature review}
 
 \subsection{Contextual and methodological challenges}
 
-The above genealogical and historical context introduces four confounding factors when attempting to assess whether Coptic influence on EA extends beyond the lexical \parencite{bishai_notes_1960}. First, Coptic and Arabic are both Afro-Asiatic languages that existed in geographical proximity to each other prior to the Arab conquest of Egypt and the emergence of EA. As such, shared ancestry or pre-Arabization contact might have led to overlapping features that ended up being preserved only in EA and not in other varieties of Arabic. (See also \textcite{borg_rewriting_2022} for an account of this.) Second, the amount of time since EA became the dominant vernacular allows for some of these seemingly Coptic influences to be the result of the language's own internal evolution. Third, the contact EA has had since then with languages such as Turkish, Persian, Greek, Italian, French, and English leaves the alleged Coptic influence suspect; some of these features may have resulted from contact with any of these other languages. Fourth, the L1 Arabic speakers who settled in Egypt after the Arab conquest spoke different dialects, and papyri evidence shows that they wrote in a variety different from Qur'anic classical Arabic, with \textcite{rubenson_transition_1996} arguing that it is this distinct variety that acted as the base for EA.
+The above genealogical and historical context introduces four confounding factors when attempting to assess Coptic influence on EA extends beyond the lexical \parencite{bishai_notes_1960}. First, Coptic and Arabic are both Afro-Asiatic languages that existed in geographical proximity to each other prior to the Arab conquest of Egypt and the emergence of EA. As such, shared ancestry or pre-Arabization contact might have led to overlapping features that ended up being preserved only in EA and not in other varieties of Arabic. (See \textcite{abdelrahman_linguistic_2023, lucas_contact_2020} for examples of such contact.) Second, the amount of time since EA became the dominant vernacular allows for some of these seemingly Coptic influences to be the result of the language's own internal evolution. Third, the contact EA has had since then with languages such as Turkish, Persian, Greek, Italian, French, and English leaves the alleged Coptic influence suspect; some of these features may have resulted from contact with any of these other languages. Fourth, while EA and other Arabic dialects are popularly viewed as variations of \textit{fusha}, or written classical literary Arabic, \textcite{ferguson_arabic_1959} argues that they are descended from a spoken variety of Arabic which he terms ``the Arabic koine." \textcite{rubenson_transition_1996} goes beyond this, pointing out that the L1 Arabic speakers who settled in Egypt after the Arab conquest spoke different dialects and that papyri evidence shows that they wrote in a variety different from \textit{fusha}. \textcite{abdelrahman_linguistic_2023} notes that the majority of L1 Arabic speakers who settled in Egypt after the conquest spoke South Arabian and Yemeni dialects. The fact that any of these varieties, or a combination of them, could have acted as the base for EA, renders the task of establishing Coptic influence on EA even more complicated. 
 
-There are also methodological challenges to answering this question. In terms of data, Rubenson (\citeyear{rubenson_transition_1996}) points to the loss of some of the original Coptic and medieval Arabic texts that could help paint a picture of the process of transmission. While many texts remain, some are in poor condition or only available in translation, and still others need to be properly identified, catalogued, and edited. He thus argues that the available historical data is insufficient to conclusively delineate the extent of Coptic influence on EA. Richter (personal communication) also points out that ``our written sources inform us on the language behavior and attitude of educated elite members of the Christian society only, and we cannot be sure about what was going on in the rural countryside.'' Writing in 1960, Bishai goes beyond the issue of data to address the impact of researcher profile, arguing that most scholars who have looked into the subject are either native speakers of EA with no linguistics training, or linguists who are not L1 speakers of EA, leaving each group unable to adequately address the question---although this is arguably changing, with recent work from linguists whose L1 is EA, such as \textcite{abdelrahman_linguistic_2023} and \textcite{osman_methodological_2021}. Despite that, the sociopolitical context no doubt affects knowledge production, especially with regards to such an ideologically-intertwined topic, both historically as \textcite{osman_methodological_2021} shows and at the current moment, presenting yet another methodological challenge.
+There are also methodological challenges to answering the question what linguistic imprint Coptic left on EA. In terms of data, Rubenson (\citeyear{rubenson_transition_1996}) points to the loss of some of the original Coptic and medieval Arabic texts that could help paint a picture of the process of transmission. While many texts remain, some are in poor condition or only available in translation, and still others need to be properly identified, catalogued, and edited. He thus argues that the available historical data is insufficient to conclusively delineate the extent of Coptic influence on EA. Richter (personal communication) also points out that ``our written sources inform us on the language behavior and attitude of educated elite members of the Christian society only, and we cannot be sure about what was going on in the rural countryside.'' Writing in 1960, Bishai goes beyond the issue of data to address the impact of researcher profile, arguing that most scholars who have looked into the subject are either native speakers of EA with no linguistics training, or linguists who are not L1 speakers of EA, leaving each group unable to adequately address the question---although this is arguably changing, with recent work from linguists whose L1 is EA, such as \textcite{abdelrahman_linguistic_2023} and \textcite{osman_methodological_2021}. Despite that, the sociopolitical context no doubt affects knowledge production, especially with regards to such an ideologically-intertwined topic, both historically as \textcite{osman_methodological_2021} shows and at the current moment, presenting yet another methodological challenge.
 
 \subsection{The debate in the literature}
 
-It comes as no surprise then that the degree of Coptic influence on EA is so hotly contested. Adopting \textcite{thomason_language_1988}'s segmentation of contact-induced language change into two types, we see that there is a general consensus in the case of Coptic and EA on the first type, borrowing, where the impact of the source on the target language is largely restricted to the lexicon. Indeed, on the lexical level, there is no dispute in the literature that multiple Coptic loanwords exist, especially in the semantic fields of religion, geography, and agriculture, and more so in Upper Egyptian dialects of EA. \textcite{osman_methodological_2021} provides a comprehensive review of the literature in this area from the nineteenth century until the present day, including \textcite{bishai_coptic_1964}'s list of 109 attested loanwords.
+It comes as no surprise then that the degree of Coptic influence on EA is so hotly contested. Adopting \textcite{thomason_language_1988}'s segmentation of contact-induced language change into two types, we see that there is a general consensus in the case of Coptic and EA on the first type, borrowing, where the impact of the source on the target language is largely restricted to the lexicon. Indeed, on the lexical level, there is no dispute in the literature that multiple Coptic loanwords exist, especially in the semantic fields of religion, geography, and agriculture, and more so in Upper Egyptian dialects of EA. The lists of valid loanwords provided by \textcite{sobhy_common_1950} and \textcite{bishai_coptic_1964}---the latter containing 109 exemplars---were later expanded by multiple authors, including \textcite{ishaq_egyptian_1991, hinds_dictionary_1986, behnstedt_coptic_2011, corriente_coptic_2008}, among others. (See \textcite{hinds_dictionary_1986, osman_methodological_2021} for a comprehensive review on Coptic lexical borrowing into Egyptian Arabic, including pre-twentieth century sources.) \textcite[112]{ishaq_egyptian_1991} even argues that ``[i]t is to be assumed beyond reasonable doubt that there are many other Coptic words still surviving in remote villages that have not yet been surveyed.... [and] hundreds of colloquial words apparently of Coptic origin that cannot be identified at present because they have undergone significant change." 
 
-The second type, substratal interference, is where the debate begins. According to \textcite{thomason_language_1988}, this type of contact-induced change occurs when a minority language influences an intrusive one that gradually dominates it, which the majority of the literature agrees is the case at hand. However, \textcite{thomason_language_1988} also delineate a second defining characteristic of substratal interference: its sphere of influence tends to be stronger in the domains of phonology and morphosyntax. This is where positions diverge. Focusing specifically on grammar (i.e. morphology, syntax, and the interface between them), we see that on the one hand, \textcite{praetorius_koptische_1901}, \textcite{prince_modern_1902}, \textcite{littmann_koptischer_1902}, \textcite{sobhy_common_1950}, \textcite{bishai_notes_1960,bishai_nature_1961,bishai_coptic_1962,bishai_coptic_1964}, \textcite{ishaq_phonetics_1975}, \textcite{lucas_contact_2010}, and \textcite{abdelrahman_linguistic_2023} (among others; see \textcite{osman_methodological_2021}) argue for some form of grammatical influence; i.e. for a Coptic substratum in EA. On the other hand, \textcite{galtier_influence_1902}, \textcite{oleary_notes_1934}, \textcite{worrell_coptic_1934}, \textcite{palva_notes_1969}, and \textcite{rubenson_transition_1996} (among others; see \textcite{palva_notes_1969}) deny the possibility of asserting such a substratum based on the evidence at hand, providing counterarguments for example cases.
+The second type, substratal interference, is where the debate begins. According to \textcite{thomason_language_1988}, this type of contact-induced change occurs when a minority language influences an intrusive one that gradually dominates it, which the majority of the literature agrees is the case at hand. However, \textcite{thomason_language_1988} also delineate a second defining characteristic of substratal interference: its sphere of influence tends to be stronger in the domains of phonology and morphosyntax.\footnote{This segmentation generally agrees with the one proposed by \textcite{van_coetsem_loan_1988}, who classifies contact-induced linguistic change into two types as well: lexical borrowing, or recipient-language agentivity, and grammatical imposition, or source-language agentivity.} This is where positions diverge. In terms of phonology, \textcite{worrell_coptic_1934, prince_modern_1902, ishaq_phonetics_1975} claim Coptic influence on EA that \textcite{behnstedt_coptic_2011} dismisses. \textcite{bishai_nature_1961} looks at seven cases of possible Coptic phonological influence on EA, concluding that only two of them are valid, and only in certain Upper Egyptian dialects of Arabic. (See \textcite{abdelrahman_linguistic_2023} for an outline of the literature on Coptic phonological influence on EA.) Looking specifically at the focus of this thesis, grammar (i.e. morphology, syntax, and the interface between them), we see that on the one hand, \textcite{praetorius_koptische_1901}, \textcite{prince_modern_1902}, \textcite{littmann_koptischer_1902}, \textcite{sobhy_common_1950}, \textcite{bishai_notes_1960,bishai_nature_1961,bishai_coptic_1962,bishai_coptic_1964}, \textcite{ishaq_phonetics_1975}, \textcite{lucas_contact_2010}, and \textcite{abdelrahman_linguistic_2023} (among others; see \textcite{osman_methodological_2021}) argue for some form of grammatical influence; i.e. for a Coptic substratum in EA. On the other hand, \textcite{galtier_influence_1902}, \textcite{oleary_notes_1934}, \textcite{worrell_coptic_1934}, \textcite{palva_notes_1969}, and \textcite{rubenson_transition_1996} (among others; see \textcite{palva_notes_1969}) deny the possibility of asserting such a substratum based on the evidence at hand, providing counterarguments for example cases. 
 
-[INSERT PARAGRAPH SUMMARIZING THE GRAMMATICAL CASES THEN A SUBSUBSECTION DISCUSSING THE BACK AND FORTH ON EACH ONE] Looking specifically at morphological influence, I was only able to find four cases in the literature thus far: two proposed by Bishai \parencite{bishai_nature_1961} and countered by Palva \parencite{palva_notes_1969}, one proposed by Lucas \& Lash \parencite{lucas_contact_2010} and countered by Richter (personal communication), and one explored by Abdelrahman \parencite{abdelrahman_linguistic_2023}.
+A synthesis of the literature reveals that the two positions are not diametrically opposed. Rather, it is more helpful to think of them as arguing for different halves of a spectrum of potential influence. On one end of that spectrum is the claim that the evidence we have at hand provides an indication that Coptic introduced features into EA, while on the other is the argument that we do not have sufficient data to be able to make such a claim, even if tentatively, especially given that we are not able to eliminate other potential sources of influence. The halfway point of that spectrum is that, even if we cannot prove that Coptic introduced features into EA, we have indications that it triggered the selection of certain Arabic features while EA was emerging. I would argue that most authors lie very closely to either side of that halfway point. For example, disputing cases of morphological influence, \textcite[136]{palva_notes_1969} states that:
+\begin{quote}
+it would be too daring to maintain that Coptic had nothing to do with these features; nothing can prove this. But the greatest contribution Coptic may have made to Egyptian Arabic morphology in the cases so far discussed is the preference of certain patterns over some other because of an accidental identification of an utterly similar pattern in Coptic by bilingual speakers during the transition period.
+\end{quote}
 
-\subsection{Phylogenetic methods}
+It is also important to note that where different authors lie on the spectrum is heavily influenced by their theoretical attitudes towards contact-induced language change more generally. \textcite{lucas_contact_2010, lucas_typology_2022, lucas_contact_2020} have argued extensively for theories of at least partially contact-induced change, noting that it is not mutually exclusive with internal development. Since this perspective favors explanations involving contact, it does not see a feature's presence in other Arabic dialects as negating Coptic influence, since the feature could have then spread from EA to these varieties, or developed independently based on contact with other languages exhibiting the same feature feature. In contrast, scholars on the other half of the spectrum seem hesitant to attribute linguistic change to external contact, preferring the theorem from \textcite[653]{lass_historical_1998} that ``an endogenous explanation of a phenomenon is more parsimonious, because endogenous change must occur in any case, whereas borrowing is never necessary." In this view, a feature must satisfy much more rigid constraints to be considered a candidate for substratal influence---including, but not limited to, absence from other Arabic dialects.
+
+I thus present the seven grammatical features of EA gleaned from the literature that could potentially be the result of Coptic influence, presenting the arguments and any counterarguments for each one.
+
+\subsubsection{Wh-in-situ}
+
+EA and Coptic both exhibit wh-movement as well as wh-in-situ.\footnote{For a Minimalist Program analysis of wh-in-situ in EA, see \textcite{gad_syntactic_2011}.} According to \textcite{bishai_coptic_1962}, counterarguments against the latter being a result of Coptic influence center around the fact that the construction does not occur consistently in either language. However, he argues that a closer look at the data reveals a consistent distributional pattern, where both languages only deploy wh-in-situ when the wh-element is a complement, or what he refers to as a ``governed element."
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA
+
+\textrevglotstop amaltu \textbf{ēh}
+
+do.pass.impf.2pl-acc \textbf{what}
+
+``What did you do?" (lit. ``You did what?")
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic
+
+etēt-n-r \textbf{ū}
+
+do.pass.impf.2pl-acc \textbf{what}
+
+``What did you do?" (lit. ``You did what?")
+\begin{flushright}
+\parencite[286]{bishai_coptic_1962}
+\end{flushright}
+
+According to \textcite{bishai_coptic_1962}, EA and Coptic stand in contrast in this regard to both \textit{fusha} and other Arabic dialects, as well as to the other languages EA has been in contact with, causing him to present this as strong evidence for the grammatical influence of Coptic on EA, a position \textcite{nishio_word_1995} agrees with. In contrast, \textcite{versteegh_whats_2004, al-sharkawi_arabicization_2005} show that \textit{fusha} can exhibit wh-in-situ, even if as a highly marked construction, making it:
+
+\begin{quote}
+unnecessary to assume Coptic influence to explain the position of the interrogative in Egyptian Arabic. In the model adopted here, the presence of the construction in Classical Arabic does not necessarily mean that influence from the substratal language is ruled out completely. In fact, both factors may have reinforced each other, according to the principle that if the typological distance between the two languages is only slight, marked constructions from the target language may be supported by similar constructions in the substratal language. In other words, if the new learners (in this case, of Arabic) are confronted with a choice between two alternatives, they are more likely to choose the one they are familiar with, even if it is marked in the target language, and even if this runs counter to universal tendencies towards semantic transparency.
+\end{quote}
+\begin{flushright}
+\parencite[242]{versteegh_whats_2004}
+\end{flushright}
+
+\subsubsection{Negative concord}
+
+Most realizations of EA employ a bipartite negative verbal construction, also known as negative concord.\footnote{For example exceptions to this rule across Cairene and other varieties of EA, see \textcite{soltan_morphosyntactic_2012, lucas_contact_2020}.} The two elements of this structure are the preverbal \textit{mā}, whose vowel can be reduced depending on phonotactics, and the postverbal suffix \textit{-š}, which can also take the forms \textit{-šī} or \textit{-šē}, or be preceded by an epenthetic vowel \parencite{lucas_contact_2010}. For example:
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA \parencite[648]{lucas_contact_2020}
+
+banda \textbf{ma} yit\textglotstop al-lahā-\textbf{š} la\textglotstop
+
+Panda \textbf{neg} say.pass.impf.3sg.m-dat.3sg.f-\textbf{neg} no
+
+``You don’t say `no' to Panda." (lit. ``Panda, `no' is not said to it.")
+\vspace{3mm}
+
+While most Arabic dialects use the same preverbal element, and some permit the use of only the postverbal one, not all of them deploy both, which \textcite{lucas_contact_2010}, building on \textcite{diem_negation_2014}, posit is a shortened form of \textit{fusha} \textit{-šay\textglotstop}, meaning ``thing." Looking at evidence from Andalusian and Cypriot Maronite Arabic, the authors argue that Arabic as a whole exhibited a single negative marker before it came into contact with Coptic in Egypt. Contrasting this with the spread of negative concord to adjacent dialects of Arabic along coastal North Africa and Palestine, they argue that this indicates that bipartite negative constructions came into Arabic via EA from Coptic, which employed bipartite negation at the time Arabic speakers settled in Egypt:
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic \parencite[389]{lucas_contact_2010}
+
+\textbf{en} ti-na-tsabo-ou \textbf{an} e-amente
+
+\textbf{NEG} 1SG-FUT-teach-them \textbf{NEG} on-hell 
+
+``I will not teach them about hell."
+\vspace{3mm}
+
+The authors go on to explain as follows:
+
+\begin{quote}
+The argument made in Lucas \& Lash (2010) is that native speakers of Coptic acquiring Arabic as a second language must have encountered sentences negated with preverbal \textit{mā} only, but which also contained after the verb \textit{šī/šāy}, functioning either as an argument ‘(any)thing’ or an adverb ‘at all’, and interpreted this as the second element of the bipartite negative construction that their first-language Coptic predisposed them to expect.
+\end{quote}
+\begin{flushright}
+\parencite[654]{lucas_contact_2020}
+\end{flushright}
+
+Bipartite negation in Coptic later reduced to a single negative marker, following a phenomenon known as Jespersen’s Cycle (JC), whereby ``an original negative marker is joined by some new element to form a bipartite negative construction… [t]he original marker then becomes optional while the new element becomes the primary negator" \parencite[379]{lucas_contact_2010}. Thus, the authors claim that, while current evidence makes it impossible to be certain, it is highly plausible that Coptic triggered JC in Arabic, with the former reaching the final stage (single negative marker) while some dialects of Arabic remain in an intermediary stage (two negative markers). While they acknowledge the existence of negative concord in South Arabian dialects of Arabic, they argue for this being an independent development due to separate contact with other languages employing bipartite negation. 
+
+\textcite{diem_negation_2014} agrees that negative concord came into the Arabic dialects of coastal North Africa through a JC triggered in tenth to eleventh century Egypt. However, he theorizes that it is a purely internal change in EA driven by the grammaticalization of \textit{-šay\textglotstop}, of which he provides an extensive historical account, building on the work of nineteenth-century Egyptian scholar Hifni Nasif. In \textcite{diem_negation_2014}'s reading, contact occurred in the diffusion of bipartite negation from EA into North African, Palestinian, and, unlike \textcite{lucas_contact_2010}, South Arabian ones; but not from Coptic into EA. (See \textcite{lucas_typology_2022} for a summary of the debate on this point, as well as further challenges to \textcite{diem_negation_2014}.)
+
+\subsubsection{Future tense marking with \textit{ḥ\textglotstop}/\textit{ḥa-}}
+
+\textcite{abdelrahman_linguistic_2023} seems to bridge the previous two analyses, arguing for potential three-way contact between Coptic, EA, and Yemeni and South Arabian varieties of Arabic. She looks specifically at the Coptic preverbal particle \textit{ḥ\textglotstop}, ``would that," and the verbal prefix for future marking in EA, Yemeni Arabic, and Modern South Arabian Jabbili, \textit{ḥa-}, as in:
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA \parencite[75]{abdel-hafiz_development_2005}
+
+\textbf{ḥa}-yigi bokra \textglotstop akid
+
+3SG.m-\textbf{FUT}-come tomorrow certainly
+
+``He will certainly come tomorrow."
+\vspace{3mm}
+
+This is in contrast to \textit{fusha}, where the future is marked by the particle \textit{sawfa} or the prefix \textit{sa-}, or some Levantine dialects of Arabic, where the verb ``to go" is employed. According to \textcite{abdelrahman_linguistic_2023}, Coptic and EA's future markers sharing both base and alternate phonologies---the Coptic particle can also be realized as \textit{h\textglotstop} and its EA counterpart as \textit{ha}---is a possible pointer towards Coptic influence on EA. This influence may have been direct, or it may have been mediated by South Arabian dialects, which were in two-way contact with Coptic before the Arab conquest of Egypt, and in three-way contact with Coptic and the budding Egyptian variety of Arabic after. In the case of indirect influence, the role of Coptic in EA's acquisition of the feature would have been more one of selection than introduction. 
+
+However, given the existence of the Coptic particle in pre-Coptic Ancient Egyptian, as well as the use of the same future marker used by EA in other Semitic languages, \textcite{abdelrahman_linguistic_2023} also explores the possibility that the future particle in both languages is inherited from a common Afro-Asiatic ancestor, rather than transmitted from Coptic into EA, ultimately dispreferring that theory due to an infrequency of examples. Another potential counterargument comes from \textcite{abdel-hafiz_development_2005}. Operating purely from a framework of internal development and grammaticalization, he attributes the EA prefix \textit{ḥa-}
+not to contact, but to a phonological process of syllabic erosion from the imperfective form of the verb ``to go," \textit{raaḥ}.
+
+\subsubsection{Non-standard imperatives with \textit{mā-}}
+
+\textcite{bishai_coptic_1962} argues that both Coptic and EA allow for an alternative form of the imperative prefixed with \textit{mā-}. To illustrate, he provides the following examples (p. 287): 
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA (standard imperative)
+
+\textglotstop iktib
+
+2SG.m-IMPERATIVE-write
+
+``Write."
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA (non-standard imperative)
+
+\textbf{mā} tiktib
+
+2SG.m-IMPERFECT-write
+
+``Write." (Pragmatically, ``Why don't you write?")
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic (standard imperative)
+
+tbbū
+
+INF-to-clean
+
+``Become clean."
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic (non-standard imperative)
+
+\textbf{mā} tbbū
+
+2SG.m-IMPERATIVE-REFLEXIVE-clean
+
+``Become clean."
+\vspace{3mm}
+
+While regular EA imperatives are formed by substituting the personal pronoun in the imperfect with a \textit{hamza} as in (6), a marked imperative form exists where the particle \textit{mā} appears before the imperfect, as in (7). \textcite{bishai_coptic_1962} attributes the fact that this feature has only been attested in EA to Coptic influence. However, \textcite{palva_notes_1969} counters this by showing that the particle \textit{amā} is used in classical Arabic to introduce requests, and \textit{mā} in Palestinian and Iraqi Arabic to mark negative affective rhetorical questions. Given the lack of geographic adjacency between EA and Iraqi Arabic, he rules out the possibility that Coptic could have influenced these varieties through EA. Furthermore, he highlights that the marked Coptic form can only be used with one verb class, an indication of the infrequency of the feature. Both these points lead him to conclude that this is an internal development of EA as opposed to an instance of morphological influence of Coptic.
+
+\subsubsection{Non-standard past tense with \textit{a-} + \textit{personal pronoun}}
+
+Another shared morphemic pattern \textcite{bishai_coptic_1962} finds is the use of \textit{a-} followed by a personal pronoun before a verb to render a marked form of the past tense:
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA
+
+\textbf{\textglotstop a hu} seme\textrevglotstop
+
+he 3SG.m-IMPERFECT-PAST-hear
+
+``He heard." (Pragmatically adding a sense of mirativity.)
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic
+
+\textbf{\textglotstop a f} sōt(\textschwa)m
+
+he INF-to-hear
+
+``He heard."
+\begin{flushright}
+(p. 287)
+\end{flushright}
+Placing the origins of the Coptic past tense \textit{a-} prefix in the Ancient Egyptian auxiliary verb \textit{iri}, ``to do," Bishai argues that it is the only plausible source of the parallel construction in EA, which does not exist in other Arabic varieties. In response, \textcite{palva_notes_1969} identifies similar (albeit not identical) constructions in classical and Algerian Arabic. He hypothesizes that, while Coptic did not bring the construction into Arabic, it is likely that bilingual L1 Coptic speakers identified a familiar morphological pattern in Arabic and began deploying it to encode the same semantic-pragmatic meaning as in Coptic.
+
+\subsubsection{Demonstrative clefts}
+
+
+\subsubsection{Prepositional comparison}
 
 \section{Methodology}
 \label{sec:methodology}
+
+\subsection{Historical linguistics and phylogenetic methods}
+
+\subsection{Data collection}
+
+\subsection{Coding}
+
+\subsection{Analysis}
 
 \section{Findings}
 \label{sec:findings}
