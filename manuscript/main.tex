@@ -49,7 +49,7 @@ Abstract (maximum 150 words), written in the same language as the manuscript.
 
 The Egyptian variety of Arabic is the dominant spoken language in present-day Egypt. Often conflated with one of its dialects, Cairene Arabic, Egyptian Arabic (henceforth EA) also boasts multiple others. These dialects are in contact with and influenced by the other languages that Egypt is, and has been, home to in its varied sociogeographic landscape \parencite{doss_langues_1996, behnstedt_formation_2018}. One such language is Coptic. The final iteration of Afro-Asiatic Ancient Egyptian, Coptic was transplanted by its Semitic cousin Arabic following the Arab conquest of Egypt, becoming a dormant, mostly liturgical language, although revival efforts are underway \parencite{sidarus_coptic_2013, gabra_z_2009, rubenson_transition_1996, takla_coptic_2013}. This has led to the question of whether some characteristics of EA that are not found in other Arabic varieties are products of Coptic influence. While there is a consensus in the traditional historical linguistics literature that this shift left a plethora of Coptic loanwords in its wake, whether this influence extends beyond the lexical and into a structural Coptic substratum remains highly debated, with multiple disputed cases of grammatical influence.
 
-This thesis brings to bear a computational approach to this question, performing an evolutionary phylogenetic analysis of binary grammatical features shared by both EA and Coptic. For each of those features, the method uses an Arabic phylogenetic tree and the feature values of other Arabic dialects to reconstruct state probabilities for EA's most recent ancestor (henceforth MRA); in other words, it estimates how likely it is that the feature did or did not exist in MRA. I compare these probabilities against the feature values for EA and Coptic, as well as those for other Arabic dialects, and cross-reference them with the existing comparative method literature in order to ask two research questions:
+This thesis brings to bear a computational approach to this question, performing an evolutionary phylogenetic analysis of binary grammatical features shared by both EA and Coptic. For each of those features, the method uses an Arabic phylogenetic tree and the feature values of other Arabic dialects to reconstruct state probabilities for EA's most recent ancestor; in other words, it estimates how likely it is that the feature did or did not exist in this ancestor. I compare these probabilities against the feature values for EA and Coptic, as well as those for other Arabic dialects, and cross-reference them with the existing comparative method literature in order to ask two research questions:
 
 \begin{enumerate}
     \item Are there grammatical features in EA whose presence or absence is better predicted by Coptic rather than the phylogenetic history of Arabic?
@@ -58,7 +58,7 @@ This thesis brings to bear a computational approach to this question, performing
 
 While the method makes some assumptions---most notably in terms of the segmentation of Arabic dialects and the level of contact between them---the thesis finds that [INSERT FINDINGS HERE].
 
-This thesis is organized as follows. I begin by chronologizing the shift from Coptic to EA in order to situate the question of linguistic influence in its historical context. I then move on to outlining the challenges involved in definitively asserting a Coptic substratum in EA as well as the resulting debate in the literature on the matter, before reviewing the literature on computational historical linguistics and phylogenetic methods. Data collection, coding, and analysis methods are then explained, and findings are presented and discussed. Finally, I close off by discussing the findings and their implications, as well as limitations and future work.
+This thesis is organized as follows. I begin by chronologizing the shift from Coptic to EA in order to situate the question of linguistic influence in its historical context. I then move on to outlining the challenges involved in definitively asserting a Coptic substratum in EA as well as the resulting debate in the literature on the matter, before reviewing the literature on computational historical linguistics and phylogenetic methods. Data collection, cleaning, and analysis methods are then explained, and findings are presented and discussed. Finally, I close off by discussing the findings and their implications, as well as limitations and future work.
 
 \subsection{Historical context}
 
@@ -268,28 +268,165 @@ Placing the origins of the Coptic past tense \textit{a-} prefix in the Ancient E
 
 \subsubsection{Demonstrative clefts}
 
+\textcite{bishai_coptic_1962} argues for the clefting function of the shortened forms of demonstratives in Coptic, which he refers to as the ``special syntactic function [of indicating] the logical subject, which may be compared to French `C'est' in `C'est moi qui est venu' or English `It is' in `It is I who came'" (p. 287). More recent literature seems to agree with this. Calling Bishai's shortened demonstrative a ``deictic pronoun," \textcite{kiss_nominal_2005} build on earlier literature to look into its role as the connector between the clefted element and the subordinate relative clause, as in:
 
-\subsubsection{Prepositional comparison}
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic
+
+anok \textbf{pe} p\textschwa ro
+
+I am \textbf{DEM}-m-sg king-def
+
+``It is I who am the king."
+\begin{flushright}
+\parencite[287]{bishai_coptic_1962}
+\end{flushright}
+
+\textcite{bishai_coptic_1962} compares this to a similar construction in EA:
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA
+
+\textbf{da}-na lmalik
+
+\textbf{DEM}-m-sg I am king-def
+
+``It is I who am the king," or ``This is I, the king."
+\begin{flushright}
+(p. 287)
+\end{flushright}
+
+
+This use of demonstratives for clefting in EA also matches more recent literature; see, for example, \textcite{gad_syntactic_2011}. Although context is required in this context to disambiguate, \textcite{bishai_coptic_1962} argues that the second reading is more common, matching the clefting function of Coptic. He refutes previous claims that such a construction also exists in Maltese, arguing that in that case, the demonstrative functions solely as a demonstrative and not as a cleft copula.
+
+\subsubsection{Non-elative comparatives}
+
+Like \textit{fusha}, EA normally uses the elative form of the adjective for comparatives. However, \textcite{bishai_coptic_1962} points to the use of a regular adjective + preposition pattern as a site of potential Coptic influence, as in:
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA (elative comparative)
+
+huwa \textglotstop aqwā minnī
+
+he strong-COMP from me
+
+`He is stronger than I."
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) EA (non-elative comparative)
+
+huwa \textbf{qawi \textrevglotstop anni}
+
+he \textbf{strong over} me
+
+``He is stronger than I," or ``He is strong in respect to me."
+
+\vspace{3mm}
+\stepcounter{example} 
+(\theexample) Coptic
+
+f\textbf{jūr \textschwa roi}
+
+he \textbf{strong over} me
+
+``He is stronger than I," or ``He is strong in respect to me."
+\begin{flushright}
+(p. 288)
+\end{flushright}
 
 \section{Methodology}
 \label{sec:methodology}
 
-\subsection{Historical linguistics and phylogenetic methods}
+The majority of the literature surveyed above adopts the canon comparative method of historical linguistics. However, the past half century has witnessed the rise of new computational approaches to historical linguistics, drawing on techniques from computational biology \parencite{kiparsky_new_2015, jager_computational_2019}. This thesis utilizes two of these methods that are frequently used in conjunction, phylogenetic inference and ancestral state reconstruction, in order to explore whether they can provide a new type of evidence to enrich our understanding of Coptic grammatical influence on EA, thus addressing the data gap cited by most of the literature on this topic.
 
-\subsection{Data collection}
+\subsection{Phylogenetic inference and ancestral state reconstruction}
 
-\subsection{Coding}
+Phylogenetic inference is the process of producing a phylogenetic tree, or phylogeny, which is a representation of a linguistic family tree as an acyclic graph. Nodes in this graph are categorized into two types. Internal nodes represent unobserved historical objects; these may be reconstructed ancestors or proto-languages. Of these internal nodes, one  might act as the root, thus yielding a rooted phylogeny; otherwise, the phylogeny is unrooted. On the other hand, terminal nodes, referred to as leaves or tips, represent observed and documented languages. All nodes are linked to each other via branches \parencite{jager_computational_2019}. 
+
+Like a linguistic family tree, or a topology, a phylogeny models the historical process leading to the observed diversity between languages at the tips. Unlike a traditional tree, however, branches in a phylogeny must have non-negative lengths. These branch lengths may represent the historic time in years between diversification events, or they may measure the amount of change in a certain linguistic feature along the branch; for example, the expected number of sound changes between an ancestor proto-language and a tip extant language. Another crucial difference is that the comparative method stipulates shared innovations as a constraint for language grouping; that is, a shared ancestor cannot be reconstructed for two or more languages if those languages do not, or did not at any point, share the same innovation. As a result, nodes tend to have more than two branches since the necessary evidence for more granular subgrouping is not always available. Phylogenetic  inference algorithms, on the other hand, favor binary branching for computational simplicity, thus discarding the stipulation of shared innovations at each internal node. Instead, shared innovations are evaluated globally at the root node \parencite{jager_computational_2019}.
+
+Once phylogenetic inference has produced a phylogeny, another piece of data is required: a character vector whose values encode the states of the languages at the tree tips for a given feature. Given both phylogeny and vector, an ancestral state reconstruction algorithm can then produce a probability distribution for the feature states, or vector values, of the internal nodes of the phylogeny. However, it is important to note that phylogenetic trees, like their comparative counterpart, ``only model vertical descent, not horizontal diffusion. They are therefore only an approximation of the historical truth" \parencite[170]{jager_computational_2019}. This leads to a major limitation: the method assumes no contact between sibling languages, an assumption that we know from the historical data is untenable, especially in the case of Arabic dialects \parencite{neureiter_detecting_2022, lucas_introduction_2020}. Languages in frequent contact with each other thus might not lend themselves well to this method---what \textcite{jager_computational_2019} refers to as having ``a weak tree-like signal" (p. 170). As such, the results of the method are treated more as indications of a certain historical direction rather than determiners of concrete historical fact, and \textcite{jager_computational_2019} finds that, in this capacity, they do capture a historical signal. Indeed, previous historical linguistics studies have applied these techniques to a variety of evolutionary topics, from color term systems \parencite{haynie_phylogenetic_2016} to word-order universals \parencite{dunn_evolved_2011}.
+
+\subsection{Approach}
+
+The approach is thus as follows. Given a phylogeny of Arabic dialects, ancestral state reconstruction is conducted using the BayesTraits software package for a set of binary grammatical features common to both EA and Coptic in order to estimate a probability distribution for internal ancestor nodes \parencite{pagel_bayesian_2004, luo_ancestral_2022}. The probability estimate of EA's most recent ancestor (henceforth MRA) is then compared to the feature values of both EA and Coptic to determine whether EA deviates from MRA towards Coptic for the given feature. Deviation is interpreted as an indicator of potential Coptic influence. Results are then aggregated across features to filter those that are the most likely candidates for Coptic influence and cross-reference them with the existing literature. All code used is publicly available at \url{https://github.com/laasem/phylogenetic-analysis-of-coptic-influence-on-egyptian-arabic}.
+
+\subsection{Data collection and cleaning}
+
+\subsubsection{Phylogeny}
+
+The Arabic phylogenetic tree used in the analysis was extracted from \textcite{dediu_making_2018}'s Glottolog-based Afro-Asiatic tree \parencite{hammarstrom_glottologglottolog_2026}. The version used applied the Grafen method to calculate branch lengths \parencite{dediu_making_2018}. The Arabic clade was then extracted, and any Arabic dialects that were represented as internal nodes were collapsed to tips, since Glottolog trees include a more granular distinction of languoids than Grambank. Only the 14 languages supported by Grambank were kept, and the ``Levantine Arabic" tip was renamed to ``North Levantine Arabic" to map onto Grambank. Standard Arabic, the modern standardized variety of written \textit{fusha}, was dropped as a tip since it categorically differs from the other spoken Arabic dialects given the diglossic situation in Arabic \parencite{ferguson_diglossia_1959}. Juba Arabic, or South Sudanese Creole Arabic, was also dropped. As an Arabic-based creole, it is expected to extract only its lexicon, and not its grammar, from Arabic \parencite{manfredi_juba_2018}, which could bias the results when the focus is on grammatical features. Branch lengths were then re-calculated on the final 12-tip tree using the Ape R package \parencite{paradis_ape_2019}. A full code book of tree changes is available at \url{https://docs.google.com/spreadsheets/d/1HY9ZQ_Vhrd_n2OKdKs_z37s2da0056ZRCeZTNWtMoaQ/edit?gid=0#gid=0}.
+
+\subsubsection{Character vectors}
+
+Features were programmatically extracted from Grambank, a database of grammatical features, using version 1.0.3 \parencite{skirgard_grambank_2023}.\footnote{Grambank uses the term ``parameters" for features. Throughout this thesis the two may be used interchangeably.} Only binary features---i.e., features who only had a 0 or 1 value for all the languages for which they had values---were included for simplicity. Features with missing values were included, with the value encoded as a hyphen ``-" as expected by BayesTraits \parencite{pagel_bayesian_2004, luo_ancestral_2022}, with the condition that the feature had to have a value for both EA and Coptic. Feature values for EA, Coptic, and the Arabic dialects in the tree were then pulled from Grambank and formatted into the trait\footnote{The BayesTraits term for a feature.} files expected by BayesTraits. Features that had the same value for all 12 Arabic dialects were excluded, as BayesTraits expects a distribution of binary values in order to be able to produce an ancestral state probability distribution \parencite{pagel_bayesian_2004, luo_ancestral_2022}. The final count of features used was thus 70.
 
 \subsection{Analysis}
+
+For each of those 70 features, the same phylogenetic tree of 12 Arabic dialects and a trait file of EA and Arabic dialect feature values was passed to BayesTraits. The multistate evolution method and maximum likelihood model were chosen for the analysis \parencite{pagel_bayesian_2004, luo_ancestral_2022}. BayesTraits then estimated two probability values for each internal node: the probability of the node having a value of 0, and that of it having a value of 1 (P(1)). Three analysis variables were then calculated:
+
+\begin{enumerate}
+    \item \textbf{Agreement:} Whether or not the feature values of EA and Coptic are equal, regardless of whether that value is a 0 or a 1.
+    \item \textbf{Ancestor match probability:} The similarity between the value of EA and the estimated probability of MRA having a value of 1, defined as:
+    \begin{equation}
+        1 - |value_{EA} - P(1)_{MRA}|
+    \end{equation}
+    \item \textbf{Rarity:} Whether EA's value for the feature is rare compared to other Arabic dialects, calculated by checking whether the EA value differs from the mode family value.
+\end{enumerate}
 
 \section{Findings}
 \label{sec:findings}
 
+Results showed that the mean ancestor match probability was 0.51; i.e. the value of EA matched that of MRA at chance, with the following distribution:
+
+[INSERT ANCESTOR MATCH PROBABILITY PLOT]
+
+This mean value was set as the threshold for the value of ancestor match probability when analyzing the results returned from BayesTraits. A constrained analysis reveals that only two of the 70 features (i.e. 2.86\%) meet all three criteria: they are rare features in the family with a low ancestor probability for which EA and Coptic agree. A less constrained analysis ignoring feature rarity yields 29 features (41\%).
+
+- Add results of 3rd analysis comparing phylo with no phylo
+- Maybe another plot
+
 \section{Discussion}
 \label{sec:discussion}
 
+- Link 2-3 Grambank features found to ones in lit review section as per \url{https://docs.google.com/spreadsheets/d/1CXJBKD-dmDxQZi2auxgRTgfNXOxAlUG4BsKPTrhLTI4/edit?gid=0#gid=0}
+
+- Some, albeit minimal, evidence for RQ1
+
+- More importantly for RQ2: Indication that phylogenetic methods can indeed provide a historical signal for this question
+
+- Method is useful in addressing first challenge mentioned in lit review, as it controls for the feature having originated from a common Afro-Asiatic ancestor
+
+- It also gives us more data and evidence, which most authors complain is lacking
+
+- Limitations 
+    
+    - missing arabic dialects (esp. north african which may be closer to eg in some ways), is removal of standard arabic valid? Can we learn sth with this method with all its simplifications? 
+
+    - flattening diff coptic and arabic dialects → eg (Palva 2006) coptic (Reintges et al. 2005), coptic (dialects), Limit to cairene arabic??, need a more fine-grained analysis of them, esp mapping geographies onto each other sahidic with upper egyptian, etc. --> DATA
+
+     – assuming no contact
+    
+    - branch lengths diff between Arabic phylogeny and coptic
+
 \section{Conclusion}
 \label{sec:conclusion}
+
+- yes there is an indication of influence
+
+- imp to note that a lot of the debate is about how much influence counts + how much imp to give contact when explaining linguistic change + whether selection influence counts as evidence for a substratum or not
+
+- yes the method is useful, adds a layer of filtering but needs testing again with improvements to prove its merits
+
+- future work:
+    
+    - What would be ideal tree, need more info close to EG Arabic (Tunisian, Sudanese) --> Manfredi \url{https://hal.science/hal-04858120}, actual paper forthcoming --> addresses Arabic dialect limitation
+    
+    - take contact and horizontal transfer into account --> \parencite{neureiter_detecting_2022}
 
 \section*{Declaration of generative artificial intelligence use}
 This section may also be included in the methodological section (see Ethical Considerations)
