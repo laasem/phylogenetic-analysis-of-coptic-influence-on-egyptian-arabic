@@ -110,6 +110,7 @@ for (lang in c("Gulf_Arabic",
 }
 
 # Keep only the 14 languages with Grambank codings
+# And filter out Standard Arabic and South Sudanese Creole Arabic
 tree <- keep.tip(tree, c("Sanaani_Arabic", "Baharna_Arabic", "Gulf_Arabic",
                           "Eastern_Egyptian_Bedawi_Arabic", "Egyptian_Arabic",
                           "Chadian_Arabic", "Nubi",
@@ -122,7 +123,7 @@ tree$tip.label[tree$tip.label == "Levantine_Arabic"] <- "North_Levantine_Arabic"
 # Cast to plain phylo (FamilyTrees.R returns a familytree subclass; downstream ape code expects phylo)
 class(tree) <- "phylo"
 
-# Recompute Grafen branch lengths on the pruned 14-tip tree
+# Recompute Grafen branch lengths on the pruned 12-tip tree
 # (lgfam-newick values 1-140 are scaled for the full Glottolog tree; pruned-tree values are needed)
 tree <- ape::compute.brlen(tree, method = "Grafen")
 

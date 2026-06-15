@@ -5,7 +5,6 @@
 
 import csv
 import pandas as pd
-from numpy import array_equal
 from pycldf.dataset import Dataset
 
 # Some rows have missing values that get read by Pandas as NaN, hence this categorization
