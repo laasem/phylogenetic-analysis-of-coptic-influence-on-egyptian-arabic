@@ -1,4 +1,4 @@
-"","feature_id","feature_name","egyptian_arabic_value","coptic_value","ancestor_probability","ancestor_match_probability","ea_and_coptic_agree","feature_is_rare","feature_is_surprising"
+"","feature_id","feature_name","egyptian_arabic_value","coptic_value","mra_probability","mra_match_probability","ea_and_coptic_agree","feature_is_rare","feature_is_surprising"
 "1","GB022","Are there prenominal articles?",1,1,0.5,0.5,TRUE,FALSE,TRUE
 "2","GB023","Are there postnominal articles?",0,0,0.5,0.5,TRUE,FALSE,TRUE
 "3","GB030","Is there a gender distinction in independent 3rd person pronouns?",1,1,0.5,0.5,TRUE,FALSE,TRUE

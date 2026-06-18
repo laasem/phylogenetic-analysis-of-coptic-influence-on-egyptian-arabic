@@ -131,11 +131,11 @@ tree <- ape::compute.brlen(tree, method = "Grafen")
 
 # Open PDF device to save plot
 plot_file_name <- "../plots/tree.pdf"
-pdf(plot_file_name, width = 15, height = 10)
-tree_plot <- plot(tree, show.node.label = TRUE, root.edge = TRUE)
+pdf(plot_file_name)
+tree_plot <- plot(tree, root.edge = TRUE)
 
 # Close PDF device
-  dev.off()
+dev.off()
 
 
 ## 3. Trait data loading
@@ -206,8 +206,8 @@ analysis <- tibble(
   feature_name = character(),
   egyptian_arabic_value = integer(),
   coptic_value = integer(),
-  ancestor_probability = numeric(),
-  ancestor_match_probability = numeric(),
+  mra_probability = numeric(),
+  mra_match_probability = numeric(),
   ea_and_coptic_agree = logical(),
   feature_is_rare = logical()
 )
@@ -285,7 +285,7 @@ for (feature_id in features$id) {
   # Plot tree with trait values and state probabilities
   
   # Open PDF device to save plot
-  plot_file_name <- paste("../plots/ancestor_state_reconstructions/", feature_id, ".pdf", sep = "")
+  plot_file_name <- paste("../plots/ancestral_state_reconstructions/", feature_id, ".pdf", sep = "")
   pdf(plot_file_name, width = 10, height = 7)
 
   tip_order   <- match(tree$tip.label, trait$language)
@@ -305,8 +305,8 @@ for (feature_id in features$id) {
              node = d_wide$node, cex = 2)
   nodelabels(text = round(d_wide$prob_1, 2), node = d_wide$node,
              frame = "none", adj = c(-0.3, 0.5), cex = 1)
-  legend("bottomleft",
-        legend = c("0", "1", "missing"),
+  legend("topright",
+        legend = c("0", "1", "Missing"),
         pt.bg = c("white", "black", "grey80"),
         pch = 21, pt.cex = 1.5, bty = "n", title = "Feature State")
   legend("bottomright",
@@ -332,17 +332,17 @@ for (feature_id in features$id) {
   
   ea_and_coptic_agree <- egyptian_arabic_value == coptic_value
   
-  closest_reconstructed_ancestor_node_number <- subset(
+  mra_node_number <- subset(
     d_nodes,
     label == "Egyptian_Arabic Chadian_Arabic Nubi"
   )$nodes
   
-  ancestor_probability <- subset(
+  mra_probability <- subset(
     d_wide,
-    node == closest_reconstructed_ancestor_node_number
+    node == mra_node_number
   )$prob_1
   
-  ancestor_match_probability <- 1 - abs(egyptian_arabic_value - ancestor_probability)
+  mra_match_probability <- 1 - abs(egyptian_arabic_value - mra_probability)
   
   trait_values <- as.numeric(trait$value)
   mode_arabic_family_value <- round(mean(trait_values, na.rm = TRUE), 0)
@@ -354,8 +354,8 @@ for (feature_id in features$id) {
     feature_name = feature_name,
     egyptian_arabic_value = egyptian_arabic_value,
     coptic_value = coptic_value,
-    ancestor_probability = ancestor_probability,
-    ancestor_match_probability = ancestor_match_probability,
+    mra_probability = mra_probability,
+    mra_match_probability = mra_match_probability,
     ea_and_coptic_agree = ea_and_coptic_agree,
     feature_is_rare = feature_is_rare
   )
@@ -363,13 +363,13 @@ for (feature_id in features$id) {
 
 ## 7. Analysis
 
-# Generate a plot of ancestor_match_probability
+# Generate a plot of mra_match_probability
 
 # Open PDF device to save plot
-plot_file_name <- "../plots/ancestor_match_probability_distribution.pdf"
+plot_file_name <- "../plots/mra_match_probability_distribution.pdf"
 pdf(plot_file_name, width = 10, height = 7)
 
-ggplot(analysis, aes(x = ancestor_match_probability)) +
+ggplot(analysis, aes(x = mra_match_probability)) +
   geom_histogram(
     aes(y = after_stat(density)),  # Normalize histogram to density
     bins = 30,             # Adjust number of bins for smoothness
@@ -382,8 +382,7 @@ ggplot(analysis, aes(x = ancestor_match_probability)) +
     linewidth = 1.2        # Line thickness
   ) +
   labs(
-    title = "Distribution of Ancestor Match Probability",
-    x = "Ancestor Match Probability",
+    x = "MRA Match Probability",
     y = "Density"
   ) +
   theme_minimal() +       # Clean theme
@@ -395,10 +394,10 @@ ggplot(analysis, aes(x = ancestor_match_probability)) +
 dev.off()
 
 # Calculate aggregate variables
-mean_ancestor_match_probability <- mean(analysis$ancestor_match_probability)
+mean_mra_match_probability <- mean(analysis$mra_match_probability)
 
 analysis <- analysis %>% add_column(
-    feature_is_surprising = analysis$ancestor_match_probability < mean_ancestor_match_probability
+    feature_is_surprising = analysis$mra_match_probability < mean_mra_match_probability
 )
 
 # Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
@@ -424,7 +423,7 @@ write.csv(rq1_less_constrained, "../data/rq1_less_constrained.csv")
 
 # For RQ2, we want to compare the features returned:
 # - using both the more and less constrained versions of the method
-# - without using the method, i.e. no phylogenetic analysis to tell us if the feature is surprising given the ancestor match probability, just checking rare features where EA and coptic agree
+# - without using the method, i.e. no phylogenetic analysis to tell us if the feature is surprising given the MRA match probability, just checking rare features where EA and Coptic agree
 rq2_no_phylo = subset(
     analysis,
     ea_and_coptic_agree & feature_is_rare
