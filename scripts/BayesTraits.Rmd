@@ -132,7 +132,8 @@ tree <- ape::compute.brlen(tree, method = "Grafen")
 # Open PDF device to save plot
 plot_file_name <- "../plots/tree.pdf"
 pdf(plot_file_name)
-tree_plot <- plot(tree, root.edge = TRUE)
+tree_plot <- plot(tree, label.offset = 0.03)
+edgelabels(round(tree$edge.length, 2), bg = "black", col = "white", font = 1, cex = 0.7)
 
 # Close PDF device
 dev.off()
