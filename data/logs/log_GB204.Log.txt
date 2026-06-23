@@ -6,7 +6,7 @@ Log File Name:                   ../data/logs/log_GB204.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            388259855
+Seed:                            2762672209
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000

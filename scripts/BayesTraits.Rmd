@@ -301,7 +301,7 @@ for (feature_id in features$id) {
                                             breaks = seq(0, 1, length.out = 101),
                                             include.lowest = TRUE))]
   
-  par(mar = c(1, 1, 2, 1))
+  par(mar = c(0, 0, 0, 0))
   plot(tree, label.offset = 0.03,
        x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5))
   tiplabels(pch = 21, bg = tip_colors, col = "black", cex = 2, offset = 0.01)
@@ -375,23 +375,26 @@ pdf(plot_file_name, width = 10, height = 7)
 
 ggplot(analysis, aes(x = mra_match_probability)) +
   geom_histogram(
-    aes(y = after_stat(density)),  # Normalize histogram to density
-    bins = 30,             # Adjust number of bins for smoothness
-    fill = "skyblue",      # Histogram color
-    color = "black",       # Border color
-    alpha = 0.7            # Transparency
+    aes(y = after_stat(density)),
+    bins = 30,
+    fill = "#C6CDF7",
+    color = "#1A1A1A",
+    alpha = 0.7
   ) +
   geom_density(
-    color = "red",         # Density curve color
-    linewidth = 1.2        # Line thickness
+    color = "#FD6467",
+    linewidth = 1.2
   ) +
   labs(
     x = "MRA Match Probability",
     y = "Density"
   ) +
-  theme_minimal() +       # Clean theme
+  theme_minimal() +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold")  # Center title
+    axis.title.x = element_text(margin = margin(t = 10)),
+    axis.title.y = element_text(margin = margin(r = 10)),
+    axis.text.x = element_text(margin = margin(t = 10)),
+    axis.text.y = element_text(margin = margin(r = 10))
   )
 
 # Close PDF device

@@ -6,7 +6,7 @@ Log File Name:                   ../data/logs/log_GB321.Log.txt
 Save Initial Trees:              False
 Save Trees:                      False
 Summary:                         False
-Seed:                            287596560
+Seed:                            2477459538
 Analsis Type:                    Maximum Likelihood
 ML Attempt Per Tree:             10
 ML Max Evaluations:              20000
@@ -51,4 +51,4 @@ Checkpoint:                      False
 Re Set Itterations:              False
 Re Set Seed:                     False
 Tree No	Lh	q01	q10	Root P(0)	Root P(1)	13 P(0)	13 P(1)	14 P(0)	14 P(1)	15 P(0)	15 P(1)	16 P(0)	16 P(1)	17 P(0)	17 P(1)	18 P(0)	18 P(1)	19 P(0)	19 P(1)	20 P(0)	20 P(1)	
-1	-2.643699	1.206405	11.646165	0.500000	0.500000	0.500000	0.500000	0.549059	0.450941	0.691685	0.308315	0.530286	0.469714	0.576508	0.423492	0.691685	0.308315	0.691685	0.308315	0.368780	0.631220	
+1	-2.643699	1.206404	11.646163	0.500000	0.500000	0.500000	0.500000	0.549059	0.450941	0.691685	0.308315	0.530286	0.469714	0.576508	0.423492	0.691685	0.308315	0.691685	0.308315	0.368780	0.631220	
