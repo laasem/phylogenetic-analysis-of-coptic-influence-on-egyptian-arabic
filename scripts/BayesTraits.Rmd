@@ -23,6 +23,7 @@ install.packages("stringr")
 install.packages("remotes")
 remotes::install_github("rgriff23/btw")
 install.packages("ggplot2")
+install.packages("wesanderson")
 
 library(here)
 library(tidyverse)
@@ -33,6 +34,7 @@ library(GA)
 library(stringr)
 library(btw)
 library(ggplot2)
+library(wesanderson)
 
 # Set where I am in the project
 here::i_am('scripts/BayesTraits.Rmd')
@@ -132,8 +134,9 @@ tree <- ape::compute.brlen(tree, method = "Grafen")
 # Open PDF device to save plot
 plot_file_name <- "../plots/tree.pdf"
 pdf(plot_file_name)
-tree_plot <- plot(tree, label.offset = 0.03)
-edgelabels(round(tree$edge.length, 2), bg = "black", col = "white", font = 1, cex = 0.7)
+par(mar = c(0, 0, 0, 0))
+tree_plot <- plot(tree, label.offset = 0.05, x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5), cex = 0.8)
+edgelabels(round(tree$edge.length, 2), bg = wes_palette("GrandBudapest2"), font = 1, cex = 0.85, adj = c(0.4, 0.5))
 
 # Close PDF device
 dev.off()
@@ -299,7 +302,7 @@ for (feature_id in features$id) {
                                             include.lowest = TRUE))]
   
   par(mar = c(1, 1, 2, 1))
-  plot(tree, show.tip.label = TRUE, label.offset = 0.03,
+  plot(tree, label.offset = 0.03,
        x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5))
   tiplabels(pch = 21, bg = tip_colors, col = "black", cex = 2, offset = 0.01)
   nodelabels(pch = 21, bg = node_cols, col = "black",
