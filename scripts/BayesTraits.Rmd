@@ -12,7 +12,6 @@
 
 # Install and load packages
 install.packages("rmarkdown")
-install.packages("here")
 install.packages("tidyverse")
 install.packages("ape")
 install.packages("phytools")
@@ -25,7 +24,6 @@ install.packages("ggplot2")
 install.packages("wesanderson")
 install.packages("styler")
 
-library(here)
 library(tidyverse)
 library(ape)
 library(phytools)
@@ -35,9 +33,6 @@ library(stringr)
 library(btw)
 library(ggplot2)
 library(wesanderson)
-
-# Set where I am in the project
-here::i_am("scripts/BayesTraits.Rmd")
 
 # Set customization constants
 BAYESTRAITS_PATH <- "../BayesTraitsV5.0.0-OSX-ARM/BayesTraitsV5"
@@ -181,7 +176,7 @@ translate_block <- paste0(seq_along(tree$tip.label), "\t", tree$tip.label, colla
 writeLines(paste0(
   "#NEXUS\n\nBEGIN TREES;\n\tTRANSLATE\n\t\t", translate_block,
   "\n\t;\n\tTREE * UNTITLED = [&U] ", newick_num, "\nEND;\n"
-), here("data/tree.nex"))
+), "../data/tree.nex")
 
 # Then, generate the feature-agnostic part of the control file
 
@@ -253,7 +248,7 @@ for (feature_id in features$id) {
   )
   write.table(
     feature_control_file_data,
-    here(paste("scripts/", control_file_name, sep = "")),
+    paste("./", control_file_name, sep = ""),
     quote = FALSE,
     col.names = FALSE,
     row.names = FALSE
