@@ -37,7 +37,7 @@ library(ggplot2)
 library(wesanderson)
 
 # Set where I am in the project
-here::i_am('scripts/BayesTraits.Rmd')
+here::i_am("scripts/BayesTraits.Rmd")
 
 # Set customization constants
 BAYESTRAITS_PATH <- "../BayesTraitsV5.0.0-OSX-ARM/BayesTraitsV5"
@@ -52,18 +52,18 @@ lgfamnewick_code_path <- paste(
   LGFAMNEWICK_PATH,
   "/code/FamilyTrees.R",
   sep = ""
-  )
+)
 source(lgfamnewick_code_path)
 
 lgfamnewick_tree_path <- paste(
-  LGFAMNEWICK_PATH, 
+  LGFAMNEWICK_PATH,
   "/output/glottolog/glottolog-newick-grafen.csv",
   sep = ""
-  )
+)
 classif <- languageclassification(
   csv.file = lgfamnewick_tree_path,
   csv.tree.column = "Tree"
-  )
+)
 
 afroasiatic <- classif[[which(sapply(classif, function(x) attr(x, "tree.name")) == "Afro-Asiatic")]]
 
@@ -71,11 +71,11 @@ afroasiatic <- classif[[which(sapply(classif, function(x) attr(x, "tree.name")) 
 clean_labels <- function(x) {
   x <- gsub("^'|'$", "", x) # strip surrounding single quotes
   x <- gsub(" \\[.*", "", x) # strip glottolog metadata [i-...][w-...] etc.
-  x <- gsub("``", "'", x, fixed=TRUE) # unescape backtick-pairs to apostrophe
+  x <- gsub("``", "'", x, fixed = TRUE) # unescape backtick-pairs to apostrophe
   x <- gsub(" ", "_", x)
   x
 }
-afroasiatic$tip.label  <- clean_labels(afroasiatic$tip.label)
+afroasiatic$tip.label <- clean_labels(afroasiatic$tip.label)
 afroasiatic$node.label <- clean_labels(afroasiatic$node.label)
 
 # Extract the Arabic sub-clade
@@ -85,14 +85,19 @@ tree <- extract.clade(afroasiatic, "Arabic")
 # "Gulf_Arabic") are internal nodes, not leaves. This helper collapses each such clade
 # to a single tip, preserving the edge length leading *to* that ancestral node.
 collapse_clade_to_tip <- function(tree, lang_name) {
-  if (lang_name %in% tree$tip.label) return(tree)
+  if (lang_name %in% tree$tip.label) {
+    return(tree)
+  }
   nd <- which(tree$node.label == lang_name)
-  if (!length(nd)) { warning(paste("Node not found:", lang_name)); return(tree) }
-  nd_idx    <- nd + Ntip(tree)
-  edge_len  <- tree$edge.length[tree$edge[, 2] == nd_idx]
+  if (!length(nd)) {
+    warning(paste("Node not found:", lang_name))
+    return(tree)
+  }
+  nd_idx <- nd + Ntip(tree)
+  edge_len <- tree$edge.length[tree$edge[, 2] == nd_idx]
   desc_tips <- extract.clade(tree, nd_idx)$tip.label
   if (length(desc_tips) > 1) tree <- drop.tip(tree, desc_tips[-1])
-  tip_pos   <- which(tree$tip.label == desc_tips[1])
+  tip_pos <- which(tree$tip.label == desc_tips[1])
   tree$edge.length[which(tree$edge[, 2] == tip_pos)] <- edge_len
   tree$tip.label[tip_pos] <- lang_name
   tree
@@ -100,24 +105,27 @@ collapse_clade_to_tip <- function(tree, lang_name) {
 
 # Collapse language groups that are internal nodes in the Glottolog tree
 # Changes recorded here: https://docs.google.com/spreadsheets/d/1HY9ZQ_Vhrd_n2OKdKs_z37s2da0056ZRCeZTNWtMoaQ/edit?gid=0#gid=0
-for (lang in c("Gulf_Arabic",
-               "Eastern_Egyptian_Bedawi_Arabic",
-               "Egyptian_Arabic",
-               "Chadian_Arabic",
-               "Levantine_Arabic",
-               "Libyan_Arabic",
-               "Maltese"
-               )) {
+for (lang in c(
+  "Gulf_Arabic",
+  "Eastern_Egyptian_Bedawi_Arabic",
+  "Egyptian_Arabic",
+  "Chadian_Arabic",
+  "Levantine_Arabic",
+  "Libyan_Arabic",
+  "Maltese"
+)) {
   tree <- collapse_clade_to_tip(tree, lang)
 }
 
 # Keep only the 14 languages with Grambank codings
 # And filter out Standard Arabic and South Sudanese Creole Arabic
-tree <- keep.tip(tree, c("Sanaani_Arabic", "Baharna_Arabic", "Gulf_Arabic",
-                          "Eastern_Egyptian_Bedawi_Arabic", "Egyptian_Arabic",
-                          "Chadian_Arabic", "Nubi",
-                          "Cypriot_Arabic", "Levantine_Arabic",
-                          "Libyan_Arabic", "Hassaniyya", "Maltese"))
+tree <- keep.tip(tree, c(
+  "Sanaani_Arabic", "Baharna_Arabic", "Gulf_Arabic",
+  "Eastern_Egyptian_Bedawi_Arabic", "Egyptian_Arabic",
+  "Chadian_Arabic", "Nubi",
+  "Cypriot_Arabic", "Levantine_Arabic",
+  "Libyan_Arabic", "Hassaniyya", "Maltese"
+))
 
 # Rename "Levantine_Arabic" to "North_Levantine_Arabic" to match Grambank
 tree$tip.label[tree$tip.label == "Levantine_Arabic"] <- "North_Levantine_Arabic"
@@ -165,7 +173,7 @@ system(paste(".venv/bin/python3 generate_trait_files.py", GRAMBANK_PATH, feature
 # write the minimal TREES-only format manually instead.
 tree$node.label <- NULL
 newick_str <- write.tree(tree)
-newick_num  <- newick_str
+newick_num <- newick_str
 for (i in seq_along(tree$tip.label)) {
   newick_num <- gsub(paste0("\\b", tree$tip.label[i], "\\b"), as.character(i), newick_num)
 }
@@ -187,16 +195,16 @@ d_nodes <- tibble(
   })
 )
 
-# Add in the correct commands needed to reconstruct the ancestral states 
+# Add in the correct commands needed to reconstruct the ancestral states
 d_nodes <- mutate(
-  d_nodes, 
-  first_command = paste('AddTag', paste('T', nodes, sep = ''), label, sep = ' '), 
-  second_command = paste('AddNode', nodes, paste('T', nodes, sep = ''), sep = ' ')
-  )
+  d_nodes,
+  first_command = paste("AddTag", paste("T", nodes, sep = ""), label, sep = " "),
+  second_command = paste("AddNode", nodes, paste("T", nodes, sep = ""), sep = " ")
+)
 
 # Output this as a vector
 general_control_file_data <- select(d_nodes, first_command, second_command) %>%
-  pivot_longer(everything(), values_to = 'command') %>%
+  pivot_longer(everything(), values_to = "command") %>%
   pull(command)
 
 # Choose 1, 1 -> MultiState evolution model and Maximum Likelihood analysis method
@@ -231,7 +239,7 @@ for (feature_id in features$id) {
   if (!mixed_states) {
     next
   }
-  
+
   # Generate control file for each feature
   feature_control_file_data <- general_control_file_data
   log_file_name <- paste("../data/logs/log", feature_id, sep = "_")
@@ -240,119 +248,128 @@ for (feature_id in features$id) {
   feature_control_file_data <- append(feature_control_file_data, "Run")
   control_file_name <- paste(
     paste("./control_files/max_likelihood_control", feature_id, sep = "_"),
-    ".txt", 
+    ".txt",
     sep = ""
   )
   write.table(
-  feature_control_file_data,
-  here(paste("scripts/", control_file_name, sep = "")),
-  quote=FALSE,
-  col.names = FALSE,
-  row.names = FALSE
+    feature_control_file_data,
+    here(paste("scripts/", control_file_name, sep = "")),
+    quote = FALSE,
+    col.names = FALSE,
+    row.names = FALSE
   )
 
   ## 4. Run maximum likelihood analysis for each feature in BayesTraits
-  
+
   # This needs to be done directly using BayesTraits in the command line because although rgriff23/btw is an R wrapper package for BayesTraits, it does not support versions beyond V3. It is used further below to parse the output log file however
   system(
     paste(
-      BAYESTRAITS_PATH, 
+      BAYESTRAITS_PATH,
       "../data/tree.nex",
       trait_file_name,
       "<",
       control_file_name
     )
   )
-  
+
   ## 5. BayesTraits output reading for each feature
-  
+
   # Read in output from BayesTraits
   output <- parse_log(paste(log_file_name, ".Log.txt", sep = ""))
-  
+
   # Grab just the nodes and transform into a table with the probability of each state for each node
-  d_output <- select(output$results, starts_with('X')) %>% 
-     pivot_longer(everything(), names_to = 'var', values_to = 'prob') %>% 
-     filter(!is.na(prob)) %>% 
-     separate(col = var, c('node', 'p', 'state'), sep = '\\.') %>% 
-     select(-p) %>% 
-     mutate(node = gsub('X', '', node))
-  
+  d_output <- select(output$results, starts_with("X")) %>%
+    pivot_longer(everything(), names_to = "var", values_to = "prob") %>%
+    filter(!is.na(prob)) %>%
+    separate(col = var, c("node", "p", "state"), sep = "\\.") %>%
+    select(-p) %>%
+    mutate(node = gsub("X", "", node))
+
   # Transform into table with two columns for each state probability per node
   d_wide <- d_output %>%
     mutate(node = as.numeric(node)) %>%
     pivot_wider(
-    names_from = state,
-    values_from = prob,
-    names_prefix = "prob_"
+      names_from = state,
+      values_from = prob,
+      names_prefix = "prob_"
     )
-  
+
   # Plot tree with trait values and state probabilities
-  
+
   # Open PDF device to save plot
   plot_file_name <- paste("../plots/ancestral_state_reconstructions/", feature_id, ".pdf", sep = "")
   pdf(plot_file_name, width = 10, height = 7)
 
-  tip_order   <- match(tree$tip.label, trait$language)
-  tip_vals    <- as.character(trait$value[tip_order])
-  tip_colors  <- ifelse(tip_vals == "1", "black", ifelse(tip_vals == "0", "white", "grey80"))
-  
-  col_ramp  <- colorRampPalette(c("lightblue", "darkblue"))
+  tip_order <- match(tree$tip.label, trait$language)
+  tip_vals <- as.character(trait$value[tip_order])
+  tip_colors <- ifelse(tip_vals == "1", "black", ifelse(tip_vals == "0", "white", "grey80"))
+
+  col_ramp <- colorRampPalette(c("lightblue", "darkblue"))
   node_cols <- col_ramp(100)[as.integer(cut(d_wide$prob_1,
-                                            breaks = seq(0, 1, length.out = 101),
-                                            include.lowest = TRUE))]
-  
+    breaks = seq(0, 1, length.out = 101),
+    include.lowest = TRUE
+  ))]
+
   par(mar = c(0, 0, 0, 0))
-  plot(tree, label.offset = 0.03,
-       x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5))
+  plot(tree,
+    label.offset = 0.03,
+    x.lim = c(0, max(ape::node.depth.edgelength(tree)) * 1.5)
+  )
   tiplabels(pch = 21, bg = tip_colors, col = "black", cex = 2, offset = 0.01)
-  nodelabels(pch = 21, bg = node_cols, col = "black",
-             node = d_wide$node, cex = 2)
-  nodelabels(text = round(d_wide$prob_1, 2), node = d_wide$node,
-             frame = "none", adj = c(-0.3, 0.5), cex = 1)
+  nodelabels(
+    pch = 21, bg = node_cols, col = "black",
+    node = d_wide$node, cex = 2
+  )
+  nodelabels(
+    text = round(d_wide$prob_1, 2), node = d_wide$node,
+    frame = "none", adj = c(-0.3, 0.5), cex = 1
+  )
   legend("topright",
-        legend = c("0", "1", "Missing"),
-        pt.bg = c("white", "black", "grey80"),
-        pch = 21, pt.cex = 1.5, bty = "n", title = "Feature State")
+    legend = c("0", "1", "Missing"),
+    pt.bg = c("white", "black", "grey80"),
+    pch = 21, pt.cex = 1.5, bty = "n", title = "Feature State"
+  )
   legend("bottomright",
-         legend = c("P(1) = 0", "P(1) = 0.5", "P(1) = 1"),
-         pt.bg = col_ramp(3), pch = 21, pt.cex = 1.5, bty = "n",
-         title = "Ancestral P(1)")
-  
+    legend = c("P(1) = 0", "P(1) = 0.5", "P(1) = 1"),
+    pt.bg = col_ramp(3), pch = 21, pt.cex = 1.5, bty = "n",
+    title = "Ancestral P(1)"
+  )
+
   # Close PDF device
   dev.off()
-  
+
   ## 6. Code data for analysis
-  
+
   feature <- subset(
     features,
     id == feature_id
   )
-  
+
   feature_name <- feature$name
-   
+
   egyptian_arabic_value <- feature$egyptian_arabic_value
-  
+
   coptic_value <- feature$coptic_value
-  
+
   ea_and_coptic_agree <- egyptian_arabic_value == coptic_value
-  
+
   mra_node_number <- subset(
     d_nodes,
     label == "Egyptian_Arabic Chadian_Arabic Nubi"
   )$nodes
-  
+
   mra_probability <- subset(
     d_wide,
     node == mra_node_number
   )$prob_1
-  
+
   mra_match_probability <- 1 - abs(egyptian_arabic_value - mra_probability)
-  
+
   trait_values <- as.numeric(trait$value)
   mode_arabic_family_value <- round(mean(trait_values, na.rm = TRUE), 0)
-  
+
   feature_is_rare <- egyptian_arabic_value != mode_arabic_family_value
-  
+
   analysis <- analysis %>% add_row(
     feature_id = feature_id,
     feature_name = feature_name,
@@ -404,7 +421,7 @@ dev.off()
 mean_mra_match_probability <- mean(analysis$mra_match_probability)
 
 analysis <- analysis %>% add_column(
-    feature_is_surprising = analysis$mra_match_probability < mean_mra_match_probability
+  feature_is_surprising = analysis$mra_match_probability < mean_mra_match_probability
 )
 
 # Override ../data/features.csv with the features actually used in the analysis, as well as the coded analysis variables
@@ -415,24 +432,24 @@ write.csv(analysis, features_csv_path)
 # For RQ1, we want to run two analyses: a more constrained and a less constrained one
 
 # A. More constrained: rare and surprising features where EA and Coptic agree
-rq1_more_constrained = subset(
-    analysis,
-    ea_and_coptic_agree & feature_is_rare & feature_is_surprising
-    )
+rq1_more_constrained <- subset(
+  analysis,
+  ea_and_coptic_agree & feature_is_rare & feature_is_surprising
+)
 write.csv(rq1_more_constrained, "../data/rq1_more_constrained.csv")
 
 # B. Less constrained: surprising features where EA and Coptic agree, even if they are not rare in the family of Arabic dialects
-rq1_less_constrained = subset(
-    analysis,
-    ea_and_coptic_agree & feature_is_surprising
-    )
+rq1_less_constrained <- subset(
+  analysis,
+  ea_and_coptic_agree & feature_is_surprising
+)
 write.csv(rq1_less_constrained, "../data/rq1_less_constrained.csv")
 
 # For RQ2, we want to compare the features returned:
 # - using both the more and less constrained versions of the method
 # - without using the method, i.e. no phylogenetic analysis to tell us if the feature is surprising given the MRA match probability, just checking rare features where EA and Coptic agree
-rq2_no_phylo = subset(
-    analysis,
-    ea_and_coptic_agree & feature_is_rare
-    )
+rq2_no_phylo <- subset(
+  analysis,
+  ea_and_coptic_agree & feature_is_rare
+)
 write.csv(rq2_no_phylo, "../data/rq2_no_phylo.csv")
