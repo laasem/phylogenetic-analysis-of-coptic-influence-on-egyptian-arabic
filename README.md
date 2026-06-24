@@ -6,7 +6,7 @@ Part of a master's thesis by Lara Ahmed under the supervision of Dr. Thomas Broc
 
 ## Setup
 
-1. Install R, Python 3.14.3, and the uv Python package manager if not installed.
+1. Install R version 4.5.1, Python version 3.14.3, and the uv Python package manager if not installed.
 2. Download [BayesTraits](https://www.evolution.reading.ac.uk/BayesTraitsV5.0.3/BayesTraitsV5.0.3.html) and set the `BAYESTRAITS_PATH` constant in the `BayesTraits.Rmd` file to the relative path for the BayesTraits binary.
 3. Download the [Grambank dataset](https://zenodo.org/records/7844558) and and set the `GRAMBANK_PATH` constant in the `BayesTraits.Rmd` file to the relative path for `StructureDataset-metadata.json` file.
 4. Clone https://github.com/ddediu/lgfam-newick and set the `LGFAMNEWICK_PATH` to the relative path to that repository.
