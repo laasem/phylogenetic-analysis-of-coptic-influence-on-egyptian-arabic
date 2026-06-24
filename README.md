@@ -2,7 +2,7 @@
 
 An R pipeline to phylogenetically assess Egyptian Arabic grammatical deviation towards Coptic.
 
-All code, data, and plots were part of a master's thesis by Lara Ahmed under the supervision of Dr. Thomas Brochhagen. Submitted to Universitat Pompeu Fabra's Department of Translation and Language Studies for the Master's Degree in Theoretical and Applied Linguistics.
+Part of a master's thesis by Lara Ahmed under the supervision of Dr. Thomas Brochhagen. Submitted to Universitat Pompeu Fabra's Department of Translation and Language Studies for the Master's Degree in Theoretical and Applied Linguistics.
 
 ## Setup
 
