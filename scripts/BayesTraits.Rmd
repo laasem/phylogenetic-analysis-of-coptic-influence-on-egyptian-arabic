@@ -396,10 +396,6 @@ ggplot(analysis, aes(x = mra_match_probability)) +
     color = "#1A1A1A",
     alpha = 0.7
   ) +
-  geom_density(
-    color = "#FD6467",
-    linewidth = 1.2
-  ) +
   labs(
     x = "MRA Match Probability",
     y = "Density"
