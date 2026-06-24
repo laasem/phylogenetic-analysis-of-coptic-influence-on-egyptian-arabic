@@ -1,13 +1,12 @@
-<!-- Code by Lara Ahmed and Thomas Brochhagen, adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/ -->
+# Code by Lara Ahmed and Thomas Brochhagen, adapted from Daniel Padfield https://padpadpadpad.github.io/BayesTraitsAcrAllNodes/
 
-<!-- Arabic tree sourced from lgfam-newick (Dediu) using Glottolog topology with Grafen (1989) branch lengths. lgfam-newick repo: https://github.com/ddediu/lgfam-newick -->
+# Arabic tree sourced from lgfam-newick (Dediu) using Glottolog topology with Grafen (1989) branch lengths. lgfam-newick repo: https://github.com/ddediu/lgfam-newick
 
-<!-- Assumes:
-  1. python3 is installed in a virtual environment under .venv/bin/python3, as are pandas, numpy, and pycldf
-  2. BayesTraits binary exists at path specified by BAYESTRAITS_PATH
-  3. Grambank metadata file exists at path specified by GRAMBANK_PATH
-  4. lgfam-newick repo exists at path specified by LGFAMNEWICK_PATH
--->
+# Assumes:
+# 1. python3 is installed in a virtual environment under .venv/bin/python3, as are pandas, numpy, and pycldf
+# 2. BayesTraits binary exists at path specified by BAYESTRAITS_PATH
+# 3. Grambank metadata file exists at path specified by GRAMBANK_PATH
+# 4. lgfam-newick repo exists at path specified by LGFAMNEWICK_PATH
 
 ## 1. Setup
 
@@ -24,6 +23,7 @@ install.packages("remotes")
 remotes::install_github("rgriff23/btw")
 install.packages("ggplot2")
 install.packages("wesanderson")
+install.packages("styler")
 
 library(here)
 library(tidyverse)
