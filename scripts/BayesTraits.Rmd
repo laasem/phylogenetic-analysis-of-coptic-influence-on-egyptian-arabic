@@ -10,6 +10,9 @@
 
 ## 1. Setup
 
+# Set source to install packages from
+options(repos = list(CRAN="http://cran.rstudio.com/"))
+
 # Install and load packages
 install.packages("rmarkdown")
 install.packages("tidyverse")
